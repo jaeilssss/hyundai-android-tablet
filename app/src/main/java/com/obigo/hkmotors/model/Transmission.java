@@ -4,71 +4,70 @@ public class Transmission {
 
     private static Transmission transmission;
 
-    private boolean isOn;
-    private int type;
-    private int gear;
-    private int gearRate;
-    private int transmissionSpeed;
-    private int transmissionPower;
-    private int transmissionMap;
+    private String isOn;
+    private String type;
+    private String gear;
+    private String gearRate;
+    private String transmissionSpeed;
+    private String transmissionPower;
+    private String transmissionMap;
 
-    public boolean isOn() {
+    public String getIsOn() {
         return isOn;
     }
 
-    public void setOn(boolean on) {
-        isOn = on;
+    public void setIsOn(String isOn) {
+        this.isOn = isOn;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public int getGear() {
+    public String getGear() {
         return gear;
     }
 
-    public void setGear(int gear) {
+    public void setGear(String gear) {
         this.gear = gear;
     }
 
-    public int getGearRate() {
+    public String getGearRate() {
         return gearRate;
     }
 
-    public void setGearRate(int gearRate) {
+    public void setGearRate(String gearRate) {
         this.gearRate = gearRate;
     }
 
-    public int getTransmissionSpeed() {
+    public String getTransmissionSpeed() {
         return transmissionSpeed;
     }
 
-    public void setTransmissionSpeed(int transmissionSpeed) {
+    public void setTransmissionSpeed(String transmissionSpeed) {
         this.transmissionSpeed = transmissionSpeed;
     }
 
-    public int getTransmissionPower() {
+    public String getTransmissionPower() {
         return transmissionPower;
     }
 
-    public void setTransmissionPower(int transmissionPower) {
+    public void setTransmissionPower(String transmissionPower) {
         this.transmissionPower = transmissionPower;
     }
 
-    public int getTransmissionMap() {
+    public String getTransmissionMap() {
         return transmissionMap;
     }
 
-    public void setTransmissionMap(int transmissionMap) {
+    public void setTransmissionMap(String transmissionMap) {
         this.transmissionMap = transmissionMap;
     }
 
-    // Lazy Initailization
     public static synchronized Transmission getInstance() {
         if(transmission == null) {
             transmission = new Transmission();

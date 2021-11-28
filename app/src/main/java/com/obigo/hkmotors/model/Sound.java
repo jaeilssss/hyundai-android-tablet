@@ -3,49 +3,49 @@ package com.obigo.hkmotors.model;
 public class Sound {
 
 
-    private boolean isOn;
-    private int driveType;
-    private int volume;
-    private int backVolume;
-    private int backSensitive;
+    private String isOn;
+    private String driveType;
+    private String volume;
+    private String backVolume;
+    private String backSensitive;
 
-    public boolean isOn() {
+    public String getIsOn() {
         return isOn;
     }
 
-    public void setOn(boolean on) {
-        isOn = on;
+    public void setIsOn(String isOn) {
+        this.isOn = isOn;
     }
 
-    public int getDriveType() {
+    public String getDriveType() {
         return driveType;
     }
 
-    public void setDriveType(int driveType) {
+    public void setDriveType(String driveType) {
         this.driveType = driveType;
     }
 
-    public int getVolume() {
+    public String getVolume() {
         return volume;
     }
 
-    public void setVolume(int volume) {
+    public void setVolume(String volume) {
         this.volume = volume;
     }
 
-    public int getBackVolume() {
+    public String getBackVolume() {
         return backVolume;
     }
 
-    public void setBackVolume(int backVolume) {
+    public void setBackVolume(String backVolume) {
         this.backVolume = backVolume;
     }
 
-    public int getBackSensitive() {
+    public String getBackSensitive() {
         return backSensitive;
     }
 
-    public void setBackSensitive(int backSensitive) {
+    public void setBackSensitive(String backSensitive) {
         this.backSensitive = backSensitive;
     }
 
