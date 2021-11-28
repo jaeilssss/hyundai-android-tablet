@@ -1,0 +1,52 @@
+중요사항
+
+1] 단말을 통해서 OBDII에 값을 CAN Bus에 보낼때, 타이밍 이슈 및 초기화후 바로 데이터를 보내게 되면 전달이 되지 않을수 있다.
+
+   ObdService.java 파일에서, 
+
+   1.1. 아래의 값을 “ATST30” 에서 “ATST50”등과 같이 값을 변경하여 타이밍 컨트롤을 한다.
+
+        // ATS0   : S0, S1 ( printing of Spaces off or on)
+        // ATL0   : L0, L1 (Linefeeds off or on)
+        // ATAT0  : AT0, 1, 2 (Adaptive Timing off, auto1, auto2)
+        // ATST10 : ST hh (Set Timeout to hh * 4 msec)  <===== TODO : timing control
+        // ATE0   : E0, E1 (Echo off or on)
+        // ATPBC008 : user CAN protocol B, set baudrate 500kbps
+        // ATSH5F0 : set header "5F0"
+        // ATDP   : DP (Describe the current protocol)
+        // ATCF5F4 : CAN Filter
+        // ATCM5F3 : CAN Mask
+        // ATCRA5FX : receive only address header "5F0" ~ "5FF"
+        // ATH0   : H0, H1 (Headers off or on)
+        mInitializeCommands = new String[]{"ATS0", "ATL0", "ATAT0", "ATST30", "ATE0", "ATPBC008", "ATSH5F0", "ATCF5F4", "ATCM5F3"};
+
+    1.2. 한번만 보내면 전달은 되지만, CAN bus상에 전달이 되지 않는 현상이 있어서, 초기화후 pairDefault를 다음과 한번 보낸 후 2초뒤에 한번 더 보낸다. (원인은 잘 모름)
+        sendMessage("04" + "000000000000");
+                    
+        Handler hd2 = new Handler(Looper.getMainLooper());
+        hd2.postDelayed(new Runnable() {
+               @Override
+               public void run() {
+
+                    // if send it quickly, obdii doesn't send message to the CAN bus
+                    // PairDefault : 07(length) + 04(
+                    ) + 00 00 00 00 00 00
+                    sendMessage("04" + "000000000000");
+                }
+          }, 2000);
+       
+2. 초기화 완료후 파라미터 값을 변경할때에도, 값을 OBDII를 통해 데이터를 전달하면 한번에 바로 적용되지 않기 때문에 다음과 같이 두번 전달하여 해결함. (원인은 잘 모름)
+
+   MainActivity.java, favoriteActivity.java에 아래와 같은 코드가 다수있다.
+
+   sendMessage("01" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
+              mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
+
+   Handler hd2 = new Handler(Looper.getMainLooper());
+   hd2.postDelayed(new Runnable() {
+          @Override
+          public void run() {
+                  sendMessage("01" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
+                          mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
+          }
+   }, 1000);

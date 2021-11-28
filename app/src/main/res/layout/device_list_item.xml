@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layout_device_liset"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:orientation="vertical">
+
+        <com.obigo.hkmotors.custom.DroidSansTextView
+            android:id="@+id/obd_list_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:typeface="sans"
+            android:text="NO DEVICE NAME"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"/>
+
+        <com.obigo.hkmotors.custom.DroidSansTextView
+            android:id="@+id/obd_list_mac"
+            android:layout_below="@id/obd_list_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:typeface="sans"
+            android:text="00:00:00:00:00:00"
+            android:textSize="13.5sp"
+            android:textColor="#AFC0CE"
+            android:letterSpacing="0.1"/>
+    </LinearLayout>
+</RelativeLayout>

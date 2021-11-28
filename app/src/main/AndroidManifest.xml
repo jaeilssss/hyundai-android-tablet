@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.obigo.hkmotors">
+
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 워치랑 동일하게 설정 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- beacon 용 추가 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- 커넥션 요구, 커넥션 수락, 데이터 전송 등의 블루투스 통신을 하기 위해 필요한 권한 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- 디바이스 검색 시작, 블루투스 설정을 조작하기 위해 필요 -->
+    <!-- OS 6.0 마시멜로우 에선 이상에서는 다음과 같이 위치 권한이 필요 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 전화걸기 관련 권한 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.DIAL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 만약 BLE(Bluetooth Low Energy)를 지원하는 기기만을 지원하기 위해서는 아래와 같은 특성을 정의함 -->
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".view.SpeakerSettingActivity"></activity>
+        <activity android:name=".view.AxelSettingActivity" />
+        <activity android:name=".view.GearSettingActivity" />
+        <activity
+            android:name=".view.LoginActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.MainActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan" /> <!-- OBD -->
+        <activity
+            android:name=".view.DeviceListActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".view.PwdSettingActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".view.ParamSettingActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".view.DTEchartActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".view.FavoriteActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent"
+            android:windowSoftInputMode="adjustPan" /> <!-- SERVICE -->
+        <service
+            android:name=".common.obd.ObdGatewayService"
+            android:exported="false" />
+        <service
+            android:name=".common.obd.MockObdGatewayService"
+            android:exported="false" />
+    </application>
+
+</manifest>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true">
+
+    <RelativeLayout
+        android:id="@+id/layout_group"
+        android:layout_width="match_parent"
+        android:layout_height="118dp"
+        android:gravity="center_vertical">
+
+        <!-- 체크박스 -->
+        <RelativeLayout
+            android:id="@+id/layout_cb"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true">
+
+            <ImageView
+                android:id="@+id/iv_bc"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/img_bc_on"/>
+
+        </RelativeLayout>
+
+        <!-- 다운리스트 버튼 -->
+        <RelativeLayout
+            android:id="@+id/layout_arrow"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="13dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:background="@drawable/ico_selected"/>
+
+        </RelativeLayout>
+
+        <!-- 타이틀 & 서브 타이틀 -->
+        <LinearLayout
+            android:layout_toRightOf="@id/layout_cb"
+            android:layout_toLeftOf="@id/layout_arrow"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <!-- 타이틀 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="신나는 날"
+                    android:textSize="16sp"
+                    android:textColor="#FFFFFF"/>
+
+            </LinearLayout>
+
+            <!-- 서브타이틀 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="2017.09.29"
+                    android:textSize="13sp"
+                    android:textColor="#D3D9DD"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:background="@drawable/icon_time"/>
+
+                <TextView
+                    android:id="@+id/tv_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="14:00"
+                    android:textSize="13sp"
+                    android:textColor="#D3D9DD"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

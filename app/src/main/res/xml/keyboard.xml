@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2011 - Riccardo Ciovati
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="33.3%p" android:horizontalGap="0dp"
+    android:verticalGap="0dp" android:keyHeight="80dp" >
+
+    <Row>
+        <Key android:codes="8" android:keyEdgeFlags="left" android:keyIcon="@drawable/keypad_1_nor" />
+        <Key android:codes="9" android:keyIcon="@drawable/keypad_2_nor"/>
+        <Key android:codes="10" android:keyEdgeFlags="right" android:keyIcon="@drawable/keypad_3_nor"/>
+    </Row>
+
+    <Row>
+        <Key android:codes="11" android:keyEdgeFlags="left" android:keyIcon="@drawable/keypad_4_nor"/>
+        <Key android:codes="12" android:keyIcon="@drawable/keypad_5_nor"/>
+        <Key android:codes="13" android:keyEdgeFlags="right" android:keyIcon="@drawable/keypad_6_nor"/>
+    </Row>
+
+    <Row>
+        <Key android:codes="14" android:keyEdgeFlags="left" android:keyIcon="@drawable/keypad_7_nor"/>
+        <Key android:codes="15" android:keyIcon="@drawable/keypad_8_nor"/>
+        <Key android:codes="16" android:keyEdgeFlags="right" android:keyIcon="@drawable/keypad_9_nor"/>
+    </Row>
+
+    <Row>
+        <Key android:codes="7" android:horizontalGap="33.3%p" android:keyIcon="@drawable/keypad_0_nor" />
+        <Key android:codes="67" android:keyEdgeFlags="right" android:keyIcon="@drawable/keypad_delete_nor" />
+    </Row>
+
+</Keyboard>

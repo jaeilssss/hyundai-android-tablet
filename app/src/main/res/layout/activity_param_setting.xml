@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--
+    android:layout_marginTop="50dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:layout_marginBottom="50dp"
+    -->
+
+    <LinearLayout
+        android:layout_width="316dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="123dp"
+            android:layout_centerInParent="true"
+            android:background="#1b3453">
+
+            <ImageView
+                android:id="@+id/iv_setting_logo"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="19dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/ico_guage"/>
+
+            <TextView
+                android:id="@+id/iv_setting_logo_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_setting_logo"
+                android:layout_centerHorizontal="true"
+                android:textColor="#fff"
+                android:textSize="17dp"
+                android:text="운전감 설정 저장"/>
+
+            <RelativeLayout
+                android:layout_width="283dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_setting_logo_txt"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="15dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/img_input_238">
+                <ImageButton
+                    android:id="@+id/ib_delete_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="8.33dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/btn_bar_delete_selector"
+                    android:visibility="gone"/>
+                <EditText
+                    android:id="@+id/et_title"
+                    android:layout_toLeftOf="@id/ib_delete_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginRight="5dp"
+                    android:typeface="sans"
+                    android:textSize="15dp"
+                    android:textColor="#000000"
+                    android:hint="저장할 설정의 이름을 입력해주세요."
+                    android:textColorHint="#788592"
+                    android:gravity="left"
+                    android:inputType="text"
+                    android:cursorVisible="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:background="@null"
+                    android:layout_centerVertical="true"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <!-- parameters -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="13dp"
+            android:background="#10162b"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <RelativeLayout
+                android:layout_width="272dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="9dp"
+                android:background="#14172a">
+
+                <ImageView
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/input_shape" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="모터최대토크"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:id="@+id/tv_torque_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:text="54"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="272dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="9dp"
+                android:background="#14172a">
+
+                <ImageView
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/input_shape" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="발진가속감"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:id="@+id/tv_acc_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:text="4"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="272dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="9dp"
+                android:background="#14172a">
+
+                <ImageView
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/input_shape" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="감속감"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:id="@+id/tv_decel_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:text="3"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="272dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="9dp"
+                android:background="#14172a">
+
+                <ImageView
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/input_shape" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="회생제동량"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:id="@+id/tv_brake_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:text="4"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="272dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="9dp"
+                android:background="#14172a">
+
+                <ImageView
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/input_shape" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="냉/난방에너지"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:id="@+id/tv_energy_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:text="Normal"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="272dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="9dp"
+                android:background="#14172a">
+
+                <ImageView
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/input_shape" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="최고속도 제한"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:id="@+id/tv_speed_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:text="160"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="272dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="9dp"
+                android:background="#14172a">
+
+                <ImageView
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/input_shape" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="응답성"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:id="@+id/tv_response_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:text="1"
+                    android:textSize="14dp"
+                    android:textColor="#fff" />
+
+            </RelativeLayout>
+
+            <!-- 버튼 (취소 확인) -->
+            <LinearLayout
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+                android:layout_marginBottom="19dp">
+
+                <ImageButton
+                    android:id="@+id/ib_cancel_btn"
+                    android:layout_width="135dp"
+                    android:layout_height="35.7dp"
+                    android:background="@drawable/btn_cancel"/>
+
+                <ImageButton
+                    android:id="@+id/ib_confirm_btn"
+                    android:layout_width="135dp"
+                    android:layout_height="35.7dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/btn_confirm"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/motor_background"
+    tools:context=".view.GearSettingActivity">
+
+    <RelativeLayout
+        android:id="@+id/layout_gear_setting_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <ImageButton
+            android:id="@+id/ib_speaker_setting_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_back"
+            android:layout_centerVertical="true"/>
+
+        <!-- 상단 타이틀 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:gravity="center|right">
+
+            <!-- 나의 설정 -->
+            <TextView
+                android:id="@+id/ib_favorite_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="변속기 설정"
+                android:textSize="18dp"
+                android:textColor="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="2dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:background="#505C76"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp" />
+
+            <!-- OBD 설정 및 상태 -->
+            <ImageButton
+                android:id="@+id/ib_obd_set_btn"
+                android:layout_width="130dp"
+                android:layout_height="18dp"
+                android:background="@drawable/img_tit_03" />
+
+            <LinearLayout
+                android:layout_width="2dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:background="#505C76"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp" />
+
+            <ImageView
+                android:id="@+id/iv_favorite_light"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/ico_light_red"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_gear_setting_top"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+
+        android:id="@+id/gear_setting_chart_layout">
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="5dp"
+            android:layout_above="@id/chart"
+            android:id="@+id/gear_setting_img"
+            android:background="@drawable/input_sub_shape" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="영향도"
+            android:textColor="#0075ae"
+            android:layout_toEndOf="@id/gear_setting_img"
+            android:layout_above="@id/chart"
+            android:textSize="18dp" />
+        <com.github.mikephil.charting.charts.RadarChart
+            android:id="@+id/chart"
+            android:layout_width="350dp"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
+            />
+        <!--        260dp-->
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/gear_setting_chart_layout"
+        android:layout_centerInParent="true"
+        >
+
+        <ImageView
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/gear_detail_setting_img"
+            android:background="@drawable/input_sub_shape" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="설정"
+            android:textColor="#0075ae"
+            android:id="@+id/speaker_detail_setting_txt"
+            android:layout_toEndOf="@id/gear_detail_setting_img"
+            android:textSize="22dp" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/speaker_detail_setting_txt"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
+            app:track="@drawable/switch_track_selector"
+            android:thumb="@drawable/switch_thumb_selector"
+            android:id="@+id/speaker_setting_switch"/>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/speaker_detail_setting_txt"
+    android:layout_alignStart="@id/speaker_detail_setting_txt"
+    android:id="@+id/speaker_detail_layout"
+    >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구동원"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/speaker_setting_engin_txt"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/layout_border_blue"
+            android:layout_below="@id/speaker_setting_engin_txt"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/speaker_engin_layout"
+            android:layout_alignStart="@id/speaker_setting_engin_txt">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="유형"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/speaker_setting_engin_type_txt"/>
+                
+        <ImageButton
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_toEndOf="@id/speaker_setting_engin_type_txt"
+            android:layout_marginLeft="100dp"
+            android:id="@+id/speaker_engin_type_engin_img"
+            android:background="@drawable/oval_default"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="엔진"
+                android:layout_toEndOf="@id/speaker_engin_type_engin_img"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/speaker_engin_type_engin_txt"/>
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/oval_default"
+                android:layout_toEndOf="@id/speaker_engin_type_engin_txt"
+                android:layout_marginLeft="100dp"
+                android:id="@+id/speaker_engin_type_motor_img"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="모터"
+                android:layout_toEndOf="@id/speaker_engin_type_motor_img"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/speaker_setting_engin_type_txt"
+                android:text="음량"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:layout_alignStart="@id/speaker_setting_engin_type_txt"
+                android:layout_marginTop="40dp"
+                android:id="@+id/speaker_engin_volume_txt"/>
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_toEndOf="@id/speaker_engin_volume_txt"
+                android:layout_marginLeft="60dp"
+                android:background="@drawable/oval_default"
+                android:layout_marginTop="40dp"
+                android:layout_below="@id/speaker_engin_type_engin_img"
+                android:id="@+id/speaker_volume_low_img"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소"
+                android:layout_below="@id/speaker_engin_type_engin_img"
+                android:layout_toEndOf="@id/speaker_volume_low_img"
+                android:layout_marginTop="40dp"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/speaker_volume_low_txt"/>
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_toEndOf="@id/speaker_volume_low_txt"
+                android:layout_below="@id/speaker_engin_type_engin_img"
+                android:background="@drawable/oval_default"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="60dp"
+                android:id="@+id/speaker_volume_middle_img"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="중"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:layout_below="@id/speaker_engin_type_engin_img"
+                android:layout_toEndOf="@id/speaker_volume_middle_img"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/speaker_volume_middle_txt"/>
+
+            <ImageButton
+                android:id="@+id/speaker_volume_high_img"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@id/speaker_engin_type_engin_img"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="40dp"
+                android:layout_toEndOf="@id/speaker_volume_middle_txt"
+                android:background="@drawable/oval_default" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/speaker_volume_high_img"
+                android:layout_below="@id/speaker_engin_type_motor_img"
+                android:text="상"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="10dp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:text="후연 소음"
+            android:textColor="@color/white"
+            android:layout_below="@id/speaker_engin_layout"
+            android:layout_alignStart="@id/speaker_setting_engin_txt"
+            android:layout_marginTop="15dp"
+            android:id="@+id/speaker_detail_noise_txt"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/layout_border_blue"
+            android:layout_below="@id/speaker_detail_noise_txt"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/speaker_detail_noise_layout"
+            android:layout_alignStart="@id/speaker_detail_noise_txt">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="음량"
+            android:textSize="20dp"
+            android:layout_marginTop="40dp"
+            android:textColor="@color/white"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/speaker_detail_volume_txt"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="off"
+                android:id="@+id/speaker_detail_volume_zero_txt"
+                android:layout_toEndOf="@id/speaker_detail_volume_txt"
+                android:textColor="@color/white"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="40dp"
+                android:textSize="20dp"/>
+            <SeekBar
+                android:id="@+id/speaker_volume_seekbar"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="5dp"
+                android:layout_toEndOf="@id/speaker_detail_volume_zero_txt"
+                android:max="4"
+                android:maxHeight="2.5dp"
+                android:paddingLeft="13dp"
+                android:paddingRight="13dp"
+                android:progress="0"
+                android:progressDrawable="@drawable/seeker_bar"
+                android:layout_marginTop="40dp"
+                android:thumb="@drawable/handler" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="대"
+                android:layout_toEndOf="@id/speaker_volume_seekbar"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:layout_marginTop="40dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="115dp"
+                android:layout_alignStart="@id/speaker_volume_seekbar"
+                android:id="@+id/speaker_volume_number_txt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="감도"
+                android:layout_below="@id/speaker_detail_volume_txt"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:layout_marginTop="30dp"
+                android:id="@+id/speaker_sensitivity_txt"
+                android:layout_alignStart="@id/speaker_detail_volume_txt"/>
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_toEndOf="@id/speaker_sensitivity_txt"
+                android:layout_marginLeft="100dp"
+                android:background="@drawable/oval_default"
+                android:layout_below="@id/speaker_volume_seekbar"
+                android:layout_marginTop="30dp"
+                android:id="@+id/speaker_sensitivity_high_img"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="상"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_toEndOf="@+id/speaker_sensitivity_high_img"
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/speaker_volume_seekbar"
+                android:id="@+id/speaker_sensitivity_high_txt"/>
+            <ImageButton
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@id/speaker_volume_seekbar"
+                android:layout_toEndOf="@id/speaker_sensitivity_high_txt"
+                android:background="@drawable/oval_default"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="100dp"
+                android:id="@+id/speaker_sensitivity_low_img"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="하"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:layout_toEndOf="@id/speaker_sensitivity_low_img"
+                android:layout_below="@id/speaker_volume_seekbar"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="30dp"/>
+        </RelativeLayout>
+</RelativeLayout>
+        <Button
+            android:layout_width="106.7dp"
+            android:layout_height="41dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/speaker_detail_layout"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="20dp"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:background="@drawable/button_shape_radius_10"
+            android:text="차로전송"
+            android:id="@+id/speaker_data_send"/>
+    </RelativeLayout>
+</RelativeLayout>

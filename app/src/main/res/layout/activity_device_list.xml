@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_pwreset"
+    android:orientation="vertical"
+    tools:context="com.obigo.hkmotors.view.DeviceListActivity">
+
+    <!-- 타이틀 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@color/dialog_bg">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="OBD 연결"
+            android:textSize="17dp"
+            android:textColor="#fff"/>
+
+        <ImageButton
+            android:id="@+id/insert_phone_num_cancel_btn"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_pop_close"/>
+    </RelativeLayout>
+
+    <!-- OBD 문구 1 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:textColor="#fff"
+        android:text="검색된 항목 중 'OBD Ⅱ'를 선택해 주세요."
+        android:textSize="16dp"/>
+
+    <!-- OBD 문구 2 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="26dp"
+        android:textColor="#8997a4"
+        android:text="** Smart OBD Ⅱ가 보이지 않을 경우, 스마트폰의 블루투스 설정 및 OBD 등록 상태를 확인해주세요."
+        android:textSize="11dp"/>
+
+    <!-- 구분선 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="#2F3D5D"/>
+
+    <ListView
+        android:id="@+id/obd_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#334162"
+        android:dividerHeight="0.2px"
+        android:listSelector="@drawable/device_listitem_selector"
+        android:scrollbarThumbVertical="@drawable/vertical_scrollbar_thumb"/>
+</LinearLayout>

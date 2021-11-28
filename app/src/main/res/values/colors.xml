@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="color_preloader_start">#000000</color>
+    <color name="color_preloader_center">#000000</color>
+    <color name="color_preloader_end">#ff56a9c7</color>
+
+
+
+    <!-- main color-->
+
+    <color name="mainColor">#359dd5</color>
+    <!-- replace it from wearable -->
+    <!--<color name="grey">#808080</color>-->
+    <color name="blue">#0000FF</color>
+
+    <!-- ++++++++++++++++++++++++++++++++ -->
+    <!-- 신규로 추가된 색상 -->
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#8593A0</color>
+    <color name="transparent">#00000000</color>
+
+    <!--
+        <color name="main_bg">#060B1C</color>
+    -->
+
+    <color name="dialog_bg">#234165</color>
+    <color name="title_bg">#131B30</color>
+
+
+    <!-- custom radio for login -->
+    <color name="custom_radio_outline">#505c76</color>
+    <color name="custom_radio_inline">#1176AC</color>
+
+    <!-- custom keypad for password -->
+    <color name="keypad_bg">#192234</color>
+
+    <!-- button color-->
+    <color name="button_color">#000063</color>
+</resources>
