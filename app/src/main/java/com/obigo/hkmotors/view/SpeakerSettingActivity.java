@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.obigo.hkmotors.R;
+import com.obigo.hkmotors.model.CarData;
 import com.obigo.hkmotors.module.BaseActivity;
 
 import java.util.ArrayList;
@@ -74,7 +75,9 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         back.setOnClickListener(this);
         mChart = (RadarChart) findViewById(R.id.chart);
         mChart.setNoDataText("데이터가 없습니다.");
-        defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
+        defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),
+                CarData.getInstance().getDynamic(),CarData.getInstance().getEfficiency(),
+                CarData.getInstance().getPerformance());
 
         switchCompat = findViewById(R.id.speaker_setting_switch);
 
@@ -167,8 +170,6 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         mChart.setTouchEnabled(false);                   // disable touch
         mChart.invalidate();
-
-        modChart(3,3,3,1,1,5,5,7,6,3);
     }
 
     private void modChart(float d1, float d2, float d3, float d4, float d5,

@@ -9,12 +9,61 @@ public class Sound {
     private String backVolume;
     private String backSensitive;
 
+    boolean isChange = false;
+
+    private String tempIsOn;
+    private String tempDriveType;
+    private String tempVolume ;
+    private String tempBackVolume;
+    private String tempBackSensitive;
+
+    public String getTempIsOn() {
+        return tempIsOn;
+    }
+
+    public void setTempIsOn(String tempIsOn) {
+        this.tempIsOn = tempIsOn;
+    }
+
+    public String getTempDriveType() {
+        return tempDriveType;
+    }
+
+    public void setTempDriveType(String tempDriveType) {
+        this.tempDriveType = tempDriveType;
+    }
+
+    public String getTempVolume() {
+        return tempVolume;
+    }
+
+    public void setTempVolume(String tempVolume) {
+        this.tempVolume = tempVolume;
+    }
+
+    public String getTempBackVolume() {
+        return tempBackVolume;
+    }
+
+    public void setTempBackVolume(String tempBackVolume) {
+        this.tempBackVolume = tempBackVolume;
+    }
+
+    public String getTempBackSensitive() {
+        return tempBackSensitive;
+    }
+
+    public void setTempBackSensitive(String tempBackSensitive) {
+        this.tempBackSensitive = tempBackSensitive;
+    }
+
     public String getIsOn() {
         return isOn;
     }
 
     public void setIsOn(String isOn) {
         this.isOn = isOn;
+        tempIsOn = isOn;
     }
 
     public String getDriveType() {
@@ -23,6 +72,7 @@ public class Sound {
 
     public void setDriveType(String driveType) {
         this.driveType = driveType;
+        tempDriveType = driveType;
     }
 
     public String getVolume() {
@@ -31,6 +81,7 @@ public class Sound {
 
     public void setVolume(String volume) {
         this.volume = volume;
+        tempVolume = volume;
     }
 
     public String getBackVolume() {
@@ -39,6 +90,7 @@ public class Sound {
 
     public void setBackVolume(String backVolume) {
         this.backVolume = backVolume;
+        tempBackVolume = backVolume;
     }
 
     public String getBackSensitive() {
@@ -47,6 +99,7 @@ public class Sound {
 
     public void setBackSensitive(String backSensitive) {
         this.backSensitive = backSensitive;
+        tempBackSensitive = backSensitive;
     }
 
     private static Sound sound;

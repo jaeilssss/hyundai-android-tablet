@@ -529,6 +529,76 @@
         android:layout_alignTop="@id/gear_power_low_img"
         android:gravity="center_vertical"
         android:layout_marginLeft="15dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gear_setting_power_txt"
+        android:layout_alignStart="@id/gear_setting_power_txt"
+        android:layout_marginTop="70dp"
+        android:text="변속 맵"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:id="@+id/gear_setting_map_txt"/>
+    <ImageButton
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/oval_default"
+        android:layout_below="@id/gear_power_high_img"
+        android:layout_marginTop="70dp"
+        android:layout_alignStart="@id/gear_power_high_img"
+        android:id="@+id/gear_map_normal_img"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Normal"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:layout_toEndOf="@id/gear_map_normal_img"
+        android:layout_alignTop="@id/gear_map_normal_img"
+        android:layout_alignBottom="@id/gear_map_normal_img"
+        android:id="@+id/gear_map_normal_txt"
+        android:layout_marginLeft="15dp"/>
+    <ImageButton
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/oval_default"
+        android:layout_marginLeft="40dp"
+        android:layout_below="@id/gear_power_middle_img"
+        android:layout_toRightOf="@id/gear_map_normal_txt"
+        android:layout_marginTop="70dp"
+        android:id="@+id/gear_map_sport_img"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="Sport"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@id/gear_map_sport_img"
+        android:layout_alignTop="@id/gear_map_sport_img"
+        android:layout_alignBottom="@id/gear_map_sport_img"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/gear_map_sport_txt"/>
+    <ImageButton
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/oval_default"
+        android:layout_marginLeft="40dp"
+        android:layout_below="@id/gear_power_low_img"
+        android:layout_toRightOf="@id/gear_map_sport_txt"
+        android:layout_marginTop="70dp"
+        android:id="@+id/gear_map_track_img"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Track"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:layout_below="@id/gear_power_low_img"
+        android:layout_toRightOf="@id/gear_map_track_img"
+        android:layout_alignTop="@id/gear_map_track_img"
+        android:layout_alignBottom="@id/gear_map_track_img"
+        android:layout_marginLeft="15dp"/>
 </RelativeLayout>
     <Button
         android:id="@+id/ib_e_send_btn"

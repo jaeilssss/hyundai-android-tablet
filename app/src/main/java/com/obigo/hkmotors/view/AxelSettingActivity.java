@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.obigo.hkmotors.R;
+import com.obigo.hkmotors.model.CarData;
 import com.obigo.hkmotors.module.BaseActivity;
 
 import java.util.ArrayList;
@@ -69,7 +70,9 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
         back.setOnClickListener(this);
         mChart = (RadarChart) findViewById(R.id.chart);
         mChart.setNoDataText("데이터가 없습니다.");
-        defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
+        defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),
+                CarData.getInstance().getDynamic(),CarData.getInstance().getEfficiency(),
+                CarData.getInstance().getPerformance());
 
         settingLayout = findViewById(R.id.axel_setting_layout);
 
@@ -123,11 +126,11 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
         dataSetList.add(dataset_comp);
 
         final ArrayList<String> labels = new ArrayList<String>();
-        labels.add("최대출력");
-        labels.add("가속도");
-        labels.add("감속도");
-        labels.add("응답성");
-        labels.add("에코레벨");
+        labels.add("안락감");
+        labels.add("주도성");
+        labels.add("역동성");
+        labels.add("효율성");
+        labels.add("동력상능");
 
         mChart.getXAxis().setTextColor(Color.WHITE);     // change label color
         mChart.getXAxis().setTextSize(13);
@@ -139,8 +142,11 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
         });
 
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(5f);
+        mChart.getYAxis().setAxisMaximum(8);
         mChart.getYAxis().setEnabled(false);             // disable number
+
+        mChart.getXAxis().setAxisMaximum(8);
+
 
         RadarData data = new RadarData(dataSetList);
         mChart.setData(data);
@@ -149,8 +155,7 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
         mChart.getLegend().setEnabled(false);            // remove legend
         // mChart.setDescriptionColor(Color.TRANSPARENT);   // remove description
 
-        mChart.setTouchEnabled(false);
-        // disable touch
+        mChart.setTouchEnabled(false);                   // disable touch
         mChart.invalidate();
     }
 

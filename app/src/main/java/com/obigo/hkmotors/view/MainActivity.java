@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -48,7 +49,11 @@ import com.obigo.hkmotors.common.network.HttpService;
 import com.obigo.hkmotors.common.pref.SharedPreference;
 import com.obigo.hkmotors.common.service.ObdService;
 import com.obigo.hkmotors.model.CarData;
+import com.obigo.hkmotors.model.Drive;
 import com.obigo.hkmotors.model.FavoriteDataListItems;
+import com.obigo.hkmotors.model.Sound;
+import com.obigo.hkmotors.model.TempTransmission;
+import com.obigo.hkmotors.model.Transmission;
 import com.obigo.hkmotors.module.BaseActivity;
 import com.obigo.hkmotors.module.Result_DrivingInfo;
 
@@ -317,14 +322,41 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void getOdbData(){
         // 최초 접속 시 차량 데이터 가저오기
 
-        CarData carData = CarData.getInstance();
+        // 변속
+        Transmission.getInstance().setIsOn("1");
+        Transmission.getInstance().setGear("011");
+        Transmission.getInstance().setType("00");
+        Transmission.getInstance().setGearRate("01");
+        Transmission.getInstance().setTransmissionSpeed("00");
+        Transmission.getInstance().setTransmissionPower("00");
+        Transmission.getInstance().setTransmissionMap("00");
 
-        carData.setComfortable(4);
-        carData.setDynamic(4);
-        carData.setEfficiency(4);
-        carData.setLeading(4);
-        carData.setPerformance(4);
 
+        // 음향
+
+        Sound.getInstance().setIsOn("1");
+        Sound.getInstance().setDriveType("1");
+        Sound.getInstance().setVolume("00");
+        Sound.getInstance().setBackVolume("00");
+        Sound.getInstance().setBackSensitive("0");
+
+        // 구동축
+
+        Drive.getInstance().setIsOn("1");
+        Drive.getInstance().setStiffness("01");
+        Drive.getInstance().setReducer("01");
+
+
+        CarData.getInstance().setComfortable();
+        CarData.getInstance().setDynamic();
+        CarData.getInstance().setEfficiency();
+        CarData.getInstance().setLeading();
+        CarData.getInstance().setPerformance();
+        System.out.println("오오오"+CarData.getInstance().getComfortable());
+
+        defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+                CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+                CarData.getInstance().getPerformance());
     }
 
     @Override
@@ -2958,11 +2990,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         dataSetList.add(dataset_comp);
 
         final ArrayList<String> labels = new ArrayList<String>();
-        labels.add("최대출력");
-        labels.add("가속도");
-        labels.add("감속도");
-        labels.add("응답성");
-        labels.add("에코레벨");
+        labels.add("안락감");
+        labels.add("주도성");
+        labels.add("역동성");
+        labels.add("효율성");
+        labels.add("동력상능");
 
         mChart.getXAxis().setTextColor(Color.WHITE);     // change label color
         mChart.getXAxis().setTextSize(13);
@@ -2974,8 +3006,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         });
 
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(5f);
+        mChart.getYAxis().setAxisMaximum(8);
         mChart.getYAxis().setEnabled(false);             // disable number
+
+        mChart.getXAxis().setAxisMaximum(8);
+
 
         RadarData data = new RadarData(dataSetList);
         mChart.setData(data);
