@@ -2512,7 +2512,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                             CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
                             CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
                 }
+            case Constants.REQUEST_SPEAKER_SETTING :
+                if(data.getBooleanExtra("change",false)){
+                    modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),
+                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
+                            CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
+                            CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+                }
 
+                break;
             default:
                 break;
         }
@@ -3016,7 +3024,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         });
 
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(5f);
+        mChart.getYAxis().setAxisMaximum(8f);
         mChart.getYAxis().setEnabled(false);             // disable number
 
         RadarData data = new RadarData(dataSetList);

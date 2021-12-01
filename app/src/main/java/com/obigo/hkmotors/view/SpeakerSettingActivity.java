@@ -1,5 +1,6 @@
 package com.obigo.hkmotors.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,11 +8,13 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -21,7 +24,9 @@ import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.obigo.hkmotors.R;
+import com.obigo.hkmotors.common.Constants;
 import com.obigo.hkmotors.model.CarData;
+import com.obigo.hkmotors.model.Sound;
 import com.obigo.hkmotors.module.BaseActivity;
 
 import java.util.ArrayList;
@@ -32,6 +37,8 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
     private SwitchCompat switchCompat;
 
     private RelativeLayout settingLayout;
+
+    private int num;
 
     private float mRespEcoLevel=2.5f;
     private float mRespMaxPower=2.5f;
@@ -51,7 +58,9 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
     private ImageButton speakerSensitivityHigh;
     private ImageButton speakerSensitivityLow;
 
+    private TextView backVolumeTxt;
 
+    private Button send;
 
     // MPandroidchart or event
     private RadarChart mChart;
@@ -88,7 +97,13 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     settingLayout.setVisibility(View.VISIBLE);
-                }else settingLayout.setVisibility(View.INVISIBLE );
+                    Sound.getInstance().setTempIsOn("1");
+                    changeChart();
+                }else{
+                    settingLayout.setVisibility(View.INVISIBLE );
+                    Sound.getInstance().setTempIsOn("0");
+                    changeChart();
+                }
 
             }
         });
@@ -114,6 +129,50 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         speakerSensitivityLow.setOnClickListener(this);
         speakerSensitivityHigh.setOnClickListener(this);
 
+        backVolumeTxt = findViewById(R.id.speaker_volume_number_txt);
+
+        backVolume = findViewById(R.id.speaker_volume_seekbar);
+        backVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(final SeekBar seekBar, int i, boolean b) {
+                num = i;
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        seekBar.setProgress(num);
+                        if(num==0){
+                            backVolumeTxt.setText("off");
+                            Sound.getInstance().setTempBackVolume("00");
+                        }else if(num==1){
+                            Sound.getInstance().setTempBackVolume("01");
+                            backVolumeTxt.setText("소");
+                        }else if(num==2){
+                            Sound.getInstance().setTempBackVolume("10");
+                            backVolumeTxt.setText("중");
+                        }else{
+                            backVolumeTxt.setText("대");
+                            Sound.getInstance().setTempBackVolume("11");
+                        }
+                    changeChart();
+                    }
+                });
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        send = findViewById(R.id.speaker_data_send);
+        send.setOnClickListener(this);
+        setSettingValue();
 
     }
 
@@ -253,30 +312,53 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         switch(view.getId()){
             case R.id.speaker_engin_type_engin_img :
+                Sound.getInstance().setTempDriveType("0");
                 typeClick("Engin");
+                changeChart();
                 break;
             case R.id.speaker_engin_type_motor_img:
+                Sound.getInstance().setTempDriveType("1");
                 typeClick("Motor");
+                changeChart();
                 break;
             case R.id.speaker_volume_low_img :
+                Sound.getInstance().setVolume("00");
                 enginVolume("Low");
+                changeChart();
                 break;
             case R.id.speaker_volume_middle_img :
+                Sound.getInstance().setVolume("01");
                 enginVolume("Middle");
+                changeChart();
                 break;
             case R.id.speaker_volume_high_img :
+                Sound.getInstance().setVolume("10");
                 enginVolume("High");
+                changeChart();
                 break;
             case R.id.speaker_sensitivity_high_img :
+                Sound.getInstance().setTempBackSensitive("0");
                 backSensitivityVolume("High");
+                changeChart();
                 break;
             case R.id.speaker_sensitivity_low_img :
+                Sound.getInstance().setTempBackSensitive("1");
                 backSensitivityVolume("Low");
+                changeChart();
                 break;
-
+            case R.id.speaker_data_send :
+                send();
+                break;
+                //
         }
     }
+    public void send(){
 
+        Intent intent = new Intent();
+        intent.putExtra("change",true);
+        setResult(Constants.REQUEST_SPEAKER_SETTING,intent);
+        finish();
+    }
     public void typeClick(String str){
         if(str.equals("Engin")){
 
@@ -321,4 +403,70 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
             speakerSensitivityHigh.setBackgroundResource(R.drawable.oval_default);
         }
     }
-}
+
+    private void setSettingValue() {
+
+
+        if (Sound.getInstance().getTempIsOn().equals("1")){
+            switchCompat.setChecked(true);
+            if (Sound.getInstance().getTempDriveType().equals("0")){
+                typeClick("Motor");
+            }else{
+                typeClick("Engin");
+            }
+
+            if(Sound.getInstance().getTempVolume().equals("00")){
+                enginVolume("Low");
+            }else if(Sound.getInstance().getTempVolume().equals("01")){
+                enginVolume("Middle");
+            }else{
+                enginVolume("High");
+            }
+
+            if(Sound.getInstance().getTempBackSensitive().equals("0")){
+                backSensitivityVolume("Low");
+            }else{
+                backSensitivityVolume("High");
+            }
+
+            if(Sound.getInstance().getTempVolume().equals("00")){
+                backVolumeTxt.setText("off");
+                backVolume.setProgress(0);
+            }else if(Sound.getInstance().getTempVolume().equals("01")){
+                backVolumeTxt.setText("소");
+                backVolume.setProgress(1);
+            }else if(Sound.getInstance().getTempVolume().equals("10")){
+                backVolumeTxt.setText("중");
+                backVolume.setProgress(2);
+            }else{
+                backVolumeTxt.setText("대");
+                backVolume.setProgress(3);
+            }
+
+
+        }else{
+            switchCompat.setChecked(false);
+        }
+
+        changeChart();
+    }
+
+    public void changeChart(){
+        CarData.getInstance().setTempComfortable();
+        CarData.getInstance().setTempDynamic();
+        CarData.getInstance().setTempPerformance();
+        CarData.getInstance().setTempEfficiency();
+        CarData.getInstance().setTempLeading();
+
+        modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
+                CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("change",true);
+        setResult(Constants.REQUEST_SPEAKER_SETTING,intent);
+        finish();
+    }
+    }
