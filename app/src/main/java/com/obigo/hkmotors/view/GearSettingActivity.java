@@ -1,5 +1,6 @@
 package com.obigo.hkmotors.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,6 +27,7 @@ import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.obigo.hkmotors.R;
+import com.obigo.hkmotors.common.Constants;
 import com.obigo.hkmotors.model.CarData;
 import com.obigo.hkmotors.model.TempDrive;
 import com.obigo.hkmotors.model.Transmission;
@@ -71,6 +74,7 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
     private ImageButton gearMapSport;
     private ImageButton gearMapTrack;
 
+    private Button send;
 
     private String type;
     private String gear;
@@ -105,13 +109,7 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         back.setOnClickListener(this);
         mChart = (RadarChart) findViewById(R.id.chart);
         mChart.setNoDataText("데이터가 없습니다.");
-//        defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
 
-
-
-        defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),
-                CarData.getInstance().getDynamic(),CarData.getInstance().getEfficiency(),
-                CarData.getInstance().getPerformance());
 
         settingLayout = findViewById(R.id.gear_setting_layout);
 
@@ -136,7 +134,7 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
 
         gearCountSeekBar = findViewById(R.id.gear_count_seekbar);
         seekBarCountTxt = findViewById(R.id.seekbar_count_txt);
-        gearCountSeekBar.setProgress(4);
+
 
         gearCountSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -146,7 +144,19 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
                runOnUiThread(new Runnable() {
                    @Override
                    public void run() {
-                       seekBarCountTxt.setText(String.valueOf(num));
+                       seekBarCountTxt.setText(String.valueOf(num+4));
+                       if(num+4==4){
+                           Transmission.getInstance().setTempGear("000");
+                       }else if(num+4==5){
+                           Transmission.getInstance().setTempGear("001");
+                       }else if(num+4==6){
+                           Transmission.getInstance().setTempGear("010");
+                       }else if(num+4==7){
+                           Transmission.getInstance().setTempGear("011");
+                       }else{
+                           Transmission.getInstance().setTempGear("100");
+                       }
+                       changeChart();
 
                    }
                });
@@ -191,13 +201,14 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
 
         gearMapNormal = findViewById(R.id.gear_map_normal_img);
         gearMapSport = findViewById(R.id.gear_map_sport_img);
-        gearMapTrack = findViewById(R.id.gear_map_track_img) ;
+        gearMapTrack = findViewById(R.id.gear_map_track_img);
 
         gearMapNormal.setOnClickListener(this);
         gearMapSport.setOnClickListener(this);
         gearMapTrack.setOnClickListener(this);
 
-
+        send = findViewById(R.id.ib_e_send_btn);
+        send.setOnClickListener(this);
         setSettingValue();
     }
 
@@ -215,15 +226,15 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
             }
 
             if(Transmission.getInstance().getTempGear().equals("000")){
-                gearCountSeekBar.setProgress(4);
+                gearCountSeekBar.setProgress(1);
             }else if(Transmission.getInstance().getTempGear().equals("001")){
-                gearCountSeekBar.setProgress(5);
+                gearCountSeekBar.setProgress(2);
             }else if(Transmission.getInstance().getTempGear().equals("010")){
-                gearCountSeekBar.setProgress(6);
+                gearCountSeekBar.setProgress(3);
             }else if(Transmission.getInstance().getTempGear().equals("011")){
-                gearCountSeekBar.setProgress(7);
+                gearCountSeekBar.setProgress(4);
             }else{
-                gearCountSeekBar.setProgress(8);
+                gearCountSeekBar.setProgress(5);
             }
 
             if(Transmission.getInstance().getTempGearRate().equals("00")){
@@ -263,17 +274,19 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
             switchCompat.setChecked(false);
             settingLayout.setVisibility(View.INVISIBLE);
         }
+
+
+        changeChart();
+
+    }
+
+    public void changeChart(){
         CarData.getInstance().setTempComfortable();
         CarData.getInstance().setTempDynamic();
         CarData.getInstance().setTempPerformance();
         CarData.getInstance().setTempEfficiency();
         CarData.getInstance().setTempLeading();
 
-
-        changeChart();
-    }
-
-    public void changeChart(){
         modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
                 CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
     }
@@ -299,11 +312,11 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         dataSetList.add(dataset_comp);
 
         final ArrayList<String> labels = new ArrayList<String>();
-        labels.add("안락감");
-        labels.add("주도성");
-        labels.add("역동성");
-        labels.add("효율성");
-        labels.add("동력상능");
+        labels.add("최대출력");
+        labels.add("가속도");
+        labels.add("감속도");
+        labels.add("응답성");
+        labels.add("에코레벨");
 
         mChart.getXAxis().setTextColor(Color.WHITE);     // change label color
         mChart.getXAxis().setTextSize(13);
@@ -315,11 +328,8 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         });
 
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(8);
+        mChart.getYAxis().setAxisMaximum(5f);
         mChart.getYAxis().setEnabled(false);             // disable number
-
-        mChart.getXAxis().setAxisMaximum(8);
-
 
         RadarData data = new RadarData(dataSetList);
         mChart.setData(data);
@@ -331,7 +341,6 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         mChart.setTouchEnabled(false);                   // disable touch
         mChart.invalidate();
     }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -414,11 +423,22 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
                 map("Track");
                 changeChart();
                 break;
+            case R.id.ib_e_send_btn :
+                send();
+
+                break;
 
 
         }
     }
 
+    public void send(){
+
+        Intent intent = new Intent();
+        intent.putExtra("change",true);
+        setResult(Constants.REQUEST_GEAR_SETTING,intent);
+        finish();
+    }
     public void map(String str){
         if(str.equals("Normal")){
 
@@ -482,10 +502,14 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         labels.add("주도성");
         labels.add("역동성");
         labels.add("효율성");
-        labels.add("동력상능");
+        labels.add("동력성능");
 
         mChart.getXAxis().setTextColor(Color.WHITE);     // change label color
         mChart.getXAxis().setTextSize(13);
+        mChart.getXAxis().setYOffset(0f);
+        mChart.getXAxis().setXOffset(0f);
+        mChart.getXAxis().setAxisMaximum(8f);
+        mChart.getXAxis().setAxisMinimum(0f);
         mChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -493,11 +517,10 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
             }
         });
 
+        //chart.getYAxis().setTextColor(Color.RED);     // change number color
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(8);
+        mChart.getYAxis().setAxisMaximum(8f);
         mChart.getYAxis().setEnabled(false);             // disable number
-
-        mChart.getXAxis().setAxisMaximum(8);
 
         RadarData data = new RadarData(dataSetList);
         mChart.setData(data);
@@ -508,8 +531,9 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         mChart.invalidate();
 
         // TODO : animation makes blink, so it is disabled
-        mChart.setAnimation(animFadeIn);
+        //mChart.setAnimation(animFadeIn);
     }
+
 
     public void typeClick(String str){
 
@@ -599,5 +623,13 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
             gearPowerHigh.setBackgroundResource(R.drawable.oval_default);
             gearPowerMiddle.setBackgroundResource(R.drawable.oval_default);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("change",true);
+        setResult(Constants.REQUEST_GEAR_SETTING,intent);
+        finish();
     }
 }

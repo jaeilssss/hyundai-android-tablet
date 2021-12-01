@@ -2504,6 +2504,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     // do nothing
                 }
                 break;
+            case Constants.REQUEST_GEAR_SETTING :
+                // 차량 obd가 연결되어있느냐에 따라서 다르게 처리해야함..
+                if(data.getBooleanExtra("change",false)){
+                    modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),
+                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
+                            CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
+                            CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+                }
+
             default:
                 break;
         }
@@ -2979,6 +2988,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         entries.add(new RadarEntry(d4, 3));
         entries.add(new RadarEntry(d5, 4));
 
+
         RadarDataSet dataset_comp = new RadarDataSet(entries, "");
 
         dataset_comp.setColor(Color.GRAY);
@@ -2994,7 +3004,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         labels.add("주도성");
         labels.add("역동성");
         labels.add("효율성");
-        labels.add("동력상능");
+        labels.add("동력성능");
 
         mChart.getXAxis().setTextColor(Color.WHITE);     // change label color
         mChart.getXAxis().setTextSize(13);
@@ -3006,11 +3016,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         });
 
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(8);
+        mChart.getYAxis().setAxisMaximum(5f);
         mChart.getYAxis().setEnabled(false);             // disable number
-
-        mChart.getXAxis().setAxisMaximum(8);
-
 
         RadarData data = new RadarData(dataSetList);
         mChart.setData(data);
@@ -3022,6 +3029,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mChart.setTouchEnabled(false);                   // disable touch
         mChart.invalidate();
     }
+
 
 
     /**
@@ -3078,11 +3086,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
         final ArrayList<String> labels = new ArrayList<String>();
-        labels.add("최대출력");
-        labels.add("가속도");
-        labels.add("감속도");
-        labels.add("응답성");
-        labels.add("에코레벨");
+        labels.add("안락감");
+        labels.add("주도성");
+        labels.add("역동성");
+        labels.add("효율성");
+        labels.add("동력성능");
 
         mChart.getXAxis().setTextColor(Color.WHITE);     // change label color
         mChart.getXAxis().setTextSize(13);
@@ -3097,7 +3105,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         //chart.getYAxis().setTextColor(Color.RED);     // change number color
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(5f);
+        mChart.getYAxis().setAxisMaximum(8f);
         mChart.getYAxis().setEnabled(false);             // disable number
 
         RadarData data = new RadarData(dataSetList);
@@ -3111,6 +3119,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         // TODO : animation makes blink, so it is disabled
         //mChart.setAnimation(animFadeIn);
     }
+
 
     /**
      * Set mode(setting)
