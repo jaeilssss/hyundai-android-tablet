@@ -1,5 +1,6 @@
 package com.obigo.hkmotors.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,7 +23,9 @@ import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.obigo.hkmotors.R;
+import com.obigo.hkmotors.common.Constants;
 import com.obigo.hkmotors.model.CarData;
+import com.obigo.hkmotors.model.Drive;
 import com.obigo.hkmotors.module.BaseActivity;
 
 import java.util.ArrayList;
@@ -42,13 +46,15 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
     private float mRespResponse=2.5f;
 
 
-    private ImageButton axelTypeAt;
-    private ImageButton axelTypeDct;
-    private ImageButton axelTypeAmt;
+    private ImageButton stiffnessLow;
+    private ImageButton stiffnessMiddle;
+    private ImageButton stiffnessHigh;
 
-    private ImageButton gearRateShort;
-    private ImageButton gearRateDefault;
-    private ImageButton gearRateLong;
+    private ImageButton reduceLow;
+    private ImageButton reduceMiddle;
+    private ImageButton reduceHigh;
+
+    private Button send;
 
 
     // MPandroidchart or event
@@ -82,26 +88,37 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     settingLayout.setVisibility(View.VISIBLE);
-                }else settingLayout.setVisibility(View.INVISIBLE );
+                    Drive.getInstance().setTempIsOn("1");
+                    changeChart();
+                }else{
+                    settingLayout.setVisibility(View.INVISIBLE );
+                    Drive.getInstance().setTempIsOn("0");
+                    changeChart();
+                }
 
             }
         });
 
-        axelTypeAmt = findViewById(R.id.axel_setting_amt_img);
-        axelTypeDct = findViewById(R.id.axel_setting_dct_img);
-        axelTypeAt = findViewById(R.id.axel_setting_at_check);
+        stiffnessLow = findViewById(R.id.axel_setting_low_check);
+        stiffnessMiddle = findViewById(R.id.axel_setting_middle_check);
+        stiffnessHigh = findViewById(R.id.axel_setting_high_img);
 
-        axelTypeAt.setOnClickListener(this);
-        axelTypeDct.setOnClickListener(this);
-        axelTypeAmt.setOnClickListener(this);
+        stiffnessLow.setOnClickListener(this);
+        stiffnessMiddle.setOnClickListener(this);
+        stiffnessHigh.setOnClickListener(this);
 
-        gearRateShort = findViewById(R.id.axel_short_img);
-        gearRateDefault = findViewById(R.id.axel_default_img);
-        gearRateLong = findViewById(R.id.axel_long_img);
+        reduceLow = findViewById(R.id.axel_reduce_low_img);
+        reduceMiddle = findViewById(R.id.axel_setting_reduce_middle_img);
+        reduceHigh = findViewById(R.id.axel_setting_reduce_high_img);
 
-        gearRateLong.setOnClickListener(this);
-        gearRateDefault.setOnClickListener(this);
-        gearRateShort.setOnClickListener(this);
+        reduceHigh.setOnClickListener(this);
+        reduceMiddle.setOnClickListener(this);
+        reduceLow.setOnClickListener(this);
+
+        send = findViewById(R.id.axel_data_send);
+        send.setOnClickListener(this);
+
+        setSettingValue();
     }
 
     private void defaultChart(float d1, float d2, float d3, float d4, float d5) {
@@ -217,7 +234,7 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
 
         //chart.getYAxis().setTextColor(Color.RED);     // change number color
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(5f);
+        mChart.getYAxis().setAxisMaximum(8f);
         mChart.getYAxis().setEnabled(false);             // disable number
 
         RadarData data = new RadarData(dataSetList);
@@ -232,74 +249,146 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
         //mChart.setAnimation(animFadeIn);
     }
 
+    private void setSettingValue() {
+
+        if(Drive.getInstance().getTempIsOn().equals("1")){
+            switchCompat.setChecked(true);
+            settingLayout.setVisibility(View.VISIBLE);
+
+            if(Drive.getInstance().getStiffness().equals("00")){
+                setStiffness("Low");
+            }else if(Drive.getInstance().getStiffness().equals("01")){
+                setStiffness("Middle");
+            }else{
+                setStiffness("High");
+            }
+
+            if(Drive.getInstance().getTempReducer().equals("00")){
+                setReduce("Low");
+            }else if(Drive.getInstance().getTempReducer().equals("01")){
+                setReduce("Middle");
+            }else{
+                setReduce("High");
+            }
+
+        }else{
+            switchCompat.setChecked(false);
+            settingLayout.setVisibility(View.INVISIBLE);
+        }
+
+        changeChart();
+    }
+
     @Override
     public void onClick(View view) {
         switch(view.getId()){
 
-            case R.id.axel_setting_at_check :
-                axelType("At");
+            case R.id.axel_setting_low_check :
+                setStiffness("Low");
+                Drive.getInstance().setTempStiffness("00");
+                changeChart();
                 break;
-            case R.id.axel_setting_dct_img :
-                axelType("Dct");
+            case R.id.axel_setting_middle_check :
+                setStiffness("Middle");
+                Drive.getInstance().setTempStiffness("01");
+                changeChart();
                 break;
-            case R.id.axel_setting_amt_img :
-                axelType("Amt");
+            case R.id.axel_setting_high_img :
+                setStiffness("High");
+                Drive.getInstance().setTempStiffness("10");
+                changeChart();
                 break;
             ////
-            case R.id.axel_short_img :
-                gearRate("Short");
+            case R.id.axel_reduce_low_img :
+                setReduce("Low");
+                Drive.getInstance().setTempReducer("00");
+                changeChart();
                 break;
-            case R.id.axel_default_img :
-                gearRate("Default");
+            case R.id.axel_setting_reduce_middle_img :
+                setReduce("Middle");
+                Drive.getInstance().setTempReducer("01");
+                changeChart();
                 break;
-            case R.id.axel_long_img :
-                gearRate("Long");
+            case R.id.axel_setting_reduce_high_img :
+                setReduce("High");
+                Drive.getInstance().setTempReducer("10");
+                changeChart();
+                break;
+            case R.id.axel_data_send:
+                send();
                 break;
                 ////
         }
     }
+    public void send(){
 
-    public void axelType(String str){
-        if(str.equals("At")){
-            axelTypeAt.setBackgroundResource(R.drawable.oval_selected);
+        Intent intent = new Intent();
+        intent.putExtra("change",true);
+        setResult(Constants.REQUEST_DRIVING_SETTING,intent);
+        finish();
+    }
+    public void setStiffness(String str){
+        if(str.equals("Low")){
+            stiffnessLow.setBackgroundResource(R.drawable.oval_selected);
 
-            axelTypeDct.setBackgroundResource(R.drawable.oval_default);
-            axelTypeAmt.setBackgroundResource(R.drawable.oval_default);
-        }else if(str.equals("Dct")){
+            stiffnessMiddle.setBackgroundResource(R.drawable.oval_default);
+            stiffnessHigh.setBackgroundResource(R.drawable.oval_default);
+        }else if(str.equals("Middle")){
 
-            axelTypeDct.setBackgroundResource(R.drawable.oval_selected);
+            stiffnessMiddle.setBackgroundResource(R.drawable.oval_selected);
 
-            axelTypeAmt.setBackgroundResource(R.drawable.oval_default);
-            axelTypeAt.setBackgroundResource(R.drawable.oval_default);
+            stiffnessHigh.setBackgroundResource(R.drawable.oval_default);
+            stiffnessLow.setBackgroundResource(R.drawable.oval_default);
         }else {
 
-            axelTypeAmt.setBackgroundResource(R.drawable.oval_selected);
+            stiffnessHigh.setBackgroundResource(R.drawable.oval_selected);
 
-            axelTypeAt.setBackgroundResource(R.drawable.oval_default);
-            axelTypeDct.setBackgroundResource(R.drawable.oval_default);
+            stiffnessMiddle.setBackgroundResource(R.drawable.oval_default);
+            stiffnessLow.setBackgroundResource(R.drawable.oval_default);
         }
 
     }
 
-    public void gearRate(String str){
+    public void setReduce(String str){
 
-        if(str.equals("Short")){
+        if(str.equals("Low")){
 
-            gearRateShort.setBackgroundResource(R.drawable.oval_selected);
+            reduceLow.setBackgroundResource(R.drawable.oval_selected);
 
-            gearRateLong.setBackgroundResource(R.drawable.oval_default);
-            gearRateDefault.setBackgroundResource(R.drawable.oval_default);
-        }else if(str.equals("Default")){
+            reduceMiddle.setBackgroundResource(R.drawable.oval_default);
+            reduceHigh.setBackgroundResource(R.drawable.oval_default);
+        }else if(str.equals("Middle")){
 
-            gearRateDefault.setBackgroundResource(R.drawable.oval_selected);
+            reduceMiddle.setBackgroundResource(R.drawable.oval_selected);
 
-            gearRateShort.setBackgroundResource(R.drawable.oval_default);
-            gearRateLong.setBackgroundResource(R.drawable.oval_default);
+            reduceLow.setBackgroundResource(R.drawable.oval_default);
+            reduceHigh.setBackgroundResource(R.drawable.oval_default);
         }else{
-            gearRateLong.setBackgroundResource(R.drawable.oval_selected);
+            reduceHigh.setBackgroundResource(R.drawable.oval_selected);
 
-            gearRateShort.setBackgroundResource(R.drawable.oval_default);
-            gearRateDefault.setBackgroundResource(R.drawable.oval_default);
+            reduceMiddle.setBackgroundResource(R.drawable.oval_default);
+            reduceLow.setBackgroundResource(R.drawable.oval_default);
         }
+
+
+    }
+
+    public void changeChart(){
+        CarData.getInstance().setTempComfortable();
+        CarData.getInstance().setTempDynamic();
+        CarData.getInstance().setTempPerformance();
+        CarData.getInstance().setTempEfficiency();
+        CarData.getInstance().setTempLeading();
+
+        modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
+                CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("change",true);
+        setResult(Constants.REQUEST_DRIVING_SETTING,intent);
+        finish();
     }
 }

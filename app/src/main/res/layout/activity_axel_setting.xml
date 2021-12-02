@@ -146,15 +146,15 @@
             android:id="@+id/axel_setting_layout">
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="유형"
-            android:textColor="@color/white"
-            android:textSize="20dp"
+            <TextView
+                android:id="@+id/axel_setting_type_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:text="강성"
 
-            android:id="@+id/axel_setting_type_txt"
-            android:layout_marginTop="70dp"/>
+                android:textColor="@color/white"
+                android:textSize="20dp" />
 
 
 
@@ -164,17 +164,16 @@
             android:background="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_setting_type_txt"
             android:layout_marginTop="70dp"
-
-            android:id="@+id/axel_setting_at_check"
+            android:id="@+id/axel_setting_low_check"
             android:layout_marginLeft="100dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AT"
+            android:text="하"
             android:textColor="@color/white"
             android:textSize="18dp"
-            android:id="@+id/axel_setting_at_txt"
-            android:layout_toRightOf="@id/axel_setting_at_check"
+            android:id="@+id/axel_setting_low_txt"
+            android:layout_toRightOf="@id/axel_setting_low_check"
 
             android:layout_alignBottom="@id/axel_setting_type_txt"
             android:layout_alignTop="@id/axel_setting_type_txt"
@@ -184,20 +183,19 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/oval_default"
-            android:layout_toEndOf="@id/axel_setting_at_txt"
+            android:layout_toEndOf="@id/axel_setting_low_txt"
 
             android:layout_marginTop="70dp"
-            android:id="@+id/axel_setting_dct_img"
+            android:id="@+id/axel_setting_middle_check"
             android:layout_marginLeft="40dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DCT"
+            android:text="중"
             android:textColor="@color/white"
             android:textSize="18dp"
-            android:id="@+id/axel_setting_dct_txt"
-            android:layout_toRightOf="@id/axel_setting_dct_img"
-
+            android:id="@+id/axel_setting_middle_txt"
+            android:layout_toRightOf="@id/axel_setting_middle_check"
             android:layout_alignBottom="@id/axel_setting_type_txt"
             android:layout_alignTop="@id/axel_setting_type_txt"
             android:layout_marginLeft="15dp"/>
@@ -205,19 +203,18 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/oval_default"
-            android:layout_toEndOf="@id/axel_setting_dct_txt"
+            android:layout_toEndOf="@id/axel_setting_middle_txt"
 
             android:layout_marginTop="70dp"
-            android:id="@+id/axel_setting_amt_img"
+            android:id="@+id/axel_setting_high_img"
             android:layout_marginLeft="40dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DCT"
+            android:text="상"
             android:textColor="@color/white"
             android:textSize="18dp"
-            android:layout_toRightOf="@id/axel_setting_amt_img"
-
+            android:layout_toRightOf="@id/axel_setting_high_img"
             android:layout_alignBottom="@id/axel_setting_type_txt"
             android:layout_alignTop="@id/axel_setting_type_txt"
             android:layout_marginLeft="15dp"/>
@@ -227,7 +224,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="기어 비"
+            android:text="강쇄"
             android:textColor="@color/white"
             android:layout_below="@id/axel_setting_type_txt"
             android:layout_alignStart="@id/axel_setting_type_txt"
@@ -238,19 +235,19 @@
             android:layout_height="25dp"
             android:background="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_detail_axel_rate"
-            android:layout_below="@id/axel_setting_at_check"
+            android:layout_below="@id/axel_setting_low_check"
             android:layout_marginTop="70dp"
-            android:id="@+id/axel_short_img"
+            android:id="@+id/axel_reduce_low_img"
             android:layout_marginLeft="80dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Short"
+            android:text="하"
             android:textColor="@color/white"
             android:textSize="18dp"
-            android:id="@+id/axel_short_txt"
-            android:layout_toRightOf="@id/axel_short_img"
-            android:layout_below="@id/axel_setting_at_txt"
+            android:id="@+id/axel_low_txt"
+            android:layout_toRightOf="@id/axel_reduce_low_img"
+            android:layout_below="@id/axel_setting_low_txt"
             android:layout_alignBottom="@id/axel_detail_axel_rate"
             android:layout_alignTop="@id/axel_detail_axel_rate"
             android:layout_marginLeft="15dp"/>
@@ -259,20 +256,20 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/oval_default"
-            android:layout_toEndOf="@id/axel_short_txt"
-            android:layout_below="@id/axel_setting_dct_img"
+            android:layout_toEndOf="@id/axel_low_txt"
+            android:layout_below="@id/axel_setting_middle_check"
             android:layout_marginTop="70dp"
-            android:id="@+id/axel_default_img"
+            android:id="@+id/axel_setting_reduce_middle_img"
             android:layout_marginLeft="40dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Default"
+            android:text="중"
             android:textColor="@color/white"
             android:textSize="18dp"
-            android:id="@+id/axel_setting_default_txt"
-            android:layout_toRightOf="@id/axel_default_img"
-            android:layout_below="@id/axel_setting_dct_txt"
+            android:id="@+id/axel_setting_reduce_middle_txt"
+            android:layout_toRightOf="@id/axel_setting_reduce_middle_img"
+            android:layout_below="@id/axel_setting_middle_txt"
             android:layout_alignBottom="@id/axel_detail_axel_rate"
             android:layout_alignTop="@id/axel_detail_axel_rate"
             android:layout_marginLeft="15dp"/>
@@ -280,19 +277,19 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/oval_default"
-            android:layout_toEndOf="@id/axel_setting_default_txt"
-            android:layout_below="@id/axel_setting_amt_img"
+            android:layout_toEndOf="@id/axel_setting_reduce_middle_txt"
+            android:layout_below="@id/axel_setting_high_img"
             android:layout_marginTop="70dp"
-            android:id="@+id/axel_long_img"
+            android:id="@+id/axel_setting_reduce_high_img"
             android:layout_marginLeft="40dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Long"
+            android:text="상"
             android:textColor="@color/white"
             android:textSize="18dp"
-            android:layout_toRightOf="@id/axel_long_img"
-            android:layout_below="@id/axel_setting_amt_img"
+            android:layout_toRightOf="@id/axel_setting_reduce_high_img"
+            android:layout_below="@id/axel_setting_high_img"
             android:layout_alignBottom="@id/axel_detail_axel_rate"
             android:layout_alignTop="@id/axel_detail_axel_rate"
             android:layout_marginLeft="15dp"/>
@@ -307,7 +304,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_marginTop="50dp"
-            android:text="차로 전송"
+            android:text="전송"
             android:textColor="@color/white"
             android:textSize="20dp"/>
     </RelativeLayout>

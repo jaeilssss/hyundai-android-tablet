@@ -312,8 +312,8 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         dataSetList.add(dataset_comp);
 
         final ArrayList<String> labels = new ArrayList<String>();
-        labels.add("최대출력");
-        labels.add("가속도");
+        labels.add("안락감");
+        labels.add("주도성");
         labels.add("감속도");
         labels.add("응답성");
         labels.add("에코레벨");

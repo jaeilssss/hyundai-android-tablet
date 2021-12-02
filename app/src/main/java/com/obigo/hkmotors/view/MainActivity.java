@@ -2521,6 +2521,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 }
 
                 break;
+            case Constants.REQUEST_DRIVING_SETTING :
+                if(data.getBooleanExtra("change",false)){
+                    modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),
+                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
+                            CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
+                            CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+                }
             default:
                 break;
         }

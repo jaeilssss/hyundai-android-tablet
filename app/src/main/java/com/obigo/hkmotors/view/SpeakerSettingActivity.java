@@ -451,6 +451,7 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         changeChart();
     }
 
+
     public void changeChart(){
         CarData.getInstance().setTempComfortable();
         CarData.getInstance().setTempDynamic();
