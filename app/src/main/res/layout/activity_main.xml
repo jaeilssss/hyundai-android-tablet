@@ -80,17 +80,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="440dp"
+            android:layout_height="500dp"
             android:layout_below="@+id/tb_setting">
 
             <LinearLayout
-                android:layout_width="300dp"
+                android:layout_width="400dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -119,9 +119,9 @@
                     <!-- 스파이더 차트 -->
                     <com.github.mikephil.charting.charts.RadarChart
                         android:id="@+id/chart"
-                        android:layout_width="300dp"
-                        android:layout_height="230dp"
-                        android:layout_gravity="center_vertical" />
+                        android:layout_width="320dp"
+                        android:layout_height="400dp"
+                        android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
 
@@ -129,7 +129,6 @@
 <!--                    android:layout_width="match_parent"-->
 <!--                    android:layout_height="match_parent"-->
 <!--                    android:orientation="vertical">-->
-
 <!--                    <LinearLayout-->
 <!--                        android:layout_width="match_parent"-->
 <!--                        android:layout_height="20dp"-->
@@ -312,7 +311,7 @@
                         android:layout_alignTop="@id/car_image"
                         android:layout_alignRight="@id/car_image"
                         android:layout_marginTop="70dp"
-                        android:layout_marginRight="220dp"
+                        android:layout_marginRight="190dp"
                         android:src="@drawable/circle_point" />
 
                     <View
@@ -331,24 +330,24 @@
                         android:layout_toRightOf="@id/driving_axle_line"
                         android:text="구동계 설정"
                         android:textColor="@color/white"
-                        android:textSize="19dp" />
+                        android:textSize="17dp" />
 
                     <ImageView
                         android:id="@+id/gear_box_btn"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_alignLeft="@id/car_image"
-                        android:layout_marginLeft="220dp"
+                        android:layout_marginLeft="180dp"
                         android:layout_marginTop="160dp"
                         android:src="@drawable/circle_point" />
 
                     <View
                         android:id="@+id/gear_box_line"
-                        android:layout_width="100dp"
+                        android:layout_width="80dp"
                         android:layout_height="1dp"
                         android:layout_alignRight="@id/gear_box_btn"
-                        android:layout_marginTop="185dp"
-                        android:layout_marginRight="50dp"
+                        android:layout_marginTop="180dp"
+                        android:layout_marginRight="40dp"
                         android:background="@color/white" />
 
                     <TextView
@@ -356,24 +355,24 @@
                         android:layout_height="wrap_content"
                         android:layout_alignRight="@id/gear_box_line"
                         android:layout_marginTop="170dp"
-                        android:layout_marginRight="100dp"
+                        android:layout_marginRight="80dp"
+                        android:layout_toLeftOf="@id/gear_box_line"
                         android:text="변속기 설정"
-
                         android:textColor="@color/white"
-                        android:textSize="19dp" />
+                        android:textSize="17dp" />
 
                     <ImageView
                         android:id="@+id/speaker_btn"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_alignLeft="@id/car_image"
-                        android:layout_marginLeft="340dp"
+                        android:layout_marginLeft="275dp"
                         android:layout_marginTop="160dp"
                         android:src="@drawable/circle_point" />
 
                     <View
                         android:id="@+id/speaker_line"
-                        android:layout_width="190dp"
+                        android:layout_width="100dp"
                         android:layout_height="1dp"
                         android:layout_alignLeft="@id/speaker_btn"
                         android:layout_marginLeft="50dp"
@@ -381,13 +380,14 @@
                         android:background="@color/white" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginTop="175dp"
                         android:layout_toRightOf="@id/speaker_line"
                         android:text="음향설정"
                         android:textColor="@color/white"
-                        android:textSize="19dp" />
+                        android:textSize="17dp" />
 
                     <TextView
                         android:layout_width="match_parent"

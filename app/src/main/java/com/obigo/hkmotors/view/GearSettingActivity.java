@@ -119,7 +119,13 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     settingLayout.setVisibility(View.VISIBLE);
-                }else settingLayout.setVisibility(View.INVISIBLE );
+                    Transmission.getInstance().setTempIsOn("1");
+                    changeChart();
+                }else {
+                    settingLayout.setVisibility(View.INVISIBLE );
+                    Transmission.getInstance().setTempIsOn("0");
+                    changeChart();
+                }
 
             }
         });

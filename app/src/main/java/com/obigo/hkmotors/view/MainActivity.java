@@ -284,6 +284,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private int nEfficiency;
     private int nPerformance;
 
+    private  ImageButton resetBtn;
+    private ImageButton carSend;
+    private ImageButton saveBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -460,28 +463,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             //case R.id.ib_g_reset_btn:
             case R.id.ib_e_reset_btn:
 
+
+
                 if(Constants.OBD_STATUS == true) {
                     mObdsv.initializeParam();
                 }
 
-                // set second default value : 0
-                mPref.setSDResponse(0);
-                mPref.setSDDeceleration(0);
-                mPref.setSDAcceleration(0);
-                mPref.setSDMaxPower(0);
-                mPref.setSDEcoLevel(0);
+//                // set second default value : 0
+//                mPref.setSDResponse(0);
+//                mPref.setSDDeceleration(0);
+//                mPref.setSDAcceleration(0);
+//                mPref.setSDMaxPower(0);
+//                mPref.setSDEcoLevel(0);
+//
+//                Constants.COMMAND_MODE = "RESET";
+//
+//                sendMessage("04" + "000000000000");
+//
+//                Handler hd2 = new Handler(Looper.getMainLooper());
+//                hd2.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        sendMessage("04" + "000000000000");
+//                    }
+//                }, 1000);
 
-                Constants.COMMAND_MODE = "RESET";
 
-                sendMessage("04" + "000000000000");
-
-                Handler hd2 = new Handler(Looper.getMainLooper());
-                hd2.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        sendMessage("04" + "000000000000");
-                    }
-                }, 1000);
                 break;
 
 //            case R.id.ib_r_send_btn:
@@ -2209,147 +2216,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         eSubmitBtn.setOnClickListener(this);
 
 
-//        ImageButton rSendBtn = (ImageButton) findViewById(R.id.ib_r_send_btn);
-//        rSendBtn.setOnClickListener(this);
-
-        // 추천모드 데이터
-//        modeTitle = (TextView) findViewById(R.id.tv_mode_title);
-//        modeTorque = (TextView) findViewById(R.id.tv_mode_torque);
-//        modeAcceleration = (TextView) findViewById(R.id.tv_mode_acc);
-//        modeDeceleration = (TextView) findViewById(R.id.tv_mode_decel);
-//        modeBrake = (TextView) findViewById(R.id.tv_mode_brake);
-//        modeEnergy = (TextView) findViewById(R.id.tv_mode_energy);
-//        modeSpeed = (TextView) findViewById(R.id.tv_mode_speed);
-//        modeResponse = (TextView) findViewById(R.id.tv_mode_response);
-//
-//        ImageButton modeLeft = (ImageButton) findViewById(R.id.btn_mode_left);
-//        modeLeft.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//
-//                if(Constants.MODE_STATUS-1 < 0){
-//                    Constants.MODE_STATUS = 3;
-//                }else{
-//                    Constants.MODE_STATUS = Constants.MODE_STATUS -1;
-//                }
-//
-//                sendMessage("00" + Integer.toHexString(Constants.MODE_STATUS));
-//
-//                Handler hd2 = new Handler(Looper.getMainLooper());
-//                hd2.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        sendMessage("00" + Integer.toHexString(Constants.MODE_STATUS));
-//                    }
-//                }, 1000);
-//
-//                modeInit(dataListItems.get(Constants.MODE_STATUS));
-//            }
-//        });
-//
-//        ImageButton modeRight = (ImageButton) findViewById(R.id.btn_mode_right);
-//        modeRight.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                if(Constants.MODE_STATUS+1 > 3){
-//                    Constants.MODE_STATUS = 0;
-//                }else{
-//                    Constants.MODE_STATUS = Constants.MODE_STATUS +1;
-//                }
-//
-//                sendMessage("00" + Integer.toHexString(Constants.MODE_STATUS));
-//
-//                Handler hd2 = new Handler(Looper.getMainLooper());
-//                hd2.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        sendMessage("00" + Integer.toHexString(Constants.MODE_STATUS));
-//                    }
-//                }, 1000);
-//
-//                modeInit(dataListItems.get(Constants.MODE_STATUS));
-//            }
-//        });
-
-//        mAvailableDistance = (TextView) findViewById(R.id.tv_a_dstn);
-//        mAvailableDistanceMax = (TextView) findViewById(R.id.tv_a_dstn_max);
-//        mAvailableDistanceMin = (TextView) findViewById(R.id.tv_a_dstn_min);
-
-
-        // left
-//        mLeftBattery = (TextView) findViewById(R.id.tv_left_battery);
-//        mBattery01 = (ImageView) findViewById(R.id.battery_g_01);
-//        mBattery02 = (ImageView) findViewById(R.id.battery_g_02);
-//        mBattery03 = (ImageView) findViewById(R.id.battery_g_03);
-//        mBattery04 = (ImageView) findViewById(R.id.battery_g_04);
-//        mBattery05 = (ImageView) findViewById(R.id.battery_g_05);
-//
-//        mCPwg01 = (ImageView) findViewById(R.id.pwr_c_01);
-//        mCPwg02 = (ImageView) findViewById(R.id.pwr_c_02);
-//        mCPwg03 = (ImageView) findViewById(R.id.pwr_c_03);
-//        mCPwg04 = (ImageView) findViewById(R.id.pwr_c_04);
-//        mCPwg05 = (ImageView) findViewById(R.id.pwr_c_05);
-//
-//        mPwg01 = (ImageView) findViewById(R.id.pwr_g_01);
-//        mPwg02 = (ImageView) findViewById(R.id.pwr_g_02);
-//        mPwg03 = (ImageView) findViewById(R.id.pwr_g_03);
-//        mPwg04 = (ImageView) findViewById(R.id.pwr_g_04);
-//        mPwg05 = (ImageView) findViewById(R.id.pwr_g_05);
-//        mPwg06 = (ImageView) findViewById(R.id.pwr_g_06);
-//        mPwg07 = (ImageView) findViewById(R.id.pwr_g_07);
-//        mPwg08 = (ImageView) findViewById(R.id.pwr_g_08);
-//        mPwg09 = (ImageView) findViewById(R.id.pwr_g_09);
-//        mPwg10 = (ImageView) findViewById(R.id.pwr_g_10);
-//
-//
-//        // cneter
-//        mCntrVSpeed = (TextView) findViewById(R.id.tv_cntr_v_speed);
-//        mCntrLStatus = (ImageView) findViewById(R.id.iv_cntr_l_status);
-//        mCntrEVReady = (ImageView) findViewById(R.id.iv_cntr_ev_ready);
-//        mCntrPaddle = (ImageView) findViewById(R.id.iv_cntr_paddle);
-//        mCntrDMode = (ImageView) findViewById(R.id.iv_cntr_d_mode);
-//
-//
-//        // right
-//        mMileageInst = (TextView) findViewById(R.id.tv_mileage_inst);
-//        mMileageInst01 = (ImageView) findViewById(R.id.mileage_inst_01);
-//        mMileageInst02 = (ImageView) findViewById(R.id.mileage_inst_02);
-//        mMileageInst03 = (ImageView) findViewById(R.id.mileage_inst_03);
-//        mMileageInst04 = (ImageView) findViewById(R.id.mileage_inst_04);
-//        mMileageInst05 = (ImageView) findViewById(R.id.mileage_inst_05);
-//        mMileageInst06 = (ImageView) findViewById(R.id.mileage_inst_06);
-//        mMileageInst07 = (ImageView) findViewById(R.id.mileage_inst_07);
-//        mMileageInst08 = (ImageView) findViewById(R.id.mileage_inst_08);
-//        mMileageInst09 = (ImageView) findViewById(R.id.mileage_inst_09);
-//        mMileageInst10 = (ImageView) findViewById(R.id.mileage_inst_10);
-//        mMileageInst11 = (ImageView) findViewById(R.id.mileage_inst_11);
-//        mMileageInst12 = (ImageView) findViewById(R.id.mileage_inst_12);
-//        mMileageInst13 = (ImageView) findViewById(R.id.mileage_inst_13);
-//        mMileageInst14 = (ImageView) findViewById(R.id.mileage_inst_14);
-//        mMileageInst15 = (ImageView) findViewById(R.id.mileage_inst_15);
-//        mMileageInst16 = (ImageView) findViewById(R.id.mileage_inst_16);
-//
-//        mMileageAvg = (TextView) findViewById(R.id.tv_mileage_avg);
-//        mMileageAvg01 = (ImageView) findViewById(R.id.mileage_avg_01);
-//        mMileageAvg02 = (ImageView) findViewById(R.id.mileage_avg_02);
-//        mMileageAvg03 = (ImageView) findViewById(R.id.mileage_avg_03);
-//        mMileageAvg04 = (ImageView) findViewById(R.id.mileage_avg_04);
-//        mMileageAvg05 = (ImageView) findViewById(R.id.mileage_avg_05);
-//        mMileageAvg06 = (ImageView) findViewById(R.id.mileage_avg_06);
-//        mMileageAvg07 = (ImageView) findViewById(R.id.mileage_avg_07);
-//        mMileageAvg08 = (ImageView) findViewById(R.id.mileage_avg_08);
-//        mMileageAvg09 = (ImageView) findViewById(R.id.mileage_avg_09);
-//        mMileageAvg10 = (ImageView) findViewById(R.id.mileage_avg_10);
-//        mMileageAvg11 = (ImageView) findViewById(R.id.mileage_avg_11);
-//        mMileageAvg12 = (ImageView) findViewById(R.id.mileage_avg_12);
-//        mMileageAvg13 = (ImageView) findViewById(R.id.mileage_avg_13);
-//        mMileageAvg14 = (ImageView) findViewById(R.id.mileage_avg_14);
-//        mMileageAvg15 = (ImageView) findViewById(R.id.mileage_avg_15);
-//        mMileageAvg16 = (ImageView) findViewById(R.id.mileage_avg_16);
+        resetBtn = findViewById(R.id.ib_e_reset_btn);
+        resetBtn.setOnClickListener(this);
 
 
         mMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
