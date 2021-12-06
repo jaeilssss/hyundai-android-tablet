@@ -76,64 +76,64 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 
         setContentView(R.layout.activity_param_setting);
 
-        mParam = getIntent().getStringExtra("param");
-        mResp = getIntent().getStringExtra("resp");
-
-
-        String[] params = mParam.split(":");
-
-        mMode = params[0]; // 20181113 지금 프로그램에서는 필요없음
-
-        mTitle = (EditText) findViewById(R.id.et_title);
-        mTitle.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                if(s.length() > 0) {
-                    mDeleteBtn.setVisibility(View.VISIBLE);
-                } else {
-                    mDeleteBtn.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        mDeleteBtn = (ImageButton) findViewById(R.id.ib_delete_btn);
-        mDeleteBtn.setOnClickListener(this);
-
-
-        mTorque = (TextView) findViewById(R.id.tv_torque_value);
-        mTorque.setText(params[1] + "%");
-
-        mAcc = (TextView) findViewById(R.id.tv_acc_value);
-        mAcc.setText(params[2]);
-
-        mDecel = (TextView) findViewById(R.id.tv_decel_value);
-        mDecel.setText(params[3]);
-
-        mBrake = (TextView) findViewById(R.id.tv_brake_value);
-        mBrake.setText(params[4]);
-
-        mEnergy = (TextView) findViewById(R.id.tv_energy_value);
-        if(params[5].equals("0")) mEnergy.setText("Off");
-        else if(params[5].equals("1")) mEnergy.setText("Eco");
-        else if(params[5].equals("2")) mEnergy.setText("Normal");
-
-        mSpeed = (TextView) findViewById(R.id.tv_speed_value);
-        mSpeed.setText(params[6] + "kph");
-
-        mResponse = (TextView) findViewById(R.id.tv_response_value);
-        mResponse.setText(params[7]);
-
-
-        ImageButton cancelBtn = (ImageButton) findViewById(R.id.ib_cancel_btn);
-        cancelBtn.setOnClickListener(this);
-
-        ImageButton confirmBtn = (ImageButton) findViewById(R.id.ib_confirm_btn);
-        confirmBtn.setOnClickListener(this);
+//               mParam = getIntent().getStringExtra("param");
+//        mResp = getIntent().getStringExtra("resp");
+//
+//
+//        String[] params = mParam.split(":");
+//
+//        mMode = params[0]; // 20181113 지금 프로그램에서는 필요없음
+//
+//        mTitle = (EditText) findViewById(R.id.et_title);
+//        mTitle.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//                if(s.length() > 0) {
+//                    mDeleteBtn.setVisibility(View.VISIBLE);
+//                } else {
+//                    mDeleteBtn.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//
+//        mDeleteBtn = (ImageButton) findViewById(R.id.ib_delete_btn);
+//        mDeleteBtn.setOnClickListener(this);
+//
+//
+//        mTorque = (TextView) findViewById(R.id.tv_torque_value);
+//        mTorque.setText(params[1] + "%");
+//
+//        mAcc = (TextView) findViewById(R.id.tv_acc_value);
+//        mAcc.setText(params[2]);
+//
+//        mDecel = (TextView) findViewById(R.id.tv_decel_value);
+//        mDecel.setText(params[3]);
+//
+//        mBrake = (TextView) findViewById(R.id.tv_brake_value);
+//        mBrake.setText(params[4]);
+//
+//        mEnergy = (TextView) findViewById(R.id.tv_energy_value);
+//        if(params[5].equals("0")) mEnergy.setText("Off");
+//        else if(params[5].equals("1")) mEnergy.setText("Eco");
+//        else if(params[5].equals("2")) mEnergy.setText("Normal");
+//
+//        mSpeed = (TextView) findViewById(R.id.tv_speed_value);
+//        mSpeed.setText(params[6] + "kph");
+//
+//        mResponse = (TextView) findViewById(R.id.tv_response_value);
+//        mResponse.setText(params[7]);
+//
+//
+//        ImageButton cancelBtn = (ImageButton) findViewById(R.id.ib_cancel_btn);
+//        cancelBtn.setOnClickListener(this);
+//
+//        ImageButton confirmBtn = (ImageButton) findViewById(R.id.ib_confirm_btn);
+//        confirmBtn.setOnClickListener(this);
 
     }
 

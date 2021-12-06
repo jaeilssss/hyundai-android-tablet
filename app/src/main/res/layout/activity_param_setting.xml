@@ -343,10 +343,10 @@
                     android:background="#14172a">
 
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/circle_point" />
+                        android:background="@drawable/input_shape" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -375,10 +375,10 @@
                     android:background="#14172a">
 
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/circle_point" />
+                        android:background="@drawable/input_shape" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -407,10 +407,10 @@
                     android:background="#14172a">
 
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/circle_point" />
+                        android:background="@drawable/input_shape" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -439,10 +439,10 @@
                     android:background="#14172a">
 
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/circle_point" />
+                        android:background="@drawable/input_shape" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -503,10 +503,10 @@
                     android:background="#14172a">
 
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/circle_point" />
+                        android:background="@drawable/input_shape" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -536,10 +536,10 @@
                     android:background="#14172a">
 
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/circle_point" />
+                        android:background="@drawable/input_shape" />
 
                     <TextView
                         android:layout_width="wrap_content"
