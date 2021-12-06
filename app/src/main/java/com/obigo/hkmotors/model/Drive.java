@@ -74,4 +74,10 @@ public class Drive {
         }
         return drive;
     }
+
+    public void reset(){
+        tempIsOn = isOn;
+        tempReducer = reducer;
+        tempStiffness  = stiffness;
+    }
 }

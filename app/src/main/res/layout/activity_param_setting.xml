@@ -15,6 +15,7 @@
         android:layout_width="316dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:background="#10162b"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -86,265 +87,505 @@
 
         </RelativeLayout>
 
-        <!-- parameters -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="13dp"
-            android:background="#10162b"
+            android:layout_centerInParent="true"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
 
-            <RelativeLayout
-                android:layout_width="272dp"
-                android:layout_height="28dp"
-                android:layout_marginBottom="9dp"
-                android:background="#14172a">
+            >
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <!-- parameters -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#10162b"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="13dp">
 
-                <ImageView
-                    android:layout_width="3dp"
-                    android:layout_height="3dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/input_shape" />
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="모터최대토크"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/circle_point" />
 
-                <TextView
-                    android:id="@+id/tv_torque_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:text="54"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text=" 변속기 설정"
+                        android:textColor="#fff"
+                        android:textSize="16dp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/transmission_is_on"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="On"
+                        android:textColor="@color/mainColor"
+                        android:textSize="16dp" />
 
-            <RelativeLayout
-                android:layout_width="272dp"
-                android:layout_height="28dp"
-                android:layout_marginBottom="9dp"
-                android:background="#14172a">
+                </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="3dp"
-                    android:layout_height="3dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/input_shape" />
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="발진가속감"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <ImageView
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/input_shape" />
 
-                <TextView
-                    android:id="@+id/tv_acc_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:text="4"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="유형"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/transmission_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="DT"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
 
-            <RelativeLayout
-                android:layout_width="272dp"
-                android:layout_height="28dp"
-                android:layout_marginBottom="9dp"
-                android:background="#14172a">
+                </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="3dp"
-                    android:layout_height="3dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/input_shape" />
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="감속감"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <ImageView
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/input_shape" />
 
-                <TextView
-                    android:id="@+id/tv_decel_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:text="3"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="단수"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/transmission_gear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="4"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
 
-            <RelativeLayout
-                android:layout_width="272dp"
-                android:layout_height="28dp"
-                android:layout_marginBottom="9dp"
-                android:background="#14172a">
+                </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="3dp"
-                    android:layout_height="3dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/input_shape" />
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="회생제동량"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <ImageView
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/input_shape" />
 
-                <TextView
-                    android:id="@+id/tv_brake_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:text="4"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="기어비"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/transmission_gear_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="4"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
 
-            <RelativeLayout
-                android:layout_width="272dp"
-                android:layout_height="28dp"
-                android:layout_marginBottom="9dp"
-                android:background="#14172a">
+                </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="3dp"
-                    android:layout_height="3dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/input_shape" />
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="냉/난방에너지"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <ImageView
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/input_shape" />
 
-                <TextView
-                    android:id="@+id/tv_energy_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:text="Normal"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="변속 속도"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/transmission_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="Normal"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
 
-            <RelativeLayout
-                android:layout_width="272dp"
-                android:layout_height="28dp"
-                android:layout_marginBottom="9dp"
-                android:background="#14172a">
+                </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="3dp"
-                    android:layout_height="3dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/input_shape" />
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="최고속도 제한"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <ImageView
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/input_shape" />
 
-                <TextView
-                    android:id="@+id/tv_speed_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:text="160"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="변속 강도"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/transmission_power"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="160"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
 
-            <RelativeLayout
-                android:layout_width="272dp"
-                android:layout_height="28dp"
-                android:layout_marginBottom="9dp"
-                android:background="#14172a">
+                </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="3dp"
-                    android:layout_height="3dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/input_shape" />
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="응답성"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/circle_point" />
 
-                <TextView
-                    android:id="@+id/tv_response_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:text="1"
-                    android:textSize="14dp"
-                    android:textColor="#fff" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text=" 음향 설정"
+                        android:textColor="#fff"
+                        android:textSize="16dp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/sound_is_on"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="ON"
+                        android:textColor="@color/mainColor"
+                        android:textSize="16dp" />
 
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/circle_point" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text=" 구동원 유형"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:id="@+id/sound_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="모터"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/circle_point" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text=" 구동원 음량"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:id="@+id/sound_volume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="ON"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/circle_point" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text=" 후연소음 음량"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:id="@+id/sound_back_volume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="Off"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/circle_point" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text=" 후연소음 감도"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:id="@+id/sound_back_sensitive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="ON"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/circle_point" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text=" 구동축 효과"
+                        android:textColor="#fff"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/drive_is_on"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="ON"
+                        android:textColor="@color/mainColor"
+                        android:textSize="16dp" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/circle_point" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text=" 강성"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:id="@+id/drive_stiffness"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="하"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="272dp"
+                    android:layout_height="28dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="#14172a">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/circle_point" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text=" 강성"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:id="@+id/drive_reduce"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="ON"
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            </ScrollView>
             <!-- 버튼 (취소 확인) -->
             <LinearLayout
-                android:layout_width="280dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="19dp"
-                android:layout_marginBottom="19dp">
+                android:layout_marginBottom="19dp"
+                android:background="#10162b"
+                android:gravity="center_horizontal">
 
                 <ImageButton
                     android:id="@+id/ib_cancel_btn"
                     android:layout_width="135dp"
                     android:layout_height="35.7dp"
-                    android:background="@drawable/btn_cancel"/>
+                    android:background="@drawable/btn_cancel" />
 
                 <ImageButton
                     android:id="@+id/ib_confirm_btn"
                     android:layout_width="135dp"
                     android:layout_height="35.7dp"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/btn_confirm"/>
+                    android:background="@drawable/btn_confirm" />
 
             </LinearLayout>
 

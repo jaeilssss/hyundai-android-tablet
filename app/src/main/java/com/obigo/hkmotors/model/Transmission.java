@@ -147,4 +147,14 @@ public class Transmission {
         }
         return transmission;
     }
+
+    public void reset(){
+        tempIsOn = isOn;
+        tempType = type;
+        tempGear = gear;
+        tempGearRate = gearRate;
+        tempTransmissionSpeed =  transmissionSpeed;
+        tempTransmissionPower = transmissionPower;
+        tempTransmissionMap =  transmissionMap;
+    }
 }

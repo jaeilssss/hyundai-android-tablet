@@ -112,4 +112,12 @@ public class Sound {
         return sound;
     }
 
+    public void reset(){
+
+        tempIsOn =  isOn;
+        tempDriveType =  driveType;
+        tempVolume =  volume;
+        tempBackVolume =  backVolume;
+        tempBackSensitive =  backSensitive;
+    }
 }

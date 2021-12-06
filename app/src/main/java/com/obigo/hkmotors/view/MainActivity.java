@@ -469,6 +469,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     mObdsv.initializeParam();
                 }
 
+
+                Transmission.getInstance().reset();
+                Drive.getInstance().reset();
+                Sound.getInstance().reset();
+                CarData.getInstance().setTempLeading();
+                CarData.getInstance().setTempComfortable();
+                CarData.getInstance().setTempEfficiency();
+                CarData.getInstance().setTempPerformance();
+                CarData.getInstance().setTempDynamic();
+
+                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+                        CarData.getInstance().getPerformance());
+
+
 //                // set second default value : 0
 //                mPref.setSDResponse(0);
 //                mPref.setSDDeceleration(0);
@@ -1942,7 +1957,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mChart = (RadarChart) findViewById(R.id.chart);
         mChart.setNoDataText("데이터가 없습니다.");
 
-        defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
+//        defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
 
         mLayoutRcdation = (RelativeLayout) findViewById(R.id.layout_rcdation);
         mLayoutExpert = (RelativeLayout) findViewById(R.id.layout_expert);
