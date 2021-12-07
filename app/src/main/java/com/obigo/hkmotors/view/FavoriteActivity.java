@@ -109,106 +109,12 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
      */
     public void initUI() {
 
-        favoriteObdLight = (ImageView) findViewById(R.id.iv_favorite_light);
-
-        obdSetBtn = (ImageButton) findViewById(R.id.ib_obd_set_btn);
-        obdSetBtn.setOnClickListener(this);
-
-        mExpListView = (ListView) findViewById(R.id.exp_favorite);
-
-        fBackBtn = (ImageButton) findViewById(R.id.ib_favorite_back);
-        fBackBtn.setOnClickListener(this);
-
-        fSendBtn = (Button) findViewById(R.id.ib_f_send_btn);
-        fSendBtn.setOnClickListener(this);
-
-        fRemoveBtn = (Button) findViewById(R.id.ib_f_remove_btn);
-        fRemoveBtn.setOnClickListener(this);
-
-        mListAdapter = new FavoriteExpendableListViewAdapter(getApplicationContext());
-
-        //mListAdapter.setAdapterEventListener(this);
-        // setting list adapter
-        mExpListView.setAdapter(mListAdapter);
-
-        // get and insert data from database
-        // addDataFromDatabase();
-
-        chart = (RadarChart) findViewById(R.id.favorite_chart);
-        chart.setNoDataText("데이터가 없습니다.");
-
-        defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
-
-        // get and insert data from database
-        addDataFromDatabase();
-
-        final ImageView[] backivArrow = new ImageView[1];
-        mExpListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                FavoriteDataListItems mItems = (FavoriteDataListItems) mListAdapter.getItem(position);
-
-                params = mItems.getParam().split(":");
-
-                torque = (TextView) findViewById(R.id.tv_torque_value);
-                acceleration = (TextView) findViewById(R.id.tv_acc_value);
-                deceleration = (TextView) findViewById(R.id.tv_decel_value);
-                brake = (TextView) findViewById(R.id.tv_brake_value);
-                energy = (TextView) findViewById(R.id.tv_energy_value);
-                speed = (TextView) findViewById(R.id.tv_speed_value);
-                response = (TextView) findViewById(R.id.tv_response_value);
-
-                torque.setText(params[1] + "%");
-                acceleration.setText(params[2]);
-                deceleration.setText(params[3]);
-                brake.setText(params[4]);
-                if (params[5].equals("0")) energy.setText("Off");
-                else if (params[5].equals("1")) energy.setText("Eco");
-                else if (params[5].equals("2")) energy.setText("Normal");
-
-                speed.setText(params[6] + "kph");
-                response.setText(params[7]);
-
-                ImageView ivBc = (ImageView) view.findViewById(R.id.iv_bc);
-                ImageView ivArrow = (ImageView) view.findViewById(R.id.iv_arrow);
-
-                // 임시 방편
-                if(backivArrow[0] != null){
-                    backivArrow[0].setVisibility(View.GONE);
-                }
-                backivArrow[0] = ivArrow;
-
-                ArrayList<String> checkedIndex = new ArrayList<String>(mListAdapter.getCheckedId());
-
-                if(!mItems.getChecked()) {
-                    //ivBc.setImageResource(R.drawable.img_bc_on);
-                    ivArrow.setVisibility(View.VISIBLE);
-                    mItems.setChecked(true);
-                    checkedIndex.add(mItems.getId());
-                    mListAdapter.setCheckedId(checkedIndex);
-                } else {
-                    //ivBc.setImageResource(R.drawable.img_bc_off);
-                    ivArrow.setVisibility(View.GONE);
-                    mItems.setChecked(false);
-                    mListAdapter.removeCheckedId(mItems.getId());
-                }
-
-                String[] resps = mItems.getResp().split(":");
-
-                // setChart(chart, Float.parseFloat(resps[0]), Float.parseFloat(resps[1]), Float.parseFloat(resps[2]), Float.parseFloat(resps[3]), Float.parseFloat(resps[4]));
-
-                defaultChart(Float.parseFloat(resps[0]), Float.parseFloat(resps[1]), Float.parseFloat(resps[2]), Float.parseFloat(resps[3]), Float.parseFloat(resps[4]));
-
-            }
-        });
 
 
         // OBD Status 변경
         Log.d(TAG, " ================= OBD Status 변경 :: " + Constants.OBD_STATUS);
-        setOBDMode(Constants.OBD_STATUS);
-        setOBDInitialized(Constants.OBD_INITIALIZED);
+//        setOBDMode(Constants.OBD_STATUS);
+//        setOBDInitialized(Constants.OBD_INITIALIZED);
 
     }
 
@@ -255,51 +161,51 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                 setResult(Activity.RESULT_CANCELED, intent);
                 finish();
 
-            case R.id.ib_f_send_btn:
-                if(Constants.OBD_STATUS == true) {
+//            case R.id.ib_f_send_btn:
+//                if(Constants.OBD_STATUS == true) {
+//
+//                    ArrayList<String> sendCheckedIndex = new ArrayList<String>(mListAdapter.getCheckedId());
+//
+//                    if (sendCheckedIndex.size() == 0) {
+//                        Toast.makeText(getApplicationContext(), "선택된 리스트 정보가 없습니다!", Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//
+//                    showProgressDialog();
+//
+//                    ((MainActivity) MainActivity.mContext).FavoriteResult(params);
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "App과 OBD가 올바르게 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
+//                    //selectOBD();
+//                }
 
-                    ArrayList<String> sendCheckedIndex = new ArrayList<String>(mListAdapter.getCheckedId());
-
-                    if (sendCheckedIndex.size() == 0) {
-                        Toast.makeText(getApplicationContext(), "선택된 리스트 정보가 없습니다!", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    showProgressDialog();
-
-                    ((MainActivity) MainActivity.mContext).FavoriteResult(params);
-                } else {
-                    Toast.makeText(getApplicationContext(), "App과 OBD가 올바르게 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
-                    //selectOBD();
-                }
-
-                break;
-            case R.id.ib_f_remove_btn:
-                ArrayList<String> checkedIndex = new ArrayList<String>(mListAdapter.getCheckedId());
-
-                if(checkedIndex.size() == 0) {
-                    Toast.makeText(getApplicationContext(), "선택된 삭제 리스트 정보가 없습니다!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // remove adapter
-                for(int i=0; i < checkedIndex.size(); i++) {
-                    // mListAdapter.removeGroupItem(checkedIndex.get(i)); // remove group by id
-                    // mListAdapter.removeChildItem(checkedIndex.get(i)); // remove child by id
-                    mListAdapter.removeMitems(checkedIndex.get(i));
-                    mListAdapter.removeCheckedId(checkedIndex.get(i)); // removed index
-                }
-
-                // remove multiple items to database
-                String ids = TextUtils.join(", ", checkedIndex.toArray(new String[checkedIndex.size()])); // ids : 3,2,0
-                DBUtil.deleteMultipleDB(getApplicationContext(), ids);
-
-                mListAdapter.notifyDataSetChanged();
-
-                // if the count of group is zero, activity should be finish
-                if(mListAdapter.getCount() == 0) finish();
-
-                break;
+//                break;
+//            case R.id.ib_f_remove_btn:
+//                ArrayList<String> checkedIndex = new ArrayList<String>(mListAdapter.getCheckedId());
+//
+//                if(checkedIndex.size() == 0) {
+//                    Toast.makeText(getApplicationContext(), "선택된 삭제 리스트 정보가 없습니다!", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                // remove adapter
+//                for(int i=0; i < checkedIndex.size(); i++) {
+//                    // mListAdapter.removeGroupItem(checkedIndex.get(i)); // remove group by id
+//                    // mListAdapter.removeChildItem(checkedIndex.get(i)); // remove child by id
+//                    mListAdapter.removeMitems(checkedIndex.get(i));
+//                    mListAdapter.removeCheckedId(checkedIndex.get(i)); // removed index
+//                }
+//
+//                // remove multiple items to database
+//                String ids = TextUtils.join(", ", checkedIndex.toArray(new String[checkedIndex.size()])); // ids : 3,2,0
+//                DBUtil.deleteMultipleDB(getApplicationContext(), ids);
+//
+//                mListAdapter.notifyDataSetChanged();
+//
+//                // if the count of group is zero, activity should be finish
+//                if(mListAdapter.getCount() == 0) finish();
+//
+//                break;
             case R.id.ib_obd_set_btn:
                 if(Constants.OBD_STATUS == true) {
                     try {
