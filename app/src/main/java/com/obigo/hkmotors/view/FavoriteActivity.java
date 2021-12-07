@@ -9,6 +9,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -32,12 +34,14 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.obigo.hkmotors.R;
 import com.obigo.hkmotors.adapter.FavoriteExpendableListViewAdapter;
+import com.obigo.hkmotors.adapter.MyFavoriteRecyclerAdapter;
 import com.obigo.hkmotors.common.Constants;
 import com.obigo.hkmotors.common.Utility;
 import com.obigo.hkmotors.common.db.DBUtil;
 import com.obigo.hkmotors.common.db.data.Obd2Database;
 import com.obigo.hkmotors.common.db.helper.Obd2DBOpenHelper;
 import com.obigo.hkmotors.common.service.ObdService;
+import com.obigo.hkmotors.model.FavoriteData;
 import com.obigo.hkmotors.model.FavoriteDataListItems;
 import com.obigo.hkmotors.module.BaseActivity;
 
@@ -88,7 +92,9 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private TextView speed;
     private TextView response;
     private RadarChart chart;
+    private RecyclerView rcv;
 
+    private MyFavoriteRecyclerAdapter adapter ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +121,11 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         Log.d(TAG, " ================= OBD Status 변경 :: " + Constants.OBD_STATUS);
 //        setOBDMode(Constants.OBD_STATUS);
 //        setOBDInitialized(Constants.OBD_INITIALIZED);
+
+        rcv = findViewById(R.id.favorite_rcv);
+        adapter = new MyFavoriteRecyclerAdapter(new ArrayList<FavoriteData>());
+        rcv.setAdapter(adapter);
+        rcv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
     }
 

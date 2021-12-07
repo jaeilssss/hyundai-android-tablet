@@ -91,13 +91,13 @@
             <LinearLayout
                 android:layout_width="460dp"
                 android:layout_height="600dp"
-                android:background="@color/white"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp">
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="460dp"
                     android:layout_height="600dp"
+                    tools:listitem="@layout/my_favorite_item"
                     android:id="@+id/favorite_rcv"/>
             </LinearLayout>
 

@@ -21,6 +21,9 @@ import com.obigo.hkmotors.R;
 import com.obigo.hkmotors.common.Constants;
 import com.obigo.hkmotors.common.Utility;
 import com.obigo.hkmotors.common.db.DBUtil;
+import com.obigo.hkmotors.model.Drive;
+import com.obigo.hkmotors.model.Sound;
+import com.obigo.hkmotors.model.Transmission;
 import com.obigo.hkmotors.module.BaseActivity;
 
 
@@ -62,6 +65,9 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
     private String mParam;
     private String mResp;
 
+    private String signal1;
+    private String signal2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,25 +90,25 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 //
 //        mMode = params[0]; // 20181113 지금 프로그램에서는 필요없음
 //
-//        mTitle = (EditText) findViewById(R.id.et_title);
-//        mTitle.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-//            @Override
-//            public void afterTextChanged(Editable s) {
+        mTitle = (EditText) findViewById(R.id.et_title);
+        mTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if(s.length() > 0) {
+                    mDeleteBtn.setVisibility(View.VISIBLE);
+                } else {
+                    mDeleteBtn.setVisibility(View.GONE);
+                }
+            }
+        });
 //
-//                if(s.length() > 0) {
-//                    mDeleteBtn.setVisibility(View.VISIBLE);
-//                } else {
-//                    mDeleteBtn.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//
-//        mDeleteBtn = (ImageButton) findViewById(R.id.ib_delete_btn);
-//        mDeleteBtn.setOnClickListener(this);
+        mDeleteBtn = (ImageButton) findViewById(R.id.ib_delete_btn);
+        mDeleteBtn.setOnClickListener(this);
 //
 //
 //        mTorque = (TextView) findViewById(R.id.tv_torque_value);
@@ -132,8 +138,8 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 //        ImageButton cancelBtn = (ImageButton) findViewById(R.id.ib_cancel_btn);
 //        cancelBtn.setOnClickListener(this);
 //
-//        ImageButton confirmBtn = (ImageButton) findViewById(R.id.ib_confirm_btn);
-//        confirmBtn.setOnClickListener(this);
+        ImageButton confirmBtn = (ImageButton) findViewById(R.id.ib_confirm_btn);
+        confirmBtn.setOnClickListener(this);
 
     }
 
@@ -166,7 +172,14 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
                 if(mTitle.getText().toString().length() == 0) {
                     Toast.makeText(getApplicationContext(), "저장할 설정의 이름이 입력되지 않았습니다. 입력후 다시 확인을 선택해 주십시오!", Toast.LENGTH_SHORT).show();
                 } else {
-                    DBUtil.insertDB(getApplicationContext(), mTitle.getText().toString(), Utility.getCurrentDateTime(), mParam, mResp);
+                signal1 = "101"+" "+ Sound.getInstance().getTempIsOn()+" "+Sound.getInstance().getTempDriveType()+" "+Sound.getInstance().getTempVolume()+" "
+                        +Sound.getInstance().getTempBackVolume()+" "+Sound.getInstance().getTempBackSensitive()+ " "+
+                        Drive.getInstance().getTempIsOn()+" "+Drive.getInstance().getTempStiffness()+" "+Drive.getInstance().getTempReducer();
+                signal2 = Transmission.getInstance().getTempIsOn()+" "+Transmission.getInstance().getTempType()+" "+Transmission.getInstance().getTempGear()+" "+
+                        Transmission.getInstance().getTempGearRate()+" "+Transmission.getInstance().getTempTransmissionSpeed()+" "+Transmission.getInstance().getTempTransmissionPower()+" "+
+                        Transmission.getInstance().getTempTransmissionMap();
+
+                    DBUtil.insertDB(getApplicationContext(), mTitle.getText().toString(), Utility.getCurrentDateTime(), signal1, signal2);
 
 /*
                     try {

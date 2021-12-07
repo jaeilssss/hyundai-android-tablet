@@ -73,18 +73,18 @@ public class Obd2DBOpenHelper {
 	 *
 	 * @param title - title
 	 * @param date - date
-	 * @param param - param for 7 parameters
-	 * @param resp - resp for 5 response value
+	 * @param signal1 - param for 7 parameters
+	 * @param signal2 - resp for 5 response value
      * @return
      */
-	public long insert(String title, String date, String param, String resp) {
+	public long insert(String title, String date, String signal1, String signal2) {
 		
 		ContentValues values = new ContentValues();
 
 		values.put(Obd2Database.CreateDB.TITLE, title);
 		values.put(Obd2Database.CreateDB.DATE, date);
-		values.put(Obd2Database.CreateDB.PARAM, param);
-		values.put(Obd2Database.CreateDB.RESP, resp);
+		values.put(Obd2Database.CreateDB.SIGNAL1, signal1);
+		values.put(Obd2Database.CreateDB.SIGNAL1, signal2);
 
 		return mDB.insert(Obd2Database.CreateDB._TABLENAME, null, values);
 	}
@@ -102,8 +102,8 @@ public class Obd2DBOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(Obd2Database.CreateDB.TITLE, title);
-        values.put(Obd2Database.CreateDB.PARAM, param);
-        values.put(Obd2Database.CreateDB.RESP, resp);
+        values.put(Obd2Database.CreateDB.SIGNAL1, param);
+        values.put(Obd2Database.CreateDB.SIGNAL2, resp);
 
         return mDB.insert(Obd2Database.CreateDB._TABLENAME_MODE, null, values);
     }

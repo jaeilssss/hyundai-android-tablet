@@ -39,7 +39,7 @@ public class MyFavoriteRecyclerAdapter extends RecyclerView.Adapter<MyFavoriteRe
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return 10;
     }
     public class MyFavoriteRecyclerViewHolder extends RecyclerView.ViewHolder{
 

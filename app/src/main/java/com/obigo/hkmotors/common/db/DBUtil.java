@@ -32,15 +32,15 @@ public class DBUtil {
 	 * @param context - context
 	 * @param title - title
 	 * @param date - date : "2017.10.11 13:40"
-	 * @param param - param for 7 parameters : "78:5:3:4:89:120:23"
-	 * @param resp - resp for 5 response values : "3.4:2.1:3.3:2.4:5.0"
+	 * @param signal1 - param for 7 parameters : "78:5:3:4:89:120:23"
+	 * @param signal2 - resp for 5 response values : "3.4:2.1:3.3:2.4:5.0"
 	 */
-	public static void insertDB(Context context, String title, String date, String param, String resp) {
+	public static void insertDB(Context context, String title, String date, String signal1, String signal2) {
 		Obd2DBOpenHelper mHelper = new Obd2DBOpenHelper(context);
 		mHelper.open();
 
 		//create the field of table
-		mHelper.insert(title, date, param, resp);
+		mHelper.insert(title, date, signal1, signal2);
 		mHelper.close();
 	}
 
