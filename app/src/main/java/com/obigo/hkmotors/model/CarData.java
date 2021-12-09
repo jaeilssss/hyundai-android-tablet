@@ -12,12 +12,27 @@ public class CarData {
     private float performance;    // 동력성능
 
 
-    private float tempComfortable;
-    private float tempLeading;
-    private float tempDynamic;
-    private float tempEfficiency;
-    private float tempPerformance;
+       float tempComfortable;
+     float tempLeading;
+     float tempDynamic;
+     float tempEfficiency;
+     float tempPerformance;
 
+
+     public void setTempEVMode(){
+        tempComfortable = 7;
+        tempLeading = 2;
+        tempDynamic = 4;
+        tempEfficiency = 8;
+        tempPerformance = 8;
+     }
+     public void setEVMode(){
+         comfortable = 7;
+         leading = 2;
+         dynamic = 4;
+         efficiency = 8;
+         performance = 8;
+     }
     public float getTempComfortable() {
         return tempComfortable;
     }

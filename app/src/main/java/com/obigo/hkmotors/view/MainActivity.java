@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.DropBoxManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -50,6 +52,7 @@ import com.obigo.hkmotors.common.pref.SharedPreference;
 import com.obigo.hkmotors.common.service.ObdService;
 import com.obigo.hkmotors.model.CarData;
 import com.obigo.hkmotors.model.Drive;
+import com.obigo.hkmotors.model.FavoriteData;
 import com.obigo.hkmotors.model.FavoriteDataListItems;
 import com.obigo.hkmotors.model.Sound;
 import com.obigo.hkmotors.model.TempTransmission;
@@ -287,6 +290,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private  ImageButton resetBtn;
     private ImageButton carSend;
     private ImageButton saveBtn;
+
+    private Button commercial;
+    private Button ev;
+    private Button vip;
+    private Button sport;
+    private Button passenger;
+
+    private ArrayList<FavoriteData> recommentList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -301,7 +312,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mContext = this;
 
         // 추천모드 리스트
-        dataListItems = modeListDatabase();
+        recommentList = modeListDatabase();
 
         // UI 초기화
         initUI();
@@ -549,12 +560,205 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 // progressbar dialog confirm
                 dismissProgressDialog();
                 break;
+            case R.id.rcdation_ev :
 
+                clickRecomment(0);
+                break;
+
+            case R.id.rcdation_vip :
+
+                clickRecomment(1);
+                break;
+            case R.id.rcdation_passenger :
+
+                clickRecomment(2);
+                break;
+
+            case R.id.rcdation_sport :
+                clickRecomment(3);
+                break;
+            case R.id.rcdation_commercial :
+
+                clickRecomment(4);
+
+                break;
             default:
                 break;
         }
     }
 
+    public void clickRecomment(int index){
+        String signal1 = recommentList.get(index).getSignal1();
+        String signal2 = recommentList.get(index).getSignal2();
+
+        String [] signal1Array = signal1.split(" ");
+        String [] signal2Array = signal2.split(" ");
+
+        if(signal1Array[1].equals("1")){
+            Sound.getInstance().setTempIsOn("1");
+
+        }else {
+            Sound.getInstance().setTempIsOn("0");
+
+        }
+        if(signal1Array[2].equals("1")){
+            Sound.getInstance().setTempDriveType("1");
+        }else{
+            Sound.getInstance().setTempDriveType("0");
+        }
+
+        if(signal1Array[3].equals("00")){
+            Sound.getInstance().setTempVolume("00");
+        }else if(signal1Array[3].equals("01")){
+            Sound.getInstance().setTempVolume("01");
+        }else{
+            Sound.getInstance().setTempVolume("10");
+        }
+
+        if(signal1Array[4].equals("00")){
+            Sound.getInstance().setTempBackVolume("00");
+        }else if(signal1Array[4].equals("01")){
+            Sound.getInstance().setTempBackVolume("01");
+        }else if(signal1Array[4].equals("10")) {
+            Sound.getInstance().setTempBackVolume("10");
+        }else{
+            Sound.getInstance().setTempBackVolume("11");
+        }
+
+        if(signal1Array[5].equals("1")){
+            Sound.getInstance().setTempBackSensitive("1");
+        }else{
+            Sound.getInstance().setTempBackSensitive("0");
+        }
+
+        if(signal1Array[6].equals("1")){
+            Drive.getInstance().setTempIsOn("1");
+        }else{
+            Drive.getInstance().setTempIsOn("0");
+        }
+
+        if(signal1Array[7].equals("00")){
+            Drive.getInstance().setTempStiffness("00");
+        }else if(signal1Array[7].equals("01")){
+            Drive.getInstance().setTempStiffness("01");
+        }else{
+            Drive.getInstance().setTempStiffness("10");
+        }
+
+        if(signal1Array[8].equals("00")){
+            Drive.getInstance().setTempReducer("00");
+        }else if(signal1Array[8].equals("01")){
+            Drive.getInstance().setTempReducer("01");
+        }else{
+            Drive.getInstance().setTempReducer("10");
+        }
+
+        if(signal2Array[0].equals("1")){
+            Transmission.getInstance().setTempIsOn("1");
+        }else{
+            Transmission.getInstance().setTempIsOn("0");
+        }
+
+        if(signal2Array[1].equals("00")){
+            Transmission.getInstance().setTempType("00");
+        }else if(signal2Array[1].equals("01")){
+            Transmission.getInstance().setTempType("01");
+        }else {
+            Transmission.getInstance().setTempType("10");
+        }
+
+        if(signal2Array[2].equals("000")){
+            Transmission.getInstance().setTempGear("000");
+        }else if(signal2Array[2].equals("001")){
+            Transmission.getInstance().setTempGear("001");
+        }else if(signal2Array[2].equals("010")){
+            Transmission.getInstance().setTempGear("010");
+        }else if(signal2Array[2].equals("011")){
+            Transmission.getInstance().setTempGear("011");
+        }else{
+            Transmission.getInstance().setTempGear("100");
+        }
+
+        if(signal2Array[3].equals("00")){
+            Transmission.getInstance().setTempGearRate("00");
+        }else if(signal2Array[3].equals("01")){
+            Transmission.getInstance().setTempGearRate("01");
+        }else{
+            Transmission.getInstance().setTempGearRate("10");
+        }
+
+        if(signal2Array[4].equals("00")){
+            Transmission.getInstance().setTempTransmissionSpeed("00");
+        }else if(signal2Array[4].equals("01")){
+            Transmission.getInstance().setTempTransmissionSpeed("01");
+        }else{
+            Transmission.getInstance().setTempTransmissionSpeed("10");
+        }
+
+        if(signal2Array[5].equals("00")){
+            Transmission.getInstance().setTempTransmissionPower("00");
+        }else if(signal2Array.equals("01")){
+            Transmission.getInstance().setTempTransmissionPower("01");
+        }else{
+            Transmission.getInstance().setTempTransmissionPower("10");
+        }
+
+        if(signal2Array[6].equals("00")){
+
+            Transmission.getInstance().setTempTransmissionMap("00");
+        }else if(signal2Array[6].equals("01")){
+
+            Transmission.getInstance().setTempTransmissionMap("01");
+        }else{
+
+            Transmission.getInstance().setTempTransmissionMap("10");
+        }
+
+
+        if(Constants.OBD_INITIALIZED){
+        if(Transmission.getInstance().getTempIsOn().equals("0") &&
+            Sound.getInstance().getTempIsOn().equals("0") &&
+            Drive.getInstance().getTempIsOn().equals("0")){
+            CarData.getInstance().setTempEVMode();
+
+        }else{
+            CarData.getInstance().setTempComfortable();
+            CarData.getInstance().setTempDynamic();
+            CarData.getInstance().setTempEfficiency();
+            CarData.getInstance().setTempLeading();
+            CarData.getInstance().setTempPerformance();
+        }
+
+
+
+            modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),
+                    CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
+                    CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
+                    CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+
+        }else{
+            // 이거 어떻게 해야할까? 만약 연결 되어 있지 않다면 ....
+            if(Transmission.getInstance().getTempIsOn().equals("0") &&
+                    Sound.getInstance().getTempIsOn().equals("0") &&
+                    Drive.getInstance().getTempIsOn().equals("0")){
+                CarData.getInstance().setTempEVMode();
+
+            }else{
+                CarData.getInstance().setTempComfortable();
+                CarData.getInstance().setTempDynamic();
+                CarData.getInstance().setTempEfficiency();
+                CarData.getInstance().setTempLeading();
+                CarData.getInstance().setTempPerformance();
+            }
+
+            modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),
+                    CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
+                    CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
+                    CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+        }
+
+
+    }
     /**
      * Handler about the result of OBDII
      */
@@ -2241,7 +2445,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 //
                 if(!isChecked) {
                     mModeValue = Constants.MODE_EXPERT;
-                    defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
+//                    defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
                 } else {
                     mModeValue = Constants.MODE_RCDATION;
                 }
@@ -2255,7 +2459,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         Log.d(TAG, " ================= OBD Status 변경 :: " + Constants.OBD_STATUS);
         setOBDMode(Constants.OBD_STATUS);
 
-
+        vip = findViewById(R.id.rcdation_vip);
+        vip.setOnClickListener(this);
+        ev = findViewById(R.id.rcdation_ev);
+        ev.setOnClickListener(this);
+        passenger = findViewById(R.id.rcdation_passenger);
+        passenger.setOnClickListener(this);
+        sport = findViewById(R.id.rcdation_sport);
+        sport.setOnClickListener(this);
+        commercial = findViewById(R.id.rcdation_commercial);
+        commercial.setOnClickListener(this);
     }
 
     // =============================================================================================
@@ -3040,7 +3253,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             }, 1000);
 
             // 추천모드 실행
-            modeInit(dataListItems.get(Constants.MODE_STATUS));
+//            modeInit(recommentList.get(Constants.MODE_STATUS));
 
         } else if(mode.equals(Constants.MODE_EXPERT)) {
             mLayoutExpert.setVisibility(View.VISIBLE);
@@ -3112,45 +3325,78 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
 
-    private ArrayList<FavoriteDataListItems> modeListDatabase() {
+    private ArrayList<FavoriteData> modeListDatabase() {
 
         Obd2DBOpenHelper helper = new Obd2DBOpenHelper(getApplicationContext());
 
-        ArrayList<FavoriteDataListItems> list = new ArrayList<>();
+        ArrayList<FavoriteData> list = new ArrayList<>();
         helper.open();
         Cursor cursor = helper.getModeAll();
+
 
         // 추천모드 초기에 데이터가 없는 경우 호출
         if(helper.getModeRowCount() == 0) {
             // 초기값 팅
-            // 산악
-            String param = "100:3:5:4:2:60:1";
-            String resp = "5.0:3.0:5.0:1.0:2.88";
-            DBUtil.insertModeDB(getApplicationContext(),"산악", param, resp);
-            // 해변가
-            String param2 = "90:3:3:3:2:80:2";
-            String resp2 = "4.0:3.0:3.0:3.0:2.88";
-            DBUtil.insertModeDB(getApplicationContext(),"해변가", param2, resp2);
-            // 실버
-            String param3 = "60:1:5:4:2:60:0";
-            String resp3 = "1.0:1.0:5.0:2.0:3.75";
-            DBUtil.insertModeDB(getApplicationContext(),"실버", param3, resp3);
-            // 도심
-            String param4 = "100:5:5:4:1:120:2";
-            String resp4 = "1.0:5.0:5.0:5.0:2.5";
-            DBUtil.insertModeDB(getApplicationContext(),"도심", param4, resp4);
+
+            //EV Mode
+            String evSignal1 = "000 0 0 00 00 0 0 00 00";
+            String evSignal2 = "0 00 000 00 00 00 00";
+            DBUtil.insertModeDB(getApplicationContext(),"EV",evSignal1,evSignal2);
+
+            FavoriteData data = new FavoriteData();
+            data.setSignal2(evSignal2);
+            data.setSignal1(evSignal1);
+            data.setTitle("EV");
+            list.add(data);
+            // VIP
+            String vipSignal1 = "001 0 0 00 00 0 1 00 10 ";
+            String vipSignal2 = "1 01 010 00 10 10 01";
+            DBUtil.insertModeDB(getApplicationContext(),"VIP", vipSignal1, vipSignal2);
+             data = new FavoriteData();
+            data.setSignal2(vipSignal2);
+            data.setSignal1(vipSignal1);
+            data.setTitle("VIP");
+            list.add(data);
+            // Passenger
+            String passengerSignal1 = "010 1 1 00 00 0 1 01 01";
+            String passengerSignal2 = "1 00 011 01 00 00 00";
+            DBUtil.insertModeDB(getApplicationContext(),"Passenger", passengerSignal1, passengerSignal2);
+            data = new FavoriteData();
+            data.setSignal2(passengerSignal2);
+            data.setSignal1(passengerSignal1);
+            data.setTitle("Passenger");
+            list.add(data);
+            // Sport
+            String sportSignal1 = "011 1 1 10 11 1 1 10 01";
+            String sportSignal2 = "1 01 010 00 10 10 01";
+            DBUtil.insertModeDB(getApplicationContext(),"Sport", sportSignal1, sportSignal2);
+            data = new FavoriteData();
+            data.setSignal2(sportSignal2);
+            data.setSignal1(sportSignal1);
+            data.setTitle("Sport");
+            list.add(data);
+            // Commercial
+            String commercialSignal1 = "100 1 1 01 00 0 1 01 00";
+            String commercialSignal2 = "1 10 001 10 01 10 00";
+            DBUtil.insertModeDB(getApplicationContext(),"Commercial", commercialSignal1, commercialSignal2);
+            data = new FavoriteData();
+            data.setSignal2(commercialSignal2);
+            data.setSignal1(commercialSignal1);
+            data.setTitle("Commercial");
+            list.add(data);
         }
 
         for(int i=0; i < cursor.getCount(); i ++) {
             cursor.moveToNext();
 
-            FavoriteDataListItems items = new FavoriteDataListItems();
-            items.setId(String.valueOf(cursor.getInt(0)));
+            FavoriteData items = new FavoriteData();
             items.setTitle(cursor.getString(1));
-            items.setParam(cursor.getString(2));
-            items.setResp(cursor.getString(3));
-
+            items.setSignal1(cursor.getString(2));
+            items.setSignal2(cursor.getString(3));
             list.add(items);
+            System.out.println(items.getTitle());
+            System.out.println(items.getSignal1());
+            System.out.println(items.getSignal2());
             // mListAdapter.addItem(items);  // unique id
         }
 

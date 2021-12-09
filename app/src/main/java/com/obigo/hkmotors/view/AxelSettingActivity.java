@@ -62,7 +62,8 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
 
     private ImageView back;
 
-
+    private ImageView obdLight;
+    private ImageButton obdState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,21 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
         send.setOnClickListener(this);
 
         setSettingValue();
+
+        obdState = findViewById(R.id.ib_obd_set_btn);
+        obdLight = findViewById(R.id.iv_favorite_light);
+
+        if(Constants.OBD_INITIALIZED){
+            obdLight.setBackgroundResource(R.drawable.ico_light_green);
+            obdState.setBackgroundResource(R.drawable.img_tit_04);
+
+        }else{
+            obdLight.setBackgroundResource(R.drawable.ico_light_red);
+            obdState.setBackgroundResource(R.drawable.img_tit_03);
+
+        }
+
+
     }
 
     private void defaultChart(float d1, float d2, float d3, float d4, float d5) {

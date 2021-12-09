@@ -94,6 +94,9 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
     private int tempEfficiency;
     private int tempPerformance;
 
+
+    private ImageView obdLight;
+    private ImageButton obdState;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,6 +219,19 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         send = findViewById(R.id.ib_e_send_btn);
         send.setOnClickListener(this);
         setSettingValue();
+
+        obdState = findViewById(R.id.ib_obd_set_btn);
+        obdLight = findViewById(R.id.iv_favorite_light);
+
+        if(Constants.OBD_INITIALIZED){
+            obdLight.setBackgroundResource(R.drawable.ico_light_green);
+            obdState.setBackgroundResource(R.drawable.img_tit_04);
+
+        }else{
+            obdLight.setBackgroundResource(R.drawable.ico_light_red);
+            obdState.setBackgroundResource(R.drawable.img_tit_03);
+
+        }
     }
 
     private void setSettingValue(){
@@ -232,15 +248,24 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
             }
 
             if(Transmission.getInstance().getTempGear().equals("000")){
-                gearCountSeekBar.setProgress(1);
+                gearCountSeekBar.setProgress(0);
+                seekBarCountTxt.setText("4");
+
             }else if(Transmission.getInstance().getTempGear().equals("001")){
-                gearCountSeekBar.setProgress(2);
+                gearCountSeekBar.setProgress(1);
+                seekBarCountTxt.setText("5");
+
             }else if(Transmission.getInstance().getTempGear().equals("010")){
-                gearCountSeekBar.setProgress(3);
+                gearCountSeekBar.setProgress(2);
+                seekBarCountTxt.setText("6");
             }else if(Transmission.getInstance().getTempGear().equals("011")){
-                gearCountSeekBar.setProgress(4);
+                gearCountSeekBar.setProgress(3);
+                seekBarCountTxt.setText("7");
+
             }else{
-                gearCountSeekBar.setProgress(5);
+                gearCountSeekBar.setProgress(4);
+                seekBarCountTxt.setText("8");
+
             }
 
             if(Transmission.getInstance().getTempGearRate().equals("00")){

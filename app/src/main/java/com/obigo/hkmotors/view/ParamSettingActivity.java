@@ -179,6 +179,7 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
                         Transmission.getInstance().getTempGearRate()+" "+Transmission.getInstance().getTempTransmissionSpeed()+" "+Transmission.getInstance().getTempTransmissionPower()+" "+
                         Transmission.getInstance().getTempTransmissionMap();
 
+                Toast.makeText(getApplicationContext(),signal2,Toast.LENGTH_SHORT).show();
                     DBUtil.insertDB(getApplicationContext(), mTitle.getText().toString(), Utility.getCurrentDateTime(), signal1, signal2);
 
 /*

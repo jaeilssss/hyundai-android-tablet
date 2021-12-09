@@ -3,6 +3,24 @@ package com.obigo.hkmotors.model;
 public class FavoriteData {
     String title;
     String date;
+    String signal1;
+    String signal2;
+
+    public String getSignal1() {
+        return signal1;
+    }
+
+    public void setSignal1(String signal1) {
+        this.signal1 = signal1;
+    }
+
+    public String getSignal2() {
+        return signal2;
+    }
+
+    public void setSignal2(String signal2) {
+        this.signal2 = signal2;
+    }
 
     public String getTitle() {
         return title;

@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import com.obigo.hkmotors.R;
 import com.obigo.hkmotors.adapter.FavoriteExpendableListViewAdapter;
 import com.obigo.hkmotors.adapter.MyFavoriteRecyclerAdapter;
 import com.obigo.hkmotors.common.Constants;
+import com.obigo.hkmotors.common.OnItemClickListener;
 import com.obigo.hkmotors.common.Utility;
 import com.obigo.hkmotors.common.db.DBUtil;
 import com.obigo.hkmotors.common.db.data.Obd2Database;
@@ -57,6 +59,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     private static final String TAG = "FavoriteActivity";
 
+    private ArrayList<FavoriteData> FavoriteList = new ArrayList<>();
     private ImageView favoriteObdLight;
     private ImageButton obdSetBtn;
 
@@ -94,6 +97,38 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private RadarChart chart;
     private RecyclerView rcv;
 
+    // 변속기 Transmission
+    private TextView transmissionIsOn;
+    private TextView transmissionType;
+    private TextView transmissionGear;
+    private TextView transmissionGearRate;
+    private TextView transmissionSpeed;
+    private TextView transmissionPower;
+    private TextView transmissionMap;
+
+
+    // 구동축 Drive
+    private TextView driveIsOn;
+    private TextView driveStiffness;
+    private TextView driveReducer;
+
+    // 음향 Sound
+
+    private TextView soundIsOn;
+    private TextView soundDriveType;
+    private TextView soundVolume;
+    private TextView soundBackVolume;
+    private TextView soundBackSensitive;
+
+
+    private LinearLayout driveLayout;
+    private LinearLayout transmissionLayout;
+    private LinearLayout soundLayout;
+
+
+    private ImageButton obdState;
+    private ImageView obdLight;
+
     private MyFavoriteRecyclerAdapter adapter ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,15 +156,202 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         Log.d(TAG, " ================= OBD Status 변경 :: " + Constants.OBD_STATUS);
 //        setOBDMode(Constants.OBD_STATUS);
 //        setOBDInitialized(Constants.OBD_INITIALIZED);
-
+        addDataFromDatabase();
         rcv = findViewById(R.id.favorite_rcv);
-        adapter = new MyFavoriteRecyclerAdapter(new ArrayList<FavoriteData>());
+        adapter = new MyFavoriteRecyclerAdapter(FavoriteList);
         rcv.setAdapter(adapter);
         rcv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter.setOnItemClickListener(new OnItemClickListener(){
+            @Override
+            public void onItemClick(View v, int position) {
+            setDetailData(position);
+
+            }
+        });
+
+
+        // 변속기 Transmission
+         transmissionIsOn = findViewById(R.id.favorite_transmission_is_on);
+        transmissionType = findViewById(R.id.favorite_transmission_type);
+        transmissionGear = findViewById(R.id.favorite_transmission_gear);
+        transmissionGearRate = findViewById(R.id.favorite_transmission_gear_rate);
+        transmissionSpeed = findViewById(R.id.favorite_transmission_speed);
+        transmissionPower = findViewById(R.id.favorite_transmission_power);
+        transmissionMap = findViewById(R.id.favorite_transmission_map);
+        transmissionLayout = findViewById(R.id.transmission_layout);
+
+
+        // 구동축 Drive
+        driveIsOn = findViewById(R.id.favorite_drive_is_on);
+        driveStiffness = findViewById(R.id.favorite_drive_stiffness);
+        driveReducer = findViewById(R.id.favorite_drive_reducer);
+        driveLayout = findViewById(R.id.drive_layout);
+
+        // 음향 Sound
+
+        soundIsOn = findViewById(R.id.favorite_sound_is_on);
+        soundDriveType = findViewById(R.id.favorite_sound_type);
+        soundVolume = findViewById(R.id.favorite_sound_volume);
+         soundBackVolume = findViewById(R.id.favorite_sound_back_volume);
+       soundBackSensitive = findViewById(R.id.favorite_sound_back_sensitive);
+       soundLayout = findViewById(R.id.sound_layout);
+        if(!FavoriteList.isEmpty()){
+            setDetailData(0);
+        }
+
+
+        obdState = findViewById(R.id.ib_obd_set_btn);
+        obdLight = findViewById(R.id.iv_favorite_light);
+
+        if(Constants.OBD_INITIALIZED){
+            obdLight.setBackgroundResource(R.drawable.ico_light_green);
+            obdState.setBackgroundResource(R.drawable.img_tit_04);
+
+        }else{
+            obdLight.setBackgroundResource(R.drawable.ico_light_red);
+            obdState.setBackgroundResource(R.drawable.img_tit_03);
+
+        }
+
 
     }
 
 
+    public void setDetailData(int index){
+        String signal1 = FavoriteList.get(index).getSignal1();
+        String signal2 = FavoriteList.get(index).getSignal2();
+
+        String [] signal1Array = signal1.split(" ");
+        String [] signal2Array = signal2.split(" ");
+
+        if(signal1Array[1].equals("1")){
+            soundIsOn.setText("ON");
+           soundLayout.setVisibility(View.VISIBLE);
+
+        }else {
+            soundIsOn.setText("OFF");
+            soundLayout.setVisibility(View.GONE);
+
+        }
+        if(signal1Array[2].equals("1")){
+            soundDriveType.setText("엔진");
+        }else{
+            soundDriveType.setText("모터");
+        }
+
+        if(signal1Array[3].equals("00")){
+            soundVolume.setText("소");
+        }else if(signal1Array[3].equals("01")){
+            soundVolume.setText("중");
+        }else{
+            soundVolume.setText("대");
+        }
+
+        if(signal1Array[4].equals("00")){
+            soundBackVolume.setText("OFF");
+        }else if(signal1Array[4].equals("01")){
+            soundBackVolume.setText("소");
+        }else if(signal1Array[4].equals("10")) {
+            soundBackVolume.setText("중");
+        }else{
+            soundBackVolume.setText("대");
+        }
+
+        if(signal1Array[5].equals("1")){
+            soundBackSensitive.setText("고");
+        }else{
+            soundBackSensitive.setText("저");
+        }
+
+        if(signal1Array[6].equals("1")){
+            driveIsOn.setText("On");
+            driveLayout.setVisibility(View.VISIBLE);
+        }else{
+            driveIsOn.setText("OFF");
+            driveLayout.setVisibility(View.GONE);
+        }
+
+        if(signal1Array[7].equals("00")){
+            driveStiffness.setText("하");
+        }else if(signal1Array[7].equals("01")){
+            driveStiffness.setText("중");
+        }else{
+            driveStiffness.setText("상");
+        }
+
+        if(signal1Array[8].equals("00")){
+            driveReducer.setText("하");
+        }else if(signal1Array[8].equals("01")){
+            driveReducer.setText("중");
+        }else{
+            driveReducer.setText("상");
+        }
+
+        if(signal2Array[0].equals("1")){
+            transmissionIsOn.setText("ON");
+            transmissionLayout.setVisibility(View.VISIBLE);
+        }else{
+            transmissionIsOn.setText("OFF");
+            transmissionLayout.setVisibility(View.GONE);
+        }
+
+        if(signal2Array[1].equals("00")){
+            transmissionType.setText("AT");
+        }else if(signal2Array[1].equals("01")){
+            transmissionType.setText("DCT");
+        }else {
+            transmissionType.setText("AMT");
+        }
+
+        if(signal2Array[2].equals("000")){
+            transmissionGear.setText("4");
+        }else if(signal2Array[2].equals("001")){
+            transmissionGear.setText("5");
+        }else if(signal2Array[2].equals("010")){
+            transmissionGear.setText("6");
+        }else if(signal2Array[2].equals("011")){
+            transmissionGear.setText("7");
+        }else{
+            transmissionGear.setText("8");
+        }
+
+        if(signal2Array[3].equals("00")){
+            transmissionGearRate.setText("Short");
+        }else if(signal2Array[3].equals("01")){
+            transmissionGearRate.setText("Default");
+        }else{
+            transmissionGearRate.setText("Long");
+        }
+
+        if(signal2Array[4].equals("00")){
+            transmissionSpeed.setText("하");
+        }else if(signal2Array[4].equals("01")){
+            transmissionSpeed.setText("중");
+        }else{
+            transmissionSpeed.setText("상");
+        }
+
+        if(signal2Array[5].equals("00")){
+            transmissionPower.setText("하");
+        }else if(signal2Array.equals("01")){
+            transmissionPower.setText("중");
+        }else{
+            transmissionPower.setText("상");
+        }
+
+        if(signal2Array[6].equals("00")){
+            transmissionMap.setText("Normal");
+        }else if(signal2Array[6].equals("01")){
+            transmissionMap.setText("Sport");
+        }else{
+            transmissionMap.setText("Track");
+        }
+
+
+
+
+
+    }
     @Override
     protected void onResume() {
         //Constants.DISPLAY_MODE = "FAVORITE";
@@ -419,17 +641,26 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         Obd2DBOpenHelper helper = new Obd2DBOpenHelper(getApplicationContext());
         helper.open();
         Cursor cursor = helper.getAll();
+
         for(int i=0; i < cursor.getCount(); i ++) {
             cursor.moveToNext();
 
-            FavoriteDataListItems items = new FavoriteDataListItems();
-            items.setId(String.valueOf(cursor.getInt(Obd2Database.CreateDB.ID_IDX)));
-            items.setDate(cursor.getString(Obd2Database.CreateDB.DATE_IDX));
-            items.setTitle(cursor.getString(Obd2Database.CreateDB.TITLE_IDX));
-            items.setParam(cursor.getString(Obd2Database.CreateDB.PARAM_IDX));
-            items.setResp(cursor.getString(Obd2Database.CreateDB.RESP_IDX));
-            items.setChecked(false);
-            mListAdapter.addItem(items);  // unique id
+//            FavoriteDataListItems items = new FavoriteDataListItems();
+//            items.setId(String.valueOf(cursor.getInt(Obd2Database.CreateDB.ID_IDX)));
+//            items.setDate(cursor.getString(Obd2Database.CreateDB.DATE_IDX));
+//            items.setTitle(cursor.getString(Obd2Database.CreateDB.TITLE_IDX));
+//            items.setParam(cursor.getString(Obd2Database.CreateDB.PARAM_IDX));
+//            items.setResp(cursor.getString(Obd2Database.CreateDB.RESP_IDX));
+//            items.setChecked(false);
+//            mListAdapter.addItem(items);  // unique id
+
+
+            FavoriteData data = new FavoriteData();
+            data.setTitle(cursor.getString(Obd2Database.CreateDB.TITLE_IDX));
+            data.setDate(cursor.getString(Obd2Database.CreateDB.DATE_IDX));
+            data.setSignal1(cursor.getString(Obd2Database.CreateDB.SIGNAL1_IDX));
+            data.setSignal2(cursor.getString(Obd2Database.CreateDB.SIGNAL2_IDX));
+            FavoriteList.add(data);
 
         }
 

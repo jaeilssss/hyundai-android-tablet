@@ -84,7 +84,7 @@ public class Obd2DBOpenHelper {
 		values.put(Obd2Database.CreateDB.TITLE, title);
 		values.put(Obd2Database.CreateDB.DATE, date);
 		values.put(Obd2Database.CreateDB.SIGNAL1, signal1);
-		values.put(Obd2Database.CreateDB.SIGNAL1, signal2);
+		values.put(Obd2Database.CreateDB.SIGNAL2, signal2);
 
 		return mDB.insert(Obd2Database.CreateDB._TABLENAME, null, values);
 	}

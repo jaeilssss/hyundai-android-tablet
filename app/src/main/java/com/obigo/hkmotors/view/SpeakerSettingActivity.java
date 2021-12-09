@@ -67,6 +67,8 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
     private ImageView back;
 
+    private ImageButton obdState;
+    private ImageView obdLight;
 
 
     @Override
@@ -173,6 +175,19 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         send = findViewById(R.id.speaker_data_send);
         send.setOnClickListener(this);
         setSettingValue();
+
+        obdLight = findViewById(R.id.iv_favorite_light);
+        obdState = findViewById(R.id.ib_obd_set_btn);
+
+        if(Constants.OBD_INITIALIZED){
+            obdLight.setBackgroundResource(R.drawable.ico_light_green);
+            obdState.setBackgroundResource(R.drawable.img_tit_04);
+
+        }else{
+            obdLight.setBackgroundResource(R.drawable.ico_light_red);
+            obdState.setBackgroundResource(R.drawable.img_tit_03);
+
+        }
 
     }
 

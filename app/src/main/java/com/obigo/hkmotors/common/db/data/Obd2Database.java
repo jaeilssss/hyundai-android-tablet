@@ -16,8 +16,8 @@ public final class Obd2Database {
         public static final int TITLE_IDX 		    = 1;
         public static final int DATE_IDX 		    = 2;
 
-        public static final int PARAM_IDX 	        = 3;
-        public static final int RESP_IDX 		    = 4;
+        public static final int SIGNAL1_IDX 	        = 3;
+        public static final int SIGNAL2_IDX 		    = 4;
 
         public static final String TITLE 		    = "title";
         public static final String DATE       		= "date";
