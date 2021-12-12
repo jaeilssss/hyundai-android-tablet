@@ -67,6 +67,7 @@ public class TempTransmission {
         this.transmissionMap = transmissionMap;
     }
 
+
     public static synchronized TempTransmission getInstance() {
         if(transmission == null) {
             transmission = new TempTransmission();

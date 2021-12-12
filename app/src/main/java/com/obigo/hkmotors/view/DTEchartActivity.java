@@ -30,6 +30,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
@@ -319,7 +320,7 @@ public class DTEchartActivity extends BaseActivity implements View.OnClickListen
             set = new BarDataSet(entries, "");
             set.setStackLabels(new String[]{"MIN", "CUSTOM", "MAX"});
 
-            set.setValueFormatter(new IValueFormatter() {
+            set.setValueFormatter(new ValueFormatter() {
                 float TotalData = 0.0f;
                 float data = 0.0f;
                 int xAxisCnt = 0;
@@ -420,7 +421,7 @@ public class DTEchartActivity extends BaseActivity implements View.OnClickListen
         mStackedBarChart.getXAxis().setDrawGridLines(false);
 
         mStackedBarChart.getXAxis().setLabelCount(5, false);
-        mStackedBarChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+        mStackedBarChart.getXAxis().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
 
@@ -450,7 +451,7 @@ public class DTEchartActivity extends BaseActivity implements View.OnClickListen
         mCandleStickChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         mCandleStickChart.getXAxis().setLabelCount(5, false);
 
-        mCandleStickChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+        mCandleStickChart.getXAxis().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
 

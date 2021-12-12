@@ -32,7 +32,7 @@
                 android:id="@+id/ib_favorite_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="변속기 설정"
+                android:text="음향 설정"
                 android:textSize="18dp"
                 android:textColor="@color/white"/>
 

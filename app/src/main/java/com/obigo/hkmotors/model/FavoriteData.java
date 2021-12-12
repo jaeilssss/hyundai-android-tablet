@@ -1,10 +1,19 @@
 package com.obigo.hkmotors.model;
 
 public class FavoriteData {
+    int data;
     String title;
     String date;
     String signal1;
     String signal2;
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
+    }
 
     public String getSignal1() {
         return signal1;

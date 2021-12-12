@@ -33,6 +33,8 @@ import android.widget.ToggleButton;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -40,6 +42,8 @@ import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.obigo.hkmotors.R;
@@ -366,11 +370,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         CarData.getInstance().setEfficiency();
         CarData.getInstance().setLeading();
         CarData.getInstance().setPerformance();
-        System.out.println("오오오"+CarData.getInstance().getComfortable());
 
+        CarData.getInstance().setTempComfortable();
+        CarData.getInstance().setTempDynamic();
+        CarData.getInstance().setTempEfficiency();
+        CarData.getInstance().setTempLeading();
+        CarData.getInstance().setTempPerformance();
         defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
                 CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
                 CarData.getInstance().getPerformance());
+
     }
 
     @Override
@@ -474,8 +483,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             //case R.id.ib_g_reset_btn:
             case R.id.ib_e_reset_btn:
 
-
-
                 if(Constants.OBD_STATUS == true) {
                     mObdsv.initializeParam();
                 }
@@ -493,7 +500,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
                         CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
                         CarData.getInstance().getPerformance());
-
 
 //                // set second default value : 0
 //                mPref.setSDResponse(0);
@@ -2445,9 +2451,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 //
                 if(!isChecked) {
                     mModeValue = Constants.MODE_EXPERT;
-//                    defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
+
+                    defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getInstance().getDynamic(),
+                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance());
+                    Transmission.getInstance().reset();
+                    Sound.getInstance().reset();
+                    Drive.getInstance().reset();
                 } else {
                     mModeValue = Constants.MODE_RCDATION;
+
+                    defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getInstance().getDynamic(),
+                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance());
+                    Transmission.getInstance().reset();
+                    Sound.getInstance().reset();
+                    Drive.getInstance().reset();
                 }
                 setParamMode(mModeValue);
             }
@@ -2481,9 +2498,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         if(switchFlag) {
             obdSetBtn.setBackgroundResource(R.drawable.img_tit_04);
+            mainObdLight.setBackgroundResource(R.drawable.ico_light_green);
             Constants.OBD_STATUS = true;
         } else {
             obdSetBtn.setBackgroundResource(R.drawable.img_tit_03);
+            mainObdLight.setBackgroundResource(R.drawable.ico_light_red);
             Constants.OBD_STATUS = false;
         }
     }
@@ -3092,12 +3111,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         mChart.clear();
 
-        List<RadarEntry> entries = new ArrayList<>();
-        entries.add(new RadarEntry(d1, 0));
-        entries.add(new RadarEntry(d2, 1));
-        entries.add(new RadarEntry(d3, 2));
-        entries.add(new RadarEntry(d4, 3));
-        entries.add(new RadarEntry(d5, 4));
+        ArrayList<RadarEntry> entries = new ArrayList<>();
+        entries.add(new RadarEntry(d1));
+        entries.add(new RadarEntry(d2));
+        entries.add(new RadarEntry(d3));
+        entries.add(new RadarEntry(d4));
+        entries.add(new RadarEntry(d5));
 
 
         RadarDataSet dataset_comp = new RadarDataSet(entries, "");
@@ -3107,8 +3126,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         dataset_comp.setValueTextColor(Color.GRAY); // set the color of real value
 
-        List<IRadarDataSet> dataSetList = new ArrayList<IRadarDataSet>();
-        dataSetList.add(dataset_comp);
+//        List<IRadarDataSet> dataSetList = new ArrayList<IRadarDataSet>();
+//        dataSetList.add(dataset_comp);
+
 
         final ArrayList<String> labels = new ArrayList<String>();
         labels.add("안락감");
@@ -3119,18 +3139,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         mChart.getXAxis().setTextColor(Color.WHITE);     // change label color
         mChart.getXAxis().setTextSize(13);
-        mChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return labels.get((int) value % labels.size());
-            }
-        });
-
+        mChart.getXAxis().setYOffset(0f);
+        mChart.getXAxis().setXOffset(0f);
+//        mChart.getXAxis().setValueFormatter(new ValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, AxisBase axis) {
+//                return labels.get((int) value % labels.size());
+//            }
+//        });
+        mChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+        //chart.getYAxis().setTextColor(Color.RED);     // change number color
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(8f);
-        mChart.getYAxis().setEnabled(false);             // disable number
+        mChart.getYAxis().setAxisMaximum(9f);
+        mChart.getYAxis().setEnabled(false);              // disable number
 
-        RadarData data = new RadarData(dataSetList);
+//        mChart.getXAxis().setAxisMaximum(9f);
+//        mChart.getXAxis().setAxisMinimum(0f);
+
+
+        RadarData data = new RadarData();
+        data.addDataSet(dataset_comp);
         mChart.setData(data);
         mChart.getDescription().setEnabled(false);
 
@@ -3138,7 +3166,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         // mChart.setDescriptionColor(Color.TRANSPARENT);   // remove description
 
         mChart.setTouchEnabled(false);                   // disable touch
-        mChart.invalidate();
+//        mChart.invalidate();
+
+
+//            ArrayList<RadarEntry> dataVals = new ArrayList<>();
+//            dataVals.add(new RadarEntry(d1));
+//            dataVals.add(new RadarEntry(d2));
+//            dataVals.add(new RadarEntry(d3));
+//            dataVals.add(new RadarEntry(d4));
+//            dataVals.add(new RadarEntry(d5));
+//
+//        RadarDataSet dataSet = new RadarDataSet(dataVals, "DATA");
+//        dataSet.setColor(Color.GRAY);
+//        dataSet.setDrawFilled(true);
+//
+//
+//        RadarData data = new RadarData();
+//        data.addDataSet(dataSet);
+//        String[] labels =  {"안락감", "주도성", "역동성", "효율성", "동력성능"};
+//
+//        XAxis xAxis = mChart.getXAxis();
+//        xAxis.setTextColor(Color.WHITE);
+//        xAxis.setTextSize(13);
+//
+//        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+//        mChart.setData(data);
+//        mChart.invalidate();
+
+
+
+
     }
 
 
@@ -3160,7 +3217,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
      */
     private void modChart(float d1, float d2, float d3, float d4, float d5,
                           float p1, float p2, float p3, float p4, float p5) {
-
+        mChart.clear();
         Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
 
         List<RadarEntry> entries = new ArrayList<>();
@@ -3191,10 +3248,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         dataset_comp2.setValueTextColor(Color.parseColor("#32A3D9")); // set the color of real value
 
 
-        List<IRadarDataSet> dataSetList = new ArrayList<IRadarDataSet>();
-        dataSetList.add(dataset_comp1);
-        dataSetList.add(dataset_comp2);
-
+//        List<IRadarDataSet> dataSetList = new ArrayList<IRadarDataSet>();
+//        dataSetList.add(dataset_comp1);
+//        dataSetList.add(dataset_comp2);
 
         final ArrayList<String> labels = new ArrayList<String>();
         labels.add("안락감");
@@ -3207,28 +3263,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mChart.getXAxis().setTextSize(13);
         mChart.getXAxis().setYOffset(0f);
         mChart.getXAxis().setXOffset(0f);
-        mChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return labels.get((int) value % labels.size());
-            }
-        });
+        mChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+//        mChart.getXAxis().setValueFormatter(new ValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, AxisBase axis) {
+//                return labels.get((int) value % labels.size());
+//            }
+//        });
 
-        //chart.getYAxis().setTextColor(Color.RED);     // change number color
+        mChart.getYAxis().setTextColor(Color.RED);     // change number color
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(8f);
-        mChart.getYAxis().setEnabled(false);             // disable number
+        mChart.getYAxis().setAxisMaximum(9f);
+        mChart.getYAxis().setEnabled(false);  // disable number
+//
+//        mChart.getXAxis().setAxisMaximum(9f);
+//        mChart.getXAxis().setAxisMinimum(0f);
 
-        RadarData data = new RadarData(dataSetList);
+        RadarData data = new RadarData();
+        data.addDataSet(dataset_comp1);
+        data.addDataSet(dataset_comp2);
         mChart.setData(data);
         mChart.getDescription().setEnabled(false);
         mChart.getLegend().setEnabled(false);            // remove legend
 
         mChart.setTouchEnabled(false);                   // disable touch
-        mChart.invalidate();
+//        mChart.invalidate();
 
         // TODO : animation makes blink, so it is disabled
-        //mChart.setAnimation(animFadeIn);
+        mChart.setAnimation(animFadeIn);
     }
 
 
@@ -3256,6 +3318,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 //            modeInit(recommentList.get(Constants.MODE_STATUS));
 
         } else if(mode.equals(Constants.MODE_EXPERT)) {
+
             mLayoutExpert.setVisibility(View.VISIBLE);
             mLayoutRcdation.setVisibility(View.GONE);
 
@@ -3350,13 +3413,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             list.add(data);
             // VIP
             String vipSignal1 = "001 0 0 00 00 0 1 00 10 ";
-            String vipSignal2 = "1 01 010 00 10 10 01";
+            String vipSignal2 = "0 00 000 00 00 00 00";
             DBUtil.insertModeDB(getApplicationContext(),"VIP", vipSignal1, vipSignal2);
              data = new FavoriteData();
             data.setSignal2(vipSignal2);
             data.setSignal1(vipSignal1);
             data.setTitle("VIP");
             list.add(data);
+
             // Passenger
             String passengerSignal1 = "010 1 1 00 00 0 1 01 01";
             String passengerSignal2 = "1 00 011 01 00 00 00";

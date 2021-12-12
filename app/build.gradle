@@ -38,7 +38,7 @@ dependencies {
     //implementation 'com.google.dagger:dagger-android-support:2.15'
     // 일단 초기개발은 base만 사용해본다
     implementation 'cz.msebera.android:httpclient:4.4.1.1'
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     // For including MPAndroidChart
     implementation 'com.github.pires:obd-java-api:1.0-RC14'
     implementation 'org.roboguice:roboguice:3.+'

@@ -32,6 +32,7 @@ import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.obigo.hkmotors.R;
 import com.obigo.hkmotors.adapter.FavoriteExpendableListViewAdapter;
@@ -203,7 +204,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         obdState = findViewById(R.id.ib_obd_set_btn);
         obdLight = findViewById(R.id.iv_favorite_light);
 
-        if(Constants.OBD_INITIALIZED){
+        if(Constants.OBD_STATUS){
             obdLight.setBackgroundResource(R.drawable.ico_light_green);
             obdState.setBackgroundResource(R.drawable.img_tit_04);
 
@@ -606,7 +607,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         chart.getXAxis().setTextSize(13);
         chart.getXAxis().setYOffset(0f);
         chart.getXAxis().setXOffset(0f);
-        chart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+        chart.getXAxis().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 return labels.get((int) value % labels.size());

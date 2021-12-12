@@ -19,12 +19,15 @@ public class CarData {
      float tempPerformance;
 
 
+    private boolean evMode = false;
+    private boolean tempEvModel= false;
      public void setTempEVMode(){
         tempComfortable = 7;
         tempLeading = 2;
         tempDynamic = 4;
         tempEfficiency = 8;
         tempPerformance = 8;
+        tempEvModel = true;
      }
      public void setEVMode(){
          comfortable = 7;
@@ -32,6 +35,7 @@ public class CarData {
          dynamic = 4;
          efficiency = 8;
          performance = 8;
+         evMode = true;
      }
     public float getTempComfortable() {
         return tempComfortable;

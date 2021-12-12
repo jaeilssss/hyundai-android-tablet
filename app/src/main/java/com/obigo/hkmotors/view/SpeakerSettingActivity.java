@@ -22,10 +22,13 @@ import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.obigo.hkmotors.R;
 import com.obigo.hkmotors.common.Constants;
 import com.obigo.hkmotors.model.CarData;
+import com.obigo.hkmotors.model.Drive;
 import com.obigo.hkmotors.model.Sound;
 import com.obigo.hkmotors.module.BaseActivity;
 
@@ -179,7 +182,7 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         obdLight = findViewById(R.id.iv_favorite_light);
         obdState = findViewById(R.id.ib_obd_set_btn);
 
-        if(Constants.OBD_INITIALIZED){
+        if(Constants.OBD_STATUS){
             obdLight.setBackgroundResource(R.drawable.ico_light_green);
             obdState.setBackgroundResource(R.drawable.img_tit_04);
 
@@ -221,7 +224,7 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         mChart.getXAxis().setTextColor(Color.WHITE);     // change label color
         mChart.getXAxis().setTextSize(13);
-        mChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+        mChart.getXAxis().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 return labels.get((int) value % labels.size());
@@ -248,7 +251,7 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
     private void modChart(float d1, float d2, float d3, float d4, float d5,
                           float p1, float p2, float p3, float p4, float p5) {
-
+        mChart.clear();
         Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
 
         List<RadarEntry> entries = new ArrayList<>();
@@ -279,49 +282,50 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         dataset_comp2.setValueTextColor(Color.parseColor("#32A3D9")); // set the color of real value
 
 
-        List<IRadarDataSet> dataSetList = new ArrayList<IRadarDataSet>();
-        dataSetList.add(dataset_comp1);
-        dataSetList.add(dataset_comp2);
-
+//        List<IRadarDataSet> dataSetList = new ArrayList<IRadarDataSet>();
+//        dataSetList.add(dataset_comp1);
+//        dataSetList.add(dataset_comp2);
 
         final ArrayList<String> labels = new ArrayList<String>();
         labels.add("안락감");
         labels.add("주도성");
         labels.add("역동성");
         labels.add("효율성");
-        labels.add("동력상능");
+        labels.add("동력성능");
 
         mChart.getXAxis().setTextColor(Color.WHITE);     // change label color
         mChart.getXAxis().setTextSize(13);
         mChart.getXAxis().setYOffset(0f);
         mChart.getXAxis().setXOffset(0f);
-        mChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return labels.get((int) value % labels.size());
-            }
-        });
+        mChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+//        mChart.getXAxis().setValueFormatter(new ValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, AxisBase axis) {
+//                return labels.get((int) value % labels.size());
+//            }
+//        });
 
-        //chart.getYAxis().setTextColor(Color.RED);     // change number color
+        mChart.getYAxis().setTextColor(Color.RED);     // change number color
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(8);
+        mChart.getYAxis().setAxisMaximum(9f);
+        mChart.getYAxis().setEnabled(false);  // disable number
+//
+//        mChart.getXAxis().setAxisMaximum(9f);
+//        mChart.getXAxis().setAxisMinimum(0f);
 
-        mChart.getXAxis().setAxisMaximum(8);
-
-        mChart.getYAxis().setEnabled(false);             // disable number
-
-        RadarData data = new RadarData(dataSetList);
+        RadarData data = new RadarData();
+        data.addDataSet(dataset_comp1);
+        data.addDataSet(dataset_comp2);
         mChart.setData(data);
         mChart.getDescription().setEnabled(false);
         mChart.getLegend().setEnabled(false);            // remove legend
 
         mChart.setTouchEnabled(false);                   // disable touch
-        mChart.invalidate();
+//        mChart.invalidate();
 
         // TODO : animation makes blink, so it is disabled
-        //mChart.setAnimation(animFadeIn);
+        mChart.setAnimation(animFadeIn);
     }
-
     @Override
     public void onClick(View view) {
 
@@ -363,6 +367,9 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.speaker_data_send :
                 send();
+                break;
+            case R.id.ib_speaker_setting_back:
+                onBackPressed();
                 break;
                 //
         }
@@ -480,6 +487,12 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onBackPressed() {
+        Sound.getInstance().reset();
+        CarData.getInstance().setTempComfortable();
+        CarData.getInstance().setTempLeading();
+        CarData.getInstance().setTempDynamic();
+        CarData.getInstance().setTempEfficiency();
+        CarData.getInstance().setTempPerformance();
         Intent intent = new Intent();
         intent.putExtra("change",true);
         setResult(Constants.REQUEST_SPEAKER_SETTING,intent);
