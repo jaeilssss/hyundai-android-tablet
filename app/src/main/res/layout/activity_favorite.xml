@@ -655,10 +655,21 @@
         <Button
             android:layout_width="100dp"
             android:layout_height="50dp"
+            android:layout_below="@id/favorite_main_layout"
+            android:layout_alignEnd="@id/favorite_main_layout"
+            android:text="편집"
+            android:background="@color/mainColor"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:layout_marginRight="170dp"
+            android:id="@+id/favorite_info_edit"/>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:text="삭제"
             android:layout_below="@id/favorite_main_layout"
             android:layout_alignEnd="@id/favorite_main_layout"
-            android:layout_marginRight="170dp"
+            android:layout_marginRight="290dp"
             android:textSize="16dp"
             android:background="@color/mainColor"
             android:textColor="@color/white"

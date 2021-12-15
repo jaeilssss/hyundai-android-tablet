@@ -20,6 +20,9 @@ public class MyFavoriteRecyclerAdapter extends RecyclerView.Adapter<MyFavoriteRe
 
     public OnItemClickListener onItemClickListener;
 
+    public int clickIndex = 0;
+
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
     }
@@ -42,7 +45,7 @@ public class MyFavoriteRecyclerAdapter extends RecyclerView.Adapter<MyFavoriteRe
 
     @Override
     public void onBindViewHolder(MyFavoriteRecyclerViewHolder holder, int position) {
-        holder.setData(list.get(position).getTitle(),list.get(position).getDate());
+        holder.setData(list.get(position).getTitle(),list.get(position).getDate(),position);
     }
 
 
@@ -65,9 +68,14 @@ public class MyFavoriteRecyclerAdapter extends RecyclerView.Adapter<MyFavoriteRe
             layout.setOnClickListener(new ButtonClick());
         }
 
-        public void setData(String title , String date){
+        public void setData(String title , String date,int position){
             this.title.setText(title);
             this.date.setText(date);
+            if(clickIndex==position){
+                layout.setBackgroundResource(R.drawable.favorite_border_5_selected);
+            }else{
+                layout.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            }
         }
 
         public class ButtonClick implements View.OnClickListener{

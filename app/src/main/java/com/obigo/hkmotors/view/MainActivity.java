@@ -291,17 +291,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private int nEfficiency;
     private int nPerformance;
 
-    private  ImageButton resetBtn;
-    private ImageButton carSend;
-    private ImageButton saveBtn;
+    private  Button resetBtn;
+    private Button carSend;
+    private Button saveBtn;
 
     private Button commercial;
     private Button ev;
     private Button vip;
     private Button sport;
     private Button passenger;
+    
+    private TextView mainModeTxt;
 
     private ArrayList<FavoriteData> recommentList;
+
+    private int isEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -321,6 +326,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         // UI 초기화
         initUI();
 
+        isEdit = 1;
+        // isEdit 1은 일반모드 2는 편집모드
         // 일단 테스트용 으로 만들어놓음
         getOdbData();
 
@@ -337,6 +344,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     }
 
+    private void setEditMode(){
+        if(isEdit==1){
+            resetBtn.setText("초기화");
+            carSend.setVisibility(View.VISIBLE);
+            mMode.setVisibility(View.VISIBLE);
+            mainModeTxt.setVisibility(View.INVISIBLE);
+
+        }else{
+            resetBtn.setText("편집 취소");
+            carSend.setVisibility(View.INVISIBLE);
+            mMode.setVisibility(View.INVISIBLE);
+            mainModeTxt.setVisibility(View.VISIBLE);
+        }
+    }
     private void getOdbData(){
         // 최초 접속 시 차량 데이터 가저오기
 
@@ -539,7 +560,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 //                showProgressDialogMode();
 //                break;
 
-            case R.id.ib_e_send_btn:
+            case R.id.ib_e_submit_btn:
 
                 if(mObdsv == null) {
                     Toast.makeText(getApplicationContext(), "App과 OBD가 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
@@ -556,7 +577,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
 
             //case R.id.ib_g_submit_btn:
-            case R.id.ib_e_submit_btn:
+            case R.id.ib_e_save_btn:
 
                 Constants.COMMAND_MODE = "SUBMIT";
                 goToParamSettingActivity();
@@ -592,6 +613,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
         }
     }
+
 
     public void clickRecomment(int index){
         String signal1 = recommentList.get(index).getSignal1();
@@ -2431,18 +2453,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         //gSubmitBtn.setOnClickListener(this);
 
         // button for expert
-        ImageButton eResetBtn = (ImageButton) findViewById(R.id.ib_e_reset_btn);
-        eResetBtn.setOnClickListener(this);
-
-        ImageButton eSendBtn = (ImageButton) findViewById(R.id.ib_e_send_btn);
-        eSendBtn.setOnClickListener(this);
-
-        ImageButton eSubmitBtn = (ImageButton) findViewById(R.id.ib_e_submit_btn);
-        eSubmitBtn.setOnClickListener(this);
 
 
+        saveBtn = findViewById(R.id.ib_e_save_btn);
+        saveBtn.setOnClickListener(this);
+        carSend = findViewById(R.id.ib_e_submit_btn);
+        carSend.setOnClickListener(this);
         resetBtn = findViewById(R.id.ib_e_reset_btn);
         resetBtn.setOnClickListener(this);
+
 
 
         mMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -2486,6 +2505,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         sport.setOnClickListener(this);
         commercial = findViewById(R.id.rcdation_commercial);
         commercial.setOnClickListener(this);
+        
+        mainModeTxt = findViewById(R.id.main_mode_text);
+        mainModeTxt.setVisibility(View.INVISIBLE);
     }
 
     // =============================================================================================
@@ -2556,6 +2578,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case Constants.REQUEST_FAVORITE:
 
+                if(data.getBooleanExtra("check",false)){
+                    modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),
+                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
+                            CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
+                            CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+                    isEdit = 2;
+                    setEditMode();
+                }else{
+                    defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getInstance().getDynamic(),
+                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance());
+                    isEdit = 1;
+                    setEditMode();
+                }
                 if (resultCode == Activity.RESULT_OK) {
 
                     String param = data.getExtras().getString("param");
@@ -3406,61 +3441,41 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             String evSignal2 = "0 00 000 00 00 00 00";
             DBUtil.insertModeDB(getApplicationContext(),"EV",evSignal1,evSignal2);
 
-            FavoriteData data = new FavoriteData();
-            data.setSignal2(evSignal2);
-            data.setSignal1(evSignal1);
-            data.setTitle("EV");
-            list.add(data);
+
             // VIP
             String vipSignal1 = "001 0 0 00 00 0 1 00 10 ";
             String vipSignal2 = "0 00 000 00 00 00 00";
             DBUtil.insertModeDB(getApplicationContext(),"VIP", vipSignal1, vipSignal2);
-             data = new FavoriteData();
-            data.setSignal2(vipSignal2);
-            data.setSignal1(vipSignal1);
-            data.setTitle("VIP");
-            list.add(data);
+
 
             // Passenger
             String passengerSignal1 = "010 1 1 00 00 0 1 01 01";
             String passengerSignal2 = "1 00 011 01 00 00 00";
             DBUtil.insertModeDB(getApplicationContext(),"Passenger", passengerSignal1, passengerSignal2);
-            data = new FavoriteData();
-            data.setSignal2(passengerSignal2);
-            data.setSignal1(passengerSignal1);
-            data.setTitle("Passenger");
-            list.add(data);
+
             // Sport
             String sportSignal1 = "011 1 1 10 11 1 1 10 01";
             String sportSignal2 = "1 01 010 00 10 10 01";
             DBUtil.insertModeDB(getApplicationContext(),"Sport", sportSignal1, sportSignal2);
-            data = new FavoriteData();
-            data.setSignal2(sportSignal2);
-            data.setSignal1(sportSignal1);
-            data.setTitle("Sport");
-            list.add(data);
+
             // Commercial
             String commercialSignal1 = "100 1 1 01 00 0 1 01 00";
             String commercialSignal2 = "1 10 001 10 01 10 00";
             DBUtil.insertModeDB(getApplicationContext(),"Commercial", commercialSignal1, commercialSignal2);
-            data = new FavoriteData();
-            data.setSignal2(commercialSignal2);
-            data.setSignal1(commercialSignal1);
-            data.setTitle("Commercial");
-            list.add(data);
+
+
         }
 
         for(int i=0; i < cursor.getCount(); i ++) {
             cursor.moveToNext();
 
             FavoriteData items = new FavoriteData();
+            items.setId(cursor.getInt(0));
             items.setTitle(cursor.getString(1));
             items.setSignal1(cursor.getString(2));
             items.setSignal2(cursor.getString(3));
             list.add(items);
-            System.out.println(items.getTitle());
-            System.out.println(items.getSignal1());
-            System.out.println(items.getSignal2());
+
             // mListAdapter.addItem(items);  // unique id
         }
 

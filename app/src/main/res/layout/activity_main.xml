@@ -25,6 +25,17 @@
             android:layout_alignParentTop="true"
             android:gravity="center|right">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="편집 모드"
+                android:textSize="23dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginRight="145dp"
+                android:id="@+id/main_mode_text"
+                />
+
             <!-- 나의 설정 -->
             <ImageButton
                 android:id="@+id/ib_favorite_btn"
@@ -266,13 +277,16 @@
                         android:textColor="@color/white"
                         android:textSize="17dp" />
                     <!-- 초기화 버튼 -->
-                    <ImageButton
+                    <Button
                         android:id="@+id/ib_e_reset_btn"
                         android:layout_width="106.7dp"
-                        android:layout_height="41dp"
-                        android:gravity="right"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:text="초기화"
+                        android:textColor="@color/white"
+                        android:textSize="16dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@drawable/btn_reset" />
+                        android:background="@drawable/button_shape" />
                     <!-- 버튼 -->
                     <LinearLayout
                         android:id="@+id/layout_e_obd_btn"
@@ -292,22 +306,27 @@
 <!--                            android:background="@drawable/btn_reset" />-->
 
                         <!-- 내차로 전송 버튼 -->
-                        <ImageButton
-                            android:id="@+id/c"
-                            android:layout_width="106.7dp"
-                            android:layout_height="41dp"
-                            android:layout_marginLeft="8dp"
-                            android:background="@drawable/btn_send" />
-
-                        <!-- 저장하기 버튼 -->
-                        <ImageButton
+                        <Button
                             android:id="@+id/ib_e_submit_btn"
                             android:layout_width="106.7dp"
-                            android:layout_height="41dp"
+                            android:layout_height="50dp"
                             android:layout_marginLeft="8dp"
-                            android:background="@drawable/btn_save" />
-                    </LinearLayout>
+                            android:text="차로 전송"
+                            android:textSize="16dp"
+                            android:textColor="@color/white"
+                            android:background="@drawable/button_shape" />
 
+                        <!-- 저장하기 버튼 -->
+                        <Button
+                            android:id="@+id/ib_e_save_btn"
+                            android:layout_width="106.7dp"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="저장"
+                            android:textColor="@color/white"
+                            android:textSize="16dp"
+                            android:background="@drawable/button_shape" />
+                    </LinearLayout>
 
 
                 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -44,8 +45,12 @@ import com.obigo.hkmotors.common.db.DBUtil;
 import com.obigo.hkmotors.common.db.data.Obd2Database;
 import com.obigo.hkmotors.common.db.helper.Obd2DBOpenHelper;
 import com.obigo.hkmotors.common.service.ObdService;
+import com.obigo.hkmotors.model.CarData;
+import com.obigo.hkmotors.model.Drive;
 import com.obigo.hkmotors.model.FavoriteData;
 import com.obigo.hkmotors.model.FavoriteDataListItems;
+import com.obigo.hkmotors.model.Sound;
+import com.obigo.hkmotors.model.Transmission;
 import com.obigo.hkmotors.module.BaseActivity;
 
 import java.io.IOException;
@@ -59,6 +64,8 @@ import java.util.List;
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "FavoriteActivity";
+
+    private int id;
 
     private ArrayList<FavoriteData> FavoriteList = new ArrayList<>();
     private ImageView favoriteObdLight;
@@ -131,6 +138,15 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private ImageView obdLight;
 
     private MyFavoriteRecyclerAdapter adapter ;
+
+    private Button delete;
+    private Button edit;
+    private Button send;
+    private Button back;
+
+    private Dialog dialog ;
+    private Dialog editDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,7 +181,12 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         adapter.setOnItemClickListener(new OnItemClickListener(){
             @Override
             public void onItemClick(View v, int position) {
+
+                int temp = adapter.clickIndex;
+                adapter.clickIndex = position;
             setDetailData(position);
+                adapter.notifyItemChanged(temp);
+            adapter.notifyItemChanged(position);
 
             }
         });
@@ -213,6 +234,23 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
             obdState.setBackgroundResource(R.drawable.img_tit_03);
 
         }
+
+        dialog =  new Dialog(FavoriteActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog);
+
+        editDialog = new Dialog(FavoriteActivity.this);
+
+        editDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        editDialog.setContentView(R.layout.custom_dialog_edit);
+
+
+        delete = findViewById(R.id.favorite_info_delete);
+        send = findViewById(R.id.favorite_info_send);
+
+        delete.setOnClickListener(this);
+
+
 
 
     }
@@ -348,7 +386,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
             transmissionMap.setText("Track");
         }
 
-
+    edit = findViewById(R.id.favorite_info_edit);
+        edit.setOnClickListener(this);
 
 
 
@@ -380,6 +419,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
+        intent.putExtra("check",false);
         setResult(Activity.RESULT_CANCELED, intent);
         finish();
     }
@@ -467,12 +507,49 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                     selectOBD();
                 }
                 break;
+            case R.id.favorite_info_delete:
+                showDialog01();
+                break;
+            case R.id.favorite_info_edit  :
+                showDialog02();
+
             default:
                 break;
         }
 
     }
 
+    private void showDialog02(){
+        editDialog.show(); // 다이얼로그 띄우기
+
+
+        Button noBtn = editDialog.findViewById(R.id.custom_edit_cancel);
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 원하는 기능 구현
+                dialog.dismiss(); // 다이얼로그 닫기
+            }
+        });
+        // 네 버튼
+        editDialog.findViewById(R.id.custom_edit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent();
+                        intent.putExtra("check",true);
+                        setResult(Constants.REQUEST_FAVORITE,intent);
+                        finish();
+                        Toast.makeText(getApplicationContext(),"편집 모드 입니다",Toast.LENGTH_SHORT).show();
+                        editDialog.dismiss();
+                    }
+                });
+            }
+        });
+    }
 
     private void showProgressDialog() {
 
@@ -661,6 +738,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
             data.setDate(cursor.getString(Obd2Database.CreateDB.DATE_IDX));
             data.setSignal1(cursor.getString(Obd2Database.CreateDB.SIGNAL1_IDX));
             data.setSignal2(cursor.getString(Obd2Database.CreateDB.SIGNAL2_IDX));
+            data.setId(cursor.getInt(Obd2Database.CreateDB.ID_IDX));
             FavoriteList.add(data);
 
         }
@@ -704,4 +782,200 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         serverIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
         startActivityForResult(serverIntent, Constants.REQUEST_CONNECT_DEVICE_SECURE);
     }
+
+    public void showDialog01(){
+        dialog.show(); // 다이얼로그 띄우기
+
+
+        Button noBtn = dialog.findViewById(R.id.custom_cancel);
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 원하는 기능 구현
+                dialog.dismiss(); // 다이얼로그 닫기
+            }
+        });
+        // 네 버튼
+        dialog.findViewById(R.id.custom_delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("delete->"+adapter.list.get(adapter.clickIndex).getId());
+                DBUtil.deleteDB(getApplicationContext(),adapter.list.get(adapter.clickIndex).getId());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.list.remove(adapter.clickIndex);
+                        adapter.clickIndex=0;
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(),"삭제가 완료되었습니다",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+    }
+
+
+    public void setEditData(String signal1 , String signal2){
+
+        String [] signal1Array = signal1.split(" ");
+        String [] signal2Array = signal2.split(" ");
+
+        if(signal1Array[1].equals("1")){
+            Sound.getInstance().setTempIsOn("1");
+
+        }else {
+            Sound.getInstance().setTempIsOn("0");
+
+        }
+        if(signal1Array[2].equals("1")){
+            Sound.getInstance().setTempDriveType("1");
+        }else{
+            Sound.getInstance().setTempDriveType("0");
+        }
+
+        if(signal1Array[3].equals("00")){
+            Sound.getInstance().setTempVolume("00");
+        }else if(signal1Array[3].equals("01")){
+            Sound.getInstance().setTempVolume("01");
+        }else{
+            Sound.getInstance().setTempVolume("10");
+        }
+
+        if(signal1Array[4].equals("00")){
+            Sound.getInstance().setTempBackVolume("00");
+        }else if(signal1Array[4].equals("01")){
+            Sound.getInstance().setTempBackVolume("01");
+        }else if(signal1Array[4].equals("10")) {
+            Sound.getInstance().setTempBackVolume("10");
+        }else{
+            Sound.getInstance().setTempBackVolume("11");
+        }
+
+        if(signal1Array[5].equals("1")){
+            Sound.getInstance().setTempBackSensitive("1");
+        }else{
+            Sound.getInstance().setTempBackSensitive("0");
+        }
+
+        if(signal1Array[6].equals("1")){
+            Drive.getInstance().setTempIsOn("1");
+        }else{
+            Drive.getInstance().setTempIsOn("0");
+        }
+
+        if(signal1Array[7].equals("00")){
+            Drive.getInstance().setTempStiffness("00");
+        }else if(signal1Array[7].equals("01")){
+            Drive.getInstance().setTempStiffness("01");
+        }else{
+            Drive.getInstance().setTempStiffness("10");
+        }
+
+        if(signal1Array[8].equals("00")){
+            Drive.getInstance().setTempReducer("00");
+        }else if(signal1Array[8].equals("01")){
+            Drive.getInstance().setTempReducer("01");
+        }else{
+            Drive.getInstance().setTempReducer("10");
+        }
+
+        if(signal2Array[0].equals("1")){
+            Transmission.getInstance().setTempIsOn("1");
+        }else{
+            Transmission.getInstance().setTempIsOn("0");
+        }
+
+        if(signal2Array[1].equals("00")){
+            Transmission.getInstance().setTempType("00");
+        }else if(signal2Array[1].equals("01")){
+            Transmission.getInstance().setTempType("01");
+        }else {
+            Transmission.getInstance().setTempType("10");
+        }
+
+        if(signal2Array[2].equals("000")){
+            Transmission.getInstance().setTempGear("000");
+        }else if(signal2Array[2].equals("001")){
+            Transmission.getInstance().setTempGear("001");
+        }else if(signal2Array[2].equals("010")){
+            Transmission.getInstance().setTempGear("010");
+        }else if(signal2Array[2].equals("011")){
+            Transmission.getInstance().setTempGear("011");
+        }else{
+            Transmission.getInstance().setTempGear("100");
+        }
+
+        if(signal2Array[3].equals("00")){
+            Transmission.getInstance().setTempGearRate("00");
+        }else if(signal2Array[3].equals("01")){
+            Transmission.getInstance().setTempGearRate("01");
+        }else{
+            Transmission.getInstance().setTempGearRate("10");
+        }
+
+        if(signal2Array[4].equals("00")){
+            Transmission.getInstance().setTempTransmissionSpeed("00");
+        }else if(signal2Array[4].equals("01")){
+            Transmission.getInstance().setTempTransmissionSpeed("01");
+        }else{
+            Transmission.getInstance().setTempTransmissionSpeed("10");
+        }
+
+        if(signal2Array[5].equals("00")){
+            Transmission.getInstance().setTempTransmissionPower("00");
+        }else if(signal2Array.equals("01")){
+            Transmission.getInstance().setTempTransmissionPower("01");
+        }else{
+            Transmission.getInstance().setTempTransmissionPower("10");
+        }
+
+        if(signal2Array[6].equals("00")){
+
+            Transmission.getInstance().setTempTransmissionMap("00");
+        }else if(signal2Array[6].equals("01")){
+
+            Transmission.getInstance().setTempTransmissionMap("01");
+        }else{
+
+            Transmission.getInstance().setTempTransmissionMap("10");
+        }
+
+
+        if(Constants.OBD_INITIALIZED){
+            if(Transmission.getInstance().getTempIsOn().equals("0") &&
+                    Sound.getInstance().getTempIsOn().equals("0") &&
+                    Drive.getInstance().getTempIsOn().equals("0")){
+                CarData.getInstance().setTempEVMode();
+
+            }else{
+                CarData.getInstance().setTempComfortable();
+                CarData.getInstance().setTempDynamic();
+                CarData.getInstance().setTempEfficiency();
+                CarData.getInstance().setTempLeading();
+                CarData.getInstance().setTempPerformance();
+            }
+
+
+        }else{
+            // 이거 어떻게 해야할까? 만약 연결 되어 있지 않다면 ....
+            if(Transmission.getInstance().getTempIsOn().equals("0") &&
+                    Sound.getInstance().getTempIsOn().equals("0") &&
+                    Drive.getInstance().getTempIsOn().equals("0")){
+                CarData.getInstance().setTempEVMode();
+
+            }else{
+                CarData.getInstance().setTempComfortable();
+                CarData.getInstance().setTempDynamic();
+                CarData.getInstance().setTempEfficiency();
+                CarData.getInstance().setTempLeading();
+                CarData.getInstance().setTempPerformance();
+            }
+
+        }
+
+
+    }
+
+
 }

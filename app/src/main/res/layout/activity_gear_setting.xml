@@ -612,7 +612,7 @@
         android:textSize="18dp"
         android:layout_marginRight="15dp"
         android:textColor="@color/white"
-        android:background="@drawable/button_shape_radius_10" />
+        android:background="@drawable/button_shape" />
 </RelativeLayout>
 
 
