@@ -468,6 +468,7 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         }else{
             switchCompat.setChecked(false);
+            settingLayout.setVisibility(View.INVISIBLE);
         }
 
         changeChart();

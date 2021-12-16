@@ -16,6 +16,7 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -305,7 +306,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private ArrayList<FavoriteData> recommentList;
 
+    private Dialog dialog;
+
     private int isEdit;
+    private String editTitle;
+    private int editId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -508,19 +513,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     mObdsv.initializeParam();
                 }
 
+                if(isEdit==1){
+                    Transmission.getInstance().reset();
+                    Drive.getInstance().reset();
+                    Sound.getInstance().reset();
+                    CarData.getInstance().setTempLeading();
+                    CarData.getInstance().setTempComfortable();
+                    CarData.getInstance().setTempEfficiency();
+                    CarData.getInstance().setTempPerformance();
+                    CarData.getInstance().setTempDynamic();
 
-                Transmission.getInstance().reset();
-                Drive.getInstance().reset();
-                Sound.getInstance().reset();
-                CarData.getInstance().setTempLeading();
-                CarData.getInstance().setTempComfortable();
-                CarData.getInstance().setTempEfficiency();
-                CarData.getInstance().setTempPerformance();
-                CarData.getInstance().setTempDynamic();
+                    defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+                            CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+                            CarData.getInstance().getPerformance());
+                }else{
+                    showDialog01();
 
-                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
-                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
-                        CarData.getInstance().getPerformance());
+                }
+
 
 //                // set second default value : 0
 //                mPref.setSDResponse(0);
@@ -2508,6 +2518,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         
         mainModeTxt = findViewById(R.id.main_mode_text);
         mainModeTxt.setVisibility(View.INVISIBLE);
+
+
+
+        dialog =  new Dialog(MainActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog_cancel);
+
+
     }
 
     // =============================================================================================
@@ -2585,6 +2603,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                             CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
                     isEdit = 2;
                     setEditMode();
+                    editTitle = data.getStringExtra("title");
+                    editId = data.getIntExtra("id",-1);
                 }else{
                     defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getInstance().getDynamic(),
                             CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance());
@@ -2678,6 +2698,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                             CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
                             CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
                 }
+                break;
+            case Constants.REQUEST_EDIT_CUSTOM_RESULT :
+                if(data.getBooleanExtra("change",false)){
+                    isEdit=1;
+                    setEditMode();
+                    Toast.makeText(getApplicationContext(),"수정이 완료되었습니다",Toast.LENGTH_SHORT).show();
+                }
+
+                break;
             default:
                 break;
         }
@@ -3410,16 +3439,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void goToParamSettingActivity() {
 
         Intent paramSetting = new Intent(this, ParamSettingActivity.class);
-
-        // 20181109_강동필
-        paramSetting.putExtra("resp", String.valueOf(mRespMaxPower) + ":" + String.valueOf(mRespAcceration) + ":" +
-                String.valueOf(mRespDeceleration) + ":" + String.valueOf(mRespResponse) + ":" + String.valueOf(mRespEcoLevel));
-
-        paramSetting.putExtra("param", "e:" + String.valueOf(mParamTorque) + ":" + String.valueOf(mParamAcceleration) + ":" +
-                String.valueOf(mParamDeceleration) + ":" + String.valueOf(mParamBrake) + ":" + String.valueOf(mParamEnergy) + ":" +
-                String.valueOf(mParamSpeed) + ":" + String.valueOf(mParamResponse) + ":" + String.valueOf(mParamDriving));
-
-        startActivity(paramSetting);
+        paramSetting.putExtra("isEdit" , isEdit);
+        paramSetting.putExtra("title",editTitle);
+        paramSetting.putExtra("id",editId);
+        startActivityForResult(paramSetting,Constants.REQUEST_EDIT_CUSTOM_RESULT);
     }
 
 
@@ -3506,6 +3529,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 //        String[] resps = listItems.getResp().split(":");
 //
 //        defaultChart( Float.parseFloat(resps[0]), Float.parseFloat(resps[1]), Float.parseFloat(resps[2]), Float.parseFloat(resps[3]), Float.parseFloat(resps[4]));
+    }
+
+    public void showDialog01(){
+        dialog.show(); // 다이얼로그 띄우기
+
+
+        Button noBtn = dialog.findViewById(R.id.custom_cancel_no);
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 원하는 기능 구현
+                dialog.dismiss(); // 다이얼로그 닫기
+            }
+        });
+        // 네 버튼
+        dialog.findViewById(R.id.custom_cancel_yes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Transmission.getInstance().reset();
+                Drive.getInstance().reset();
+                Sound.getInstance().reset();
+                CarData.getInstance().setTempLeading();
+                CarData.getInstance().setTempComfortable();
+                CarData.getInstance().setTempEfficiency();
+                CarData.getInstance().setTempPerformance();
+                CarData.getInstance().setTempDynamic();
+
+                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+                        CarData.getInstance().getPerformance());
+                isEdit = 1;
+
+                setEditMode();
+                dialog.dismiss();
+            }
+        });
     }
 
 }

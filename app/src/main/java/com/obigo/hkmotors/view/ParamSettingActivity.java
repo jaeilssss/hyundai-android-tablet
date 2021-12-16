@@ -1,15 +1,18 @@
 package com.obigo.hkmotors.view;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,6 +24,7 @@ import com.obigo.hkmotors.R;
 import com.obigo.hkmotors.common.Constants;
 import com.obigo.hkmotors.common.Utility;
 import com.obigo.hkmotors.common.db.DBUtil;
+import com.obigo.hkmotors.custom.LoadingDialog;
 import com.obigo.hkmotors.model.Drive;
 import com.obigo.hkmotors.model.Sound;
 import com.obigo.hkmotors.model.Transmission;
@@ -36,7 +40,7 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 
     private TextView mTitle;
     private ImageButton mDeleteBtn;
-
+    private ImageButton cancel;
     private Dialog mProgressDialog;
 
     private LinearLayout mLayoutGeneral;
@@ -68,6 +72,16 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
     private String signal1;
     private String signal2;
 
+    private String isInit;
+    private String editTitle;
+    private int editId;
+
+    private int isEdit;
+    private boolean check;
+
+    private LoadingDialog loadingDialog;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +104,14 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 //
 //        mMode = params[0]; // 20181113 지금 프로그램에서는 필요없음
 //
+
+
+         loadingDialog  = new LoadingDialog(ParamSettingActivity.this);
+        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        //로딩창을 투명하게
+
+
+
         mTitle = (EditText) findViewById(R.id.et_title);
         mTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -109,6 +131,14 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 //
         mDeleteBtn = (ImageButton) findViewById(R.id.ib_delete_btn);
         mDeleteBtn.setOnClickListener(this);
+
+        isEdit = getIntent().getIntExtra("isEdit",1);
+        if(isEdit==2){
+            editTitle = getIntent().getStringExtra("title");
+            mTitle.setText(editTitle);
+            editId = getIntent().getIntExtra("id",-1);
+        }
+
 //
 //
 //        mTorque = (TextView) findViewById(R.id.tv_torque_value);
@@ -140,6 +170,9 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 //
         ImageButton confirmBtn = (ImageButton) findViewById(R.id.ib_confirm_btn);
         confirmBtn.setOnClickListener(this);
+        cancel = findViewById(R.id.ib_cancel_btn);
+        cancel.setOnClickListener(this);
+
 
     }
 
@@ -166,74 +199,62 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
                 mTitle.setText("");
                 break;
             case R.id.ib_cancel_btn:
+                exit(false);
                 finish();
                 break;
             case R.id.ib_confirm_btn:
                 if(mTitle.getText().toString().length() == 0) {
                     Toast.makeText(getApplicationContext(), "저장할 설정의 이름이 입력되지 않았습니다. 입력후 다시 확인을 선택해 주십시오!", Toast.LENGTH_SHORT).show();
                 } else {
-                signal1 = "101"+" "+ Sound.getInstance().getTempIsOn()+" "+Sound.getInstance().getTempDriveType()+" "+Sound.getInstance().getTempVolume()+" "
-                        +Sound.getInstance().getTempBackVolume()+" "+Sound.getInstance().getTempBackSensitive()+ " "+
-                        Drive.getInstance().getTempIsOn()+" "+Drive.getInstance().getTempStiffness()+" "+Drive.getInstance().getTempReducer();
-                signal2 = Transmission.getInstance().getTempIsOn()+" "+Transmission.getInstance().getTempType()+" "+Transmission.getInstance().getTempGear()+" "+
-                        Transmission.getInstance().getTempGearRate()+" "+Transmission.getInstance().getTempTransmissionSpeed()+" "+Transmission.getInstance().getTempTransmissionPower()+" "+
-                        Transmission.getInstance().getTempTransmissionMap();
+                    loadingDialog.show();
+                    if(isEdit==1){
+                        signal1 = "101"+" "+ Sound.getInstance().getTempIsOn()+" "+Sound.getInstance().getTempDriveType()+" "+Sound.getInstance().getTempVolume()+" "
+                                +Sound.getInstance().getTempBackVolume()+" "+Sound.getInstance().getTempBackSensitive()+ " "+
+                                Drive.getInstance().getTempIsOn()+" "+Drive.getInstance().getTempStiffness()+" "+Drive.getInstance().getTempReducer();
+                        signal2 = Transmission.getInstance().getTempIsOn()+" "+Transmission.getInstance().getTempType()+" "+Transmission.getInstance().getTempGear()+" "+
+                                Transmission.getInstance().getTempGearRate()+" "+Transmission.getInstance().getTempTransmissionSpeed()+" "+Transmission.getInstance().getTempTransmissionPower()+" "+
+                                Transmission.getInstance().getTempTransmissionMap();
+                        DBUtil.insertDB(getApplicationContext(), mTitle.getText().toString(), Utility.getCurrentDateTime(), signal1, signal2);
+                        check = false;
+                    }else{
 
-                Toast.makeText(getApplicationContext(),signal2,Toast.LENGTH_SHORT).show();
-                    DBUtil.insertDB(getApplicationContext(), mTitle.getText().toString(), Utility.getCurrentDateTime(), signal1, signal2);
+                        signal1 = "101"+" "+ Sound.getInstance().getTempIsOn()+" "+Sound.getInstance().getTempDriveType()+" "+Sound.getInstance().getTempVolume()+" "
+                                +Sound.getInstance().getTempBackVolume()+" "+Sound.getInstance().getTempBackSensitive()+ " "+
+                                Drive.getInstance().getTempIsOn()+" "+Drive.getInstance().getTempStiffness()+" "+Drive.getInstance().getTempReducer();
+                        signal2 = Transmission.getInstance().getTempIsOn()+" "+Transmission.getInstance().getTempType()+" "+Transmission.getInstance().getTempGear()+" "+
+                                Transmission.getInstance().getTempGearRate()+" "+Transmission.getInstance().getTempTransmissionSpeed()+" "+Transmission.getInstance().getTempTransmissionPower()+" "+
+                                Transmission.getInstance().getTempTransmissionMap();
 
-/*
-                    try {
-
-                        AutoledgerClient autoledgerClient = new AutoledgerClient(); // 블록체인 클라이언트 객체 생성
-                        String blockchainEndPoint = "http://10.6.220.103:3000"; // 블록체인 Endpoint
-                        String contractAddress = "189zBY3A5g5Ry5PqbrNPH7amCgXsN9SFDt"; // 스마트 컨트랙트 주소
-
-                        autoledgerClient.connectBlockchain(blockchainEndPoint); // 블록체인에 연결 (연결 후 스마트컨트랙트 호출 가능)
-
-                        */
-/*
-                         * 스마트컨트랙트 execute
-                         *     executeSmartContract 함수는 블록체인의 state database를 변경하는 경우 사용합니다. ex) 저장, 수정, 삭제
-                         *     블록체인의 상태를 변경하므로, 트랜잭션을 생성하고 트랜잭션 ID를 리턴받습니다.
-                         *//*
-
-                        int mt_max_torq = 0;    //모터최대토크
-                        int acc = 0;            //발진가속감
-                        int decel = 0;          //감속감
-                        int reg_brake = 0;      //회생제동량
-                        int ch_engy = 0;        //냉난방 에너지
-                        int max_sped_limt = 0;  //최고속도 제한
-                        int rspns = 0;          //응답성
-
-                        String executionCode = "call(\"setDrivingInfo\", "
-                                + mt_max_torq + ", "
-                                + acc + ", "
-                                + decel + ", "
-                                + reg_brake + ", "
-                                + ch_engy + ", "
-                                + max_sped_limt + ", "
-                                + rspns + ")"; // SmartContract Execute 함수 실행 코드
-                        String privateKey = "KwEo9ia9YaTDqE6PByBCBPDLspFsRaS4V8P2xHbpfDyi3Diy2DM6"; // 블록체인 지갑 개인키
-                        String executedTransactionId = autoledgerClient.executeSmartContract(executionCode, privateKey, contractAddress); // execute 실행
-                        Log.d(TAG, "트랜잭션 ID : " + executedTransactionId);
-
-                        // 데이터가 저장되어있는지 확인 요청
-                        Transaction transaction = autoledgerClient.getTransaction(executedTransactionId);
-                        Log.d(TAG, "0이 아니면 저장완료 : " + transaction);
-
-                    }catch (Exception e){
-
-                        Log.d(TAG, "연결안될때 : " + e);
+                        DBUtil.updateDB(getApplicationContext(),editId,mTitle.getText().toString(),signal1,signal2);
+                    check = true;
                     }
-*/
-
-                    showProgressDialog();
+//                    exit(true);
+                    showLoading();
+//                    showProgressDialog();
                 }
                 break;
             default:
                 break;
         }
+
+    }
+
+    public void showLoading(){
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadingDialog.dismiss();
+                loadingDialog=null;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        exit(true);
+                    }
+                });
+
+            }
+        }, 2500);
 
     }
     /**
@@ -323,5 +344,17 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
             mProgressDialog.dismiss();
             mProgressDialog = null;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        exit(false);
+    }
+
+    public void exit(boolean change){
+        Intent intent = new Intent();
+        intent.putExtra("change",change);
+        setResult(Constants.REQUEST_EDIT_CUSTOM_RESULT,intent);
+        finish();
     }
 }

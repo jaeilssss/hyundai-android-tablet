@@ -116,11 +116,12 @@ public class Obd2DBOpenHelper {
 	 * @param title - title
      * @return
      */
-	public boolean update(int id, String title) {
+	public boolean update(int id, String title,String signal1, String signal2) {
 		
 		ContentValues values = new ContentValues();
 		values.put(Obd2Database.CreateDB.TITLE, title);
-
+		values.put(Obd2Database.CreateDB.SIGNAL1,signal1);
+		values.put(Obd2Database.CreateDB.SIGNAL2,signal2);
 		return mDB.update(Obd2Database.CreateDB._TABLENAME, values, "_id = " + id, null) > 0;
 	}
 

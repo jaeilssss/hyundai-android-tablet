@@ -68,11 +68,11 @@ public class DBUtil {
 	 * @param id - unique id
 	 * @param title - title to update
 	 */
-	public static void updateDB(Context context, int id, String title) {
+	public static void updateDB(Context context, int id, String title,String signal1, String signal2) {
 		Obd2DBOpenHelper mHelper = new Obd2DBOpenHelper(context);
 		mHelper.open();
 
-		mHelper.update(id, title);
+		mHelper.update(id, title,signal1,signal2);
 		mHelper.close();
 	}
 

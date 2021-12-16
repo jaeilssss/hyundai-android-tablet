@@ -142,7 +142,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private Button delete;
     private Button edit;
     private Button send;
-    private Button back;
+    private ImageButton back;
 
     private Dialog dialog ;
     private Dialog editDialog;
@@ -154,7 +154,6 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_favorite);
-
 
         // UI 초기화
         initUI();
@@ -251,7 +250,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         delete.setOnClickListener(this);
 
 
-
+        back = findViewById(R.id.ib_favorite_back);
+        back.setOnClickListener(this);
 
     }
 
@@ -431,9 +431,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         switch(v.getId()) {
             // 뒤로가기
             case R.id.ib_favorite_back:
-                Intent intent = new Intent();
-                setResult(Activity.RESULT_CANCELED, intent);
-                finish();
+                onBackPressed();
 
 //            case R.id.ib_f_send_btn:
 //                if(Constants.OBD_STATUS == true) {
@@ -479,7 +477,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 //                // if the count of group is zero, activity should be finish
 //                if(mListAdapter.getCount() == 0) finish();
 //
-//                break;
+                break;
             case R.id.ib_obd_set_btn:
                 if(Constants.OBD_STATUS == true) {
                     try {
@@ -539,8 +537,11 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        setEditData(adapter.list.get(adapter.clickIndex).getSignal1(),adapter.list.get(adapter.clickIndex).getSignal2());
                         Intent intent = new Intent();
                         intent.putExtra("check",true);
+                        intent.putExtra("title",adapter.list.get(adapter.clickIndex).getTitle());
+                        intent.putExtra("id",adapter.list.get(adapter.clickIndex).getId());
                         setResult(Constants.REQUEST_FAVORITE,intent);
                         finish();
                         Toast.makeText(getApplicationContext(),"편집 모드 입니다",Toast.LENGTH_SHORT).show();

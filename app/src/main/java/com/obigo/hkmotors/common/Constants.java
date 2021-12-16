@@ -16,6 +16,7 @@ public class Constants {
     public static final int REQUEST_GEAR_SETTING                   = 5;
     public static final int REQUEST_SPEAKER_SETTING                   = 6;
     public static final int REQUEST_DRIVING_SETTING                   = 7;
+    public static final int REQUEST_EDIT_CUSTOM_RESULT              =8;
     public static boolean INIT_FLAG                                = true; // 앱 최초 실행시에만 쓰이는 프래그 - true :: 최초실행시 메인프레그먼트에서 OBD 연결창을 띄운다
     public static boolean OBD_STATUS                               = false; // OBD 연결상태 - true :: 연결 / false :: 미연결
 
