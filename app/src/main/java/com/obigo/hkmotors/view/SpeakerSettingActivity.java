@@ -331,12 +331,12 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         switch(view.getId()){
             case R.id.speaker_engin_type_engin_img :
-                Sound.getInstance().setTempDriveType("0");
+                Sound.getInstance().setTempDriveType("1");
                 typeClick("Engin");
                 changeChart();
                 break;
             case R.id.speaker_engin_type_motor_img:
-                Sound.getInstance().setTempDriveType("1");
+                Sound.getInstance().setTempDriveType("0");
                 typeClick("Motor");
                 changeChart();
                 break;
@@ -356,12 +356,12 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
                 changeChart();
                 break;
             case R.id.speaker_sensitivity_high_img :
-                Sound.getInstance().setTempBackSensitive("0");
+                Sound.getInstance().setTempBackSensitive("1");
                 backSensitivityVolume("High");
                 changeChart();
                 break;
             case R.id.speaker_sensitivity_low_img :
-                Sound.getInstance().setTempBackSensitive("1");
+                Sound.getInstance().setTempBackSensitive("0");
                 backSensitivityVolume("Low");
                 changeChart();
                 break;
