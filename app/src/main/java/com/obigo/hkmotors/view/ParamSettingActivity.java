@@ -83,6 +83,8 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +106,7 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 //
 //        mMode = params[0]; // 20181113 지금 프로그램에서는 필요없음
 //
+
 
 
          loadingDialog  = new LoadingDialog(ParamSettingActivity.this);

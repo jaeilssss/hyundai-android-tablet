@@ -65,6 +65,7 @@
                 android:layout_gravity="center_horizontal"
                 android:textSize="16dp"
                 android:layout_marginLeft="12dp"
+                android:id="@+id/new_pw_txt"
                 android:text="신규 비밀번호 입력"/>
 
             <FrameLayout
@@ -111,6 +112,7 @@
                 android:layout_gravity="center_horizontal"
                 android:textSize="16dp"
                 android:layout_marginLeft="12dp"
+                android:id="@+id/confirm_pw_txt"
                 android:text="신규 비밀번호 확인"/>
 
             <FrameLayout

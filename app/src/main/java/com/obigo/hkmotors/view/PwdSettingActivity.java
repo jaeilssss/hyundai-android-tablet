@@ -1,5 +1,6 @@
 package com.obigo.hkmotors.view;
 
+import android.graphics.Color;
 import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,7 +56,8 @@ public class PwdSettingActivity extends BaseActivity implements View.OnClickList
     // custom widget or event
     private CustomKeyboardView mKeyboardView;
 
-
+    private TextView newPwText;
+    private TextView confirmPwText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -108,10 +110,13 @@ public class PwdSettingActivity extends BaseActivity implements View.OnClickList
 
             case R.id.et_new_pw:
                 editState = true;
+                newPwText.setTextColor(Color.parseColor("#359dd5"));
+                confirmPwText.setTextColor(Color.parseColor("#bacbd9"));
                 break;
 
             case R.id.et_pw_confirm:
-
+                newPwText.setTextColor(Color.parseColor("#bacbd9"));
+                confirmPwText.setTextColor(Color.parseColor("#359dd5"));
                 editState = false;
                 break;
 
@@ -239,6 +244,10 @@ public class PwdSettingActivity extends BaseActivity implements View.OnClickList
      */
     private void initUI() {
 
+
+        newPwText = findViewById(R.id.new_pw_txt);
+        newPwText.setTextColor(Color.parseColor("#359dd5"));
+        confirmPwText = findViewById(R.id.confirm_pw_txt);
         mNewPw = (TextView) findViewById(R.id.et_new_pw);
         //mNewPw.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         mNewPwChk = (ImageView) findViewById(R.id.iv_new_pw_chk);

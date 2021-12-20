@@ -626,6 +626,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
     public void clickRecomment(int index){
+        recommendChangeBackGround(index);
         String signal1 = recommentList.get(index).getSignal1();
         String signal2 = recommentList.get(index).getSignal2();
 
@@ -795,6 +796,58 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
         }
 
+    }
+
+    public void recommendChangeBackGround(int num){
+        if(num==-1){
+
+            ev.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            vip.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            passenger.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            sport.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            commercial.setBackgroundResource(R.drawable.favorite_border_5_grey);
+        } else if(num==0){
+            ev.setBackgroundResource(R.drawable.favorite_border_5_selected);
+
+            vip.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            passenger.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            sport.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            commercial.setBackgroundResource(R.drawable.favorite_border_5_grey);
+        }else if(num==1){
+            vip.setBackgroundResource(R.drawable.favorite_border_5_selected);
+
+            ev.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            passenger.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            sport.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            commercial.setBackgroundResource(R.drawable.favorite_border_5_grey);
+        }else if(num==2){
+
+            passenger.setBackgroundResource(R.drawable.favorite_border_5_selected);
+
+            ev.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            vip.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            sport.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            commercial.setBackgroundResource(R.drawable.favorite_border_5_grey);
+
+        }else if(num==3){
+
+            sport.setBackgroundResource(R.drawable.favorite_border_5_selected);
+
+            ev.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            vip.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            passenger.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            commercial.setBackgroundResource(R.drawable.favorite_border_5_grey);
+
+        }else{
+            
+            commercial.setBackgroundResource(R.drawable.favorite_border_5_selected);
+            
+            ev.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            vip.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            passenger.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            sport.setBackgroundResource(R.drawable.favorite_border_5_grey);
+
+        }
 
     }
     /**
@@ -2494,6 +2547,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     Transmission.getInstance().reset();
                     Sound.getInstance().reset();
                     Drive.getInstance().reset();
+
+                    recommendChangeBackGround(-1);
                 }
                 setParamMode(mModeValue);
             }
@@ -2701,9 +2756,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case Constants.REQUEST_EDIT_CUSTOM_RESULT :
                 if(data.getBooleanExtra("change",false)){
+                    if(isEdit==2){
+                        Toast.makeText(getApplicationContext(),"수정이 완료되었습니다",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"새로운 커스텀 모드를 저장했습니다",Toast.LENGTH_SHORT).show();
+                    }
                     isEdit=1;
                     setEditMode();
-                    Toast.makeText(getApplicationContext(),"수정이 완료되었습니다",Toast.LENGTH_SHORT).show();
                 }
 
                 break;
