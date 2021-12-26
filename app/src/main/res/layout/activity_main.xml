@@ -277,16 +277,7 @@
                         android:textColor="@color/white"
                         android:textSize="17dp" />
                     <!-- 초기화 버튼 -->
-                    <Button
-                        android:id="@+id/ib_e_reset_btn"
-                        android:layout_width="106.7dp"
-                        android:layout_height="50dp"
-                        android:gravity="center"
-                        android:text="초기화"
-                        android:textColor="@color/white"
-                        android:textSize="16dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="@drawable/button_shape" />
+
                     <!-- 버튼 -->
                     <LinearLayout
                         android:id="@+id/layout_e_obd_btn"
@@ -298,12 +289,18 @@
                         android:gravity="right"
                         android:orientation="horizontal">
 
-                        <!-- 초기화 버튼 -->
-<!--                        <ImageButton-->
-<!--                            android:id="@+id/ib_e_reset_btn"-->
-<!--                            android:layout_width="106.7dp"-->
-<!--                            android:layout_height="41dp"-->
-<!--                            android:background="@drawable/btn_reset" />-->
+<!--                         초기화 버튼-->
+                        <Button
+                            android:id="@+id/ib_e_reset_btn"
+                            android:layout_width="106.7dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:text="초기화"
+                            android:textColor="@color/white"
+                            android:textSize="16dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginRight="110dp"
+                            android:background="@drawable/button_shape" />
 
                         <!-- 내차로 전송 버튼 -->
                         <Button

@@ -198,6 +198,8 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         mChart.clear();
 
+
+
         List<RadarEntry> entries = new ArrayList<>();
         entries.add(new RadarEntry(d1, 0));
         entries.add(new RadarEntry(d2, 1));
