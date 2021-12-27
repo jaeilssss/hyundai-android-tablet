@@ -647,7 +647,7 @@
         android:layout_below="@id/favorite_main_layout"
         android:layout_alignEnd="@id/favorite_main_layout"
         android:layout_marginRight="50dp"
-        android:text="치량 전송"
+        android:text="차량 전송"
         android:background="@color/mainColor"
         android:textColor="@color/white"
         android:textSize="16dp"

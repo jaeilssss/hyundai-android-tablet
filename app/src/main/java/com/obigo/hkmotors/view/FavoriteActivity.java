@@ -166,8 +166,6 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
      */
     public void initUI() {
 
-
-
         // OBD Status 변경
         Log.d(TAG, " ================= OBD Status 변경 :: " + Constants.OBD_STATUS);
 //        setOBDMode(Constants.OBD_STATUS);
