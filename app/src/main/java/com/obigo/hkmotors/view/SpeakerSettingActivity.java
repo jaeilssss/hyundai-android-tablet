@@ -49,7 +49,7 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
     private float mRespDeceleration=2.5f;
     private float mRespResponse=2.5f;
 
-    private SeekBar backVolume;
+
 
     private ImageButton engin;
     private ImageButton motor;
@@ -61,7 +61,7 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
     private ImageButton speakerSensitivityHigh;
     private ImageButton speakerSensitivityLow;
 
-    private TextView backVolumeTxt;
+
 
     private Button send;
 
@@ -134,46 +134,8 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         speakerSensitivityLow.setOnClickListener(this);
         speakerSensitivityHigh.setOnClickListener(this);
 
-        backVolumeTxt = findViewById(R.id.speaker_volume_number_txt);
 
-        backVolume = findViewById(R.id.speaker_volume_seekbar);
-        backVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(final SeekBar seekBar, int i, boolean b) {
-                num = i;
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        seekBar.setProgress(num);
-                        if(num==0){
-                            backVolumeTxt.setText("off");
-                            Sound.getInstance().setTempBackVolume("00");
-                        }else if(num==1){
-                            Sound.getInstance().setTempBackVolume("01");
-                            backVolumeTxt.setText("소");
-                        }else if(num==2){
-                            Sound.getInstance().setTempBackVolume("10");
-                            backVolumeTxt.setText("중");
-                        }else{
-                            backVolumeTxt.setText("대");
-                            Sound.getInstance().setTempBackVolume("11");
-                        }
-                    changeChart();
-                    }
-                });
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
 
         send = findViewById(R.id.speaker_data_send);
         send.setOnClickListener(this);
@@ -454,17 +416,17 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
             }
 
             if(Sound.getInstance().getTempVolume().equals("00")){
-                backVolumeTxt.setText("off");
-                backVolume.setProgress(0);
+
+
             }else if(Sound.getInstance().getTempVolume().equals("01")){
-                backVolumeTxt.setText("소");
-                backVolume.setProgress(1);
+
+
             }else if(Sound.getInstance().getTempVolume().equals("10")){
-                backVolumeTxt.setText("중");
-                backVolume.setProgress(2);
+
+
             }else{
-                backVolumeTxt.setText("대");
-                backVolume.setProgress(3);
+
+
             }
 
 
