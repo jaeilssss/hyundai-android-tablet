@@ -191,6 +191,7 @@
             android:layout_height="25dp"
             android:layout_toEndOf="@id/speaker_setting_engin_type_txt"
             android:layout_marginLeft="100dp"
+            android:soundEffectsEnabled="true"
             android:id="@+id/speaker_engin_type_engin_img"
             android:background="@drawable/oval_default"/>
             <TextView

@@ -1,10 +1,13 @@
 package com.obigo.hkmotors.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -73,11 +76,13 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
     private ImageButton obdState;
     private ImageView obdLight;
 
+    AudioManager audioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speaker_setting);
+        audioManager =  (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
         initUI();
     }
 
@@ -295,6 +300,8 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         switch(view.getId()){
             case R.id.speaker_engin_type_engin_img :
+                engin.setSoundEffectsEnabled(true);
+                audioManager.playSoundEffect(SoundEffectConstants.CLICK);
                 Sound.getInstance().setTempDriveType("1");
                 typeClick("Engin");
                 changeChart();
