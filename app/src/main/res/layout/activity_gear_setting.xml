@@ -184,8 +184,9 @@
                 android:padding="5dp"
                 android:layout_marginLeft="100dp"
                 android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default"
                 android:layout_toEndOf="@id/gear_setting_type_txt"
-                android:src="@drawable/oval_default" />
+                    />
 
             <TextView
                 android:id="@+id/gear_setting_at_txt"
