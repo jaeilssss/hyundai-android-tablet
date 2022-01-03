@@ -355,22 +355,22 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
     }
     public void setStiffness(String str){
         if(str.equals("Low")){
-            stiffnessLow.setBackgroundResource(R.drawable.oval_selected);
+            stiffnessLow.setImageResource(R.drawable.oval_selected);
 
-            stiffnessMiddle.setBackgroundResource(R.drawable.oval_default);
-            stiffnessHigh.setBackgroundResource(R.drawable.oval_default);
+            stiffnessMiddle.setImageResource(R.drawable.oval_default);
+            stiffnessHigh.setImageResource(R.drawable.oval_default);
         }else if(str.equals("Middle")){
 
-            stiffnessMiddle.setBackgroundResource(R.drawable.oval_selected);
+            stiffnessMiddle.setImageResource(R.drawable.oval_selected);
 
-            stiffnessHigh.setBackgroundResource(R.drawable.oval_default);
-            stiffnessLow.setBackgroundResource(R.drawable.oval_default);
+            stiffnessHigh.setImageResource(R.drawable.oval_default);
+            stiffnessLow.setImageResource(R.drawable.oval_default);
         }else {
 
-            stiffnessHigh.setBackgroundResource(R.drawable.oval_selected);
+            stiffnessHigh.setImageResource(R.drawable.oval_selected);
 
-            stiffnessMiddle.setBackgroundResource(R.drawable.oval_default);
-            stiffnessLow.setBackgroundResource(R.drawable.oval_default);
+            stiffnessMiddle.setImageResource(R.drawable.oval_default);
+            stiffnessLow.setImageResource(R.drawable.oval_default);
         }
 
     }
@@ -379,21 +379,21 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
 
         if(str.equals("Low")){
 
-            reduceLow.setBackgroundResource(R.drawable.oval_selected);
+            reduceLow.setImageResource(R.drawable.oval_selected);
 
-            reduceMiddle.setBackgroundResource(R.drawable.oval_default);
-            reduceHigh.setBackgroundResource(R.drawable.oval_default);
+            reduceMiddle.setImageResource(R.drawable.oval_default);
+            reduceHigh.setImageResource(R.drawable.oval_default);
         }else if(str.equals("Middle")){
 
-            reduceMiddle.setBackgroundResource(R.drawable.oval_selected);
+            reduceMiddle.setImageResource(R.drawable.oval_selected);
 
-            reduceLow.setBackgroundResource(R.drawable.oval_default);
-            reduceHigh.setBackgroundResource(R.drawable.oval_default);
+            reduceLow.setImageResource(R.drawable.oval_default);
+            reduceHigh.setImageResource(R.drawable.oval_default);
         }else{
-            reduceHigh.setBackgroundResource(R.drawable.oval_selected);
+            reduceHigh.setImageResource(R.drawable.oval_selected);
 
-            reduceMiddle.setBackgroundResource(R.drawable.oval_default);
-            reduceLow.setBackgroundResource(R.drawable.oval_default);
+            reduceMiddle.setImageResource(R.drawable.oval_default);
+            reduceLow.setImageResource(R.drawable.oval_default);
         }
 
 
