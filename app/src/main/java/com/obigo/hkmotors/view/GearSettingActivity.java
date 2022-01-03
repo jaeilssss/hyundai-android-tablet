@@ -98,6 +98,26 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
     private int tempPerformance;
 
 
+    private TextView atTypeTxt;
+    private TextView dctTypeTxt;
+    private TextView amtTypeTxt;
+
+    private TextView gearRateShortTxt;
+    private TextView gearRateDefaultTxt;
+    private TextView gearRateLongTxt;
+
+    private TextView gearSpeedHighTxt;
+    private TextView gearSpeedMiddleTxt;
+    private TextView gearSpeedLowTxt;
+
+    private TextView gearPowerHighTxt;
+    private TextView gearPowerMiddleTxt;
+    private TextView gearPowerLowTxt;
+
+    private TextView gearMapNormalTxt;
+    private TextView gearMapSportTxt;
+    private TextView gearMapTrackTxt;
+
     private ImageView obdLight;
     private ImageButton obdState;
     @Override
@@ -218,6 +238,11 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         gearMapSport.setOnClickListener(this);
         gearMapTrack.setOnClickListener(this);
 
+
+        // 각 설정 텍스트뷰 클릭 리스너
+
+
+        //
         send = findViewById(R.id.ib_e_send_btn);
         send.setOnClickListener(this);
         setSettingValue();
@@ -476,21 +501,21 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
     public void map(String str){
         if(str.equals("Normal")){
 
-            gearMapNormal.setBackgroundResource(R.drawable.oval_selected);
+            gearMapNormal.setImageResource(R.drawable.oval_selected);
 
-            gearMapSport.setBackgroundResource(R.drawable.oval_default);
-            gearMapTrack.setBackgroundResource(R.drawable.oval_default);
+            gearMapSport.setImageResource(R.drawable.oval_default);
+            gearMapTrack.setImageResource(R.drawable.oval_default);
         }else if(str.equals("Sport")){
 
 
-            gearMapSport.setBackgroundResource(R.drawable.oval_selected);
-            gearMapTrack.setBackgroundResource(R.drawable.oval_default);
-            gearMapNormal.setBackgroundResource(R.drawable.oval_default);
+            gearMapSport.setImageResource(R.drawable.oval_selected);
+            gearMapTrack.setImageResource(R.drawable.oval_default);
+            gearMapNormal.setImageResource(R.drawable.oval_default);
         }else{
 
-            gearMapTrack.setBackgroundResource(R.drawable.oval_selected);
-            gearMapSport.setBackgroundResource(R.drawable.oval_default);
-            gearMapNormal.setBackgroundResource(R.drawable.oval_default);
+            gearMapTrack.setImageResource(R.drawable.oval_selected);
+            gearMapSport.setImageResource(R.drawable.oval_default);
+            gearMapNormal.setImageResource(R.drawable.oval_default);
         }
     }
     private void modChart(float d1, float d2, float d3, float d4, float d5,
@@ -575,24 +600,24 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
     public void typeClick(String str){
 
         if(str.equals("AT")){
-            atButton.setBackgroundResource(R.drawable.oval_selected);
+            atButton.setImageResource(R.drawable.oval_selected);
 
-            dctButton.setBackgroundResource(R.drawable.oval_default);
-            amtButton.setBackgroundResource(R.drawable.oval_default);
+            dctButton.setImageResource(R.drawable.oval_default);
+            amtButton.setImageResource(R.drawable.oval_default);
 
 
 
         }else if(str.equals("DCT")){
-            dctButton.setBackgroundResource(R.drawable.oval_selected);
+            dctButton.setImageResource(R.drawable.oval_selected);
 
-            atButton.setBackgroundResource(R.drawable.oval_default);
-            amtButton.setBackgroundResource(R.drawable.oval_default);
+            atButton.setImageResource(R.drawable.oval_default);
+            amtButton.setImageResource(R.drawable.oval_default);
 
         }else{
-            amtButton.setBackgroundResource(R.drawable.oval_selected);
+            amtButton.setImageResource(R.drawable.oval_selected);
 
-            atButton.setBackgroundResource(R.drawable.oval_default);
-            dctButton.setBackgroundResource(R.drawable.oval_default);
+            atButton.setImageResource(R.drawable.oval_default);
+            dctButton.setImageResource(R.drawable.oval_default);
         }
 
     }
@@ -600,65 +625,65 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
     public void gearRate(String str){
         if(str.equals("Long")){
 
-            gearLongButton.setBackgroundResource(R.drawable.oval_selected);
+            gearLongButton.setImageResource(R.drawable.oval_selected);
 
-            gearShortButton.setBackgroundResource(R.drawable.oval_default);
-            gearDefaultButton.setBackgroundResource(R.drawable.oval_default);
+            gearShortButton.setImageResource(R.drawable.oval_default);
+            gearDefaultButton.setImageResource(R.drawable.oval_default);
         }else if(str.equals("Default")){
 
-            gearDefaultButton.setBackgroundResource(R.drawable.oval_selected);
+            gearDefaultButton.setImageResource(R.drawable.oval_selected);
 
-            gearLongButton.setBackgroundResource(R.drawable.oval_default);
-            gearShortButton.setBackgroundResource(R.drawable.oval_default);
+            gearLongButton.setImageResource(R.drawable.oval_default);
+            gearShortButton.setImageResource(R.drawable.oval_default);
         }else{
 
-            gearShortButton.setBackgroundResource(R.drawable.oval_selected);
+            gearShortButton.setImageResource(R.drawable.oval_selected);
 
-            gearDefaultButton.setBackgroundResource(R.drawable.oval_default);
-            gearLongButton.setBackgroundResource(R.drawable.oval_default);
+            gearDefaultButton.setImageResource(R.drawable.oval_default);
+            gearLongButton.setImageResource(R.drawable.oval_default);
         }
     }
 
     public void gearSpeed(String str){
         if(str.equals("High")){
 
-            gearSpeedHigh.setBackgroundResource(R.drawable.oval_selected);
+            gearSpeedHigh.setImageResource(R.drawable.oval_selected);
 
-            gearSpeedMiddle.setBackgroundResource(R.drawable.oval_default);
-            gearSpeedLow.setBackgroundResource(R.drawable.oval_default);
+            gearSpeedMiddle.setImageResource(R.drawable.oval_default);
+            gearSpeedLow.setImageResource(R.drawable.oval_default);
         }else if(str.equals("Middle")){
 
-            gearSpeedMiddle.setBackgroundResource(R.drawable.oval_selected);
+            gearSpeedMiddle.setImageResource(R.drawable.oval_selected);
 
-            gearSpeedHigh.setBackgroundResource(R.drawable.oval_default);
-            gearSpeedLow.setBackgroundResource(R.drawable.oval_default);
+            gearSpeedHigh.setImageResource(R.drawable.oval_default);
+            gearSpeedLow.setImageResource(R.drawable.oval_default);
 
         }else if(str.equals("Low")){
 
-            gearSpeedLow.setBackgroundResource(R.drawable.oval_selected);
+            gearSpeedLow.setImageResource(R.drawable.oval_selected);
 
-            gearSpeedHigh.setBackgroundResource(R.drawable.oval_default);
-            gearSpeedMiddle.setBackgroundResource(R.drawable.oval_default);
+            gearSpeedHigh.setImageResource(R.drawable.oval_default);
+            gearSpeedMiddle.setImageResource(R.drawable.oval_default);
         }
     }
 
     public void gearPower(String str){
         if(str.equals("High")){
 
-            gearPowerHigh.setBackgroundResource(R.drawable.oval_selected);
+            gearPowerHigh.setImageResource(R.drawable.oval_selected);
 
-            gearPowerMiddle.setBackgroundResource(R.drawable.oval_default);
-            gearPowerLow.setBackgroundResource(R.drawable.oval_default);
+            gearPowerMiddle.setImageResource(R.drawable.oval_default);
+            gearPowerLow.setImageResource(R.drawable.oval_default);
         }else if(str.equals("Middle")){
-            gearPowerMiddle.setBackgroundResource(R.drawable.oval_selected);
+            gearPowerMiddle.setImageResource(R.drawable.oval_selected);
 
-            gearPowerHigh.setBackgroundResource(R.drawable.oval_default);
-            gearPowerLow.setBackgroundResource(R.drawable.oval_default);
+            gearPowerHigh.setImageResource(R.drawable.oval_default);
+            gearPowerLow.setImageResource(R.drawable.oval_default);
         }else{
-            gearPowerLow.setBackgroundResource(R.drawable.oval_selected);
+            gearPowerLow.setImageResource(R.drawable.oval_selected);
 
-            gearPowerHigh.setBackgroundResource(R.drawable.oval_default);
-            gearPowerMiddle.setBackgroundResource(R.drawable.oval_default);
+            gearPowerHigh.setImageResource(R.drawable.oval_default);
+            gearPowerMiddle.setImageResource(R.drawable.oval_default);
         }
     }
 

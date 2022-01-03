@@ -300,8 +300,8 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         switch(view.getId()){
             case R.id.speaker_engin_type_engin_img :
-                engin.setSoundEffectsEnabled(true);
-                audioManager.playSoundEffect(SoundEffectConstants.CLICK);
+
+
                 Sound.getInstance().setTempDriveType("1");
                 typeClick("Engin");
                 changeChart();

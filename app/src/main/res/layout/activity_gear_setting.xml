@@ -164,7 +164,7 @@
 
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="70dp">
+            android:layout_marginTop="60dp">
 
             <TextView
                 android:id="@+id/gear_setting_type_txt"
@@ -179,11 +179,13 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_at_check"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_marginLeft="100dp"
+                android:background="@color/keypad_bg"
                 android:layout_toEndOf="@id/gear_setting_type_txt"
-                android:background="@drawable/oval_default" />
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:id="@+id/gear_setting_at_txt"
@@ -201,11 +203,13 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_dct_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_marginLeft="60dp"
                 android:layout_toEndOf="@id/gear_setting_at_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:id="@+id/gear_setting_dct_txt"
@@ -222,11 +226,13 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_amt_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_marginLeft="60dp"
                 android:layout_toEndOf="@id/gear_setting_dct_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -246,7 +252,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gear_setting_type_txt"
                 android:layout_alignLeft="@id/gear_setting_type_txt"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:text="단수"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
@@ -258,10 +264,9 @@
                 android:layout_below="@id/gear_setting_type_txt"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
-                android:layout_marginTop="55dp"
+                android:layout_marginTop="25dp"
                 android:text="6"
                 android:textColor="@color/white"
-
                 android:textSize="17dp"
                 android:typeface="sans" />
 
@@ -271,7 +276,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gear_setting_type_txt"
                 android:layout_alignBottom="@id/gear_detail_count_txt"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_alignStart="@id/gear_setting_at_check"
                 android:text="4"
                 android:textColor="@color/white"
@@ -285,7 +290,7 @@
                 android:layout_alignStart="@id/gear_setting_at_check"
 
                 android:layout_marginLeft="22dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_toEndOf="@id/gear_detail_count_txt"
                 android:max="4"
                 android:maxHeight="2.5dp"
@@ -302,7 +307,7 @@
                 android:layout_below="@id/gear_setting_type_txt"
                 android:layout_alignBottom="@id/gear_detail_count_txt"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_toEndOf="@id/gear_count_seekbar"
                 android:text="8"
                 android:textColor="@color/white"
@@ -323,13 +328,15 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_short_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_count_seekbar"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_alignStart="@id/gear_count_min"
                 android:layout_toEndOf="@id/gear_detail_gear_rate"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:id="@+id/gear_setting_short_txt"
@@ -347,13 +354,15 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_default_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_count_seekbar"
                 android:layout_alignStart="@id/gear_setting_dct_img"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_toEndOf="@id/gear_setting_short_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:id="@+id/gear_setting_default_txt"
@@ -371,13 +380,15 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_long_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_count_seekbar"
                 android:layout_alignStart="@id/gear_setting_amt_img"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_toEndOf="@id/gear_setting_default_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -407,13 +418,15 @@
 
             <ImageButton
                 android:id="@+id/gear_speed_high_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_setting_short_img"
                 android:layout_alignStart="@id/gear_setting_short_img"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_toEndOf="@id/gear_setting_speed_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:id="@+id/gear_speed_high_txt"
@@ -431,13 +444,15 @@
 
             <ImageButton
                 android:id="@+id/gear_speed_middle_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_setting_default_img"
                 android:layout_alignStart="@id/gear_setting_default_img"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_toEndOf="@id/gear_speed_high_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:id="@+id/gear_speed_middle_txt"
@@ -455,13 +470,15 @@
 
             <ImageButton
                 android:id="@+id/gear_speed_low_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_setting_long_img"
                 android:layout_alignStart="@id/gear_setting_long_img"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_toEndOf="@id/gear_speed_middle_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -491,13 +508,15 @@
 
             <ImageButton
                 android:id="@+id/gear_power_high_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_speed_high_img"
                 android:layout_alignStart="@id/gear_speed_high_img"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_toEndOf="@id/gear_setting_power_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:id="@+id/gear_power_high_txt"
@@ -515,14 +534,16 @@
 
             <ImageButton
                 android:id="@+id/gear_power_middle_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_speed_middle_img"
                 android:layout_alignTop="@id/gear_power_high_img"
                 android:layout_alignBottom="@id/gear_power_high_img"
                 android:layout_alignStart="@id/gear_speed_middle_img"
                 android:layout_toEndOf="@id/gear_power_high_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:id="@+id/gear_power_middle_txt"
@@ -540,13 +561,15 @@
 
             <ImageButton
                 android:id="@+id/gear_power_low_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_speed_low_img"
                 android:layout_alignStart="@id/gear_speed_low_img"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_toEndOf="@id/gear_power_middle_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -567,19 +590,21 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gear_setting_power_txt"
                 android:layout_alignStart="@id/gear_setting_power_txt"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:text="변속 맵"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
             <ImageButton
                 android:id="@+id/gear_map_normal_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_power_high_img"
                 android:layout_alignStart="@id/gear_power_high_img"
-                android:layout_marginTop="70dp"
-                android:background="@drawable/oval_default" />
+                android:layout_marginTop="50dp"
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:id="@+id/gear_map_normal_txt"
@@ -588,6 +613,7 @@
                 android:layout_alignTop="@id/gear_map_normal_img"
                 android:layout_alignBottom="@id/gear_map_normal_img"
                 android:layout_marginLeft="15dp"
+                android:gravity="center"
                 android:layout_toEndOf="@id/gear_map_normal_img"
                 android:text="Normal"
                 android:textColor="@color/white"
@@ -595,13 +621,15 @@
 
             <ImageButton
                 android:id="@+id/gear_map_sport_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_power_middle_img"
                 android:layout_alignStart="@id/gear_power_middle_img"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_toRightOf="@id/gear_map_normal_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:id="@+id/gear_map_sport_txt"
@@ -612,18 +640,21 @@
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@id/gear_map_sport_img"
                 android:text="Sport"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
             <ImageButton
                 android:id="@+id/gear_map_track_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_below="@id/gear_power_low_img"
                 android:layout_alignStart="@id/gear_power_low_img"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:layout_toRightOf="@id/gear_map_sport_txt"
-                android:background="@drawable/oval_default" />
+                android:background="@color/keypad_bg"
+                android:src="@drawable/oval_default" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -632,6 +663,7 @@
                 android:layout_alignTop="@id/gear_map_track_img"
                 android:layout_alignBottom="@id/gear_map_track_img"
                 android:layout_marginLeft="15dp"
+                android:gravity="center"
                 android:layout_toRightOf="@id/gear_map_track_img"
                 android:text="Track"
                 android:textColor="@color/white"
@@ -645,7 +677,7 @@
             android:layout_below="@id/gear_setting_layout"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/button_shape"
             android:text="전송"
