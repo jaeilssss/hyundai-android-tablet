@@ -180,7 +180,7 @@
             android:background="@color/keypad_bg"
             android:src="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_setting_type_txt"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="65dp"
             android:id="@+id/axel_setting_low_check"
             android:layout_marginLeft="100dp"/>
 
@@ -207,7 +207,7 @@
             android:src="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_setting_low_txt"
 
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="65dp"
             android:id="@+id/axel_setting_middle_check"
             android:layout_marginLeft="40dp"/>
         <TextView
@@ -230,7 +230,7 @@
             android:src="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_setting_middle_txt"
 
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="65dp"
             android:id="@+id/axel_setting_high_img"
             android:layout_marginLeft="40dp"/>
         <TextView
@@ -265,7 +265,7 @@
             android:layout_toEndOf="@id/axel_detail_axel_rate"
             android:layout_below="@id/axel_setting_low_check"
             android:layout_alignStart="@id/axel_setting_low_check"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="56dp"
             android:id="@+id/axel_reduce_low_img"
             />
         <TextView
@@ -290,7 +290,7 @@
             android:src="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_low_txt"
             android:layout_below="@id/axel_setting_middle_check"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="56dp"
             android:id="@+id/axel_setting_reduce_middle_img"
             android:layout_marginLeft="40dp"/>
         <TextView
@@ -314,7 +314,7 @@
             android:src="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_setting_reduce_middle_txt"
             android:layout_below="@id/axel_setting_high_img"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="56dp"
             android:id="@+id/axel_setting_reduce_high_img"
             android:layout_marginLeft="40dp"/>
         <TextView
@@ -340,7 +340,7 @@
             android:background="@drawable/button_shape"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="35dp"
             android:layout_marginBottom="15dp"
             android:text="전송"
             android:textColor="@color/white"

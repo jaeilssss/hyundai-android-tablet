@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -64,6 +65,10 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
     private ImageButton speakerSensitivityHigh;
     private ImageButton speakerSensitivityLow;
 
+    private ImageButton backVolumeOff;
+    private ImageButton backVolumeLow;
+    private ImageButton backVolumeMiddle;
+    private ImageButton backVolumeHigh;
 
 
     private Button send;
@@ -139,7 +144,15 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         speakerSensitivityLow.setOnClickListener(this);
         speakerSensitivityHigh.setOnClickListener(this);
 
+        backVolumeOff = findViewById(R.id.speaker_back_volume_off);
+        backVolumeLow = findViewById(R.id.speaker_back_volume_low);
+        backVolumeMiddle = findViewById(R.id.speaker_back_volume_middle);
+        backVolumeHigh = findViewById(R.id.speaker_back_volume_high);
 
+        backVolumeOff.setOnClickListener(this);
+        backVolumeLow.setOnClickListener(this);
+        backVolumeMiddle.setOnClickListener(this);
+        backVolumeHigh.setOnClickListener(this);
 
 
         send = findViewById(R.id.speaker_data_send);
@@ -294,7 +307,11 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         // TODO : animation makes blink, so it is disabled
         mChart.setAnimation(animFadeIn);
+
+        mChart.notifyDataSetChanged();
     }
+
+
     @Override
     public void onClick(View view) {
 
@@ -342,6 +359,27 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
             case R.id.ib_speaker_setting_back:
                 onBackPressed();
                 break;
+
+            case R.id.speaker_back_volume_off:
+                Sound.getInstance().setTempBackVolume("00");
+                setBackVolume("Off");
+                changeChart();
+                break;
+            case R.id.speaker_back_volume_low:
+                Sound.getInstance().setTempBackVolume("01");
+                setBackVolume("Low");
+                changeChart();
+                break;
+            case R.id.speaker_back_volume_middle :
+                Sound.getInstance().setTempBackVolume("10");
+                setBackVolume("Middle");
+                changeChart();
+                break;
+            case R.id.speaker_back_volume_high :
+                Sound.getInstance().setTempBackVolume("11");
+                setBackVolume("High");
+                changeChart();
+                break;
                 //
         }
     }
@@ -362,6 +400,39 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
             motor.setBackgroundResource(R.drawable.oval_selected);
             engin.setBackgroundResource(R.drawable.oval_default);
+        }
+    }
+
+    public void setBackVolume(String str){
+
+        if(str.equals("Off")){
+            backVolumeOff.setImageResource(R.drawable.oval_selected);
+
+            backVolumeLow.setImageResource(R.drawable.oval_default);
+            backVolumeMiddle.setImageResource(R.drawable.oval_default);
+            backVolumeHigh.setImageResource(R.drawable.oval_default);
+        }else if(str.equals("Low")){
+
+            backVolumeLow.setImageResource(R.drawable.oval_selected);
+
+            backVolumeOff.setImageResource(R.drawable.oval_default);
+            backVolumeMiddle.setImageResource(R.drawable.oval_default);
+            backVolumeHigh.setImageResource(R.drawable.oval_default);
+        }else if(str.equals("Middle")){
+
+            backVolumeMiddle.setImageResource(R.drawable.oval_selected);
+
+            backVolumeOff.setImageResource(R.drawable.oval_default);
+            backVolumeLow.setImageResource(R.drawable.oval_default);
+            backVolumeHigh.setImageResource(R.drawable.oval_default);
+
+        }else{
+
+            backVolumeHigh.setImageResource(R.drawable.oval_selected);
+
+            backVolumeOff.setImageResource(R.drawable.oval_default);
+            backVolumeLow.setImageResource(R.drawable.oval_default);
+            backVolumeMiddle.setImageResource(R.drawable.oval_default);
         }
     }
 
@@ -424,18 +495,17 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
             if(Sound.getInstance().getTempVolume().equals("00")){
 
-
+                setBackVolume("Off");
             }else if(Sound.getInstance().getTempVolume().equals("01")){
-
+                setBackVolume("Low");
 
             }else if(Sound.getInstance().getTempVolume().equals("10")){
 
-
+                setBackVolume("Middle");
             }else{
 
-
+                setBackVolume("High");
             }
-
 
         }else{
             switchCompat.setChecked(false);
