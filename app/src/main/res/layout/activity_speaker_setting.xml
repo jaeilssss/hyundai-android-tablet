@@ -317,7 +317,7 @@
             android:layout_height="wrap_content"
             android:text="음량"
             android:textSize="20dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:textColor="@color/white"
             android:layout_marginLeft="15dp"
             android:id="@+id/speaker_detail_volume_txt"/>

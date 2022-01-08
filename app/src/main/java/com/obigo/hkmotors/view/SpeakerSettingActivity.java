@@ -89,6 +89,8 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         setContentView(R.layout.activity_speaker_setting);
         audioManager =  (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
         initUI();
+
+
     }
 
 
@@ -99,9 +101,9 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         back.setOnClickListener(this);
         mChart = (RadarChart) findViewById(R.id.chart);
         mChart.setNoDataText("데이터가 없습니다.");
-        defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),
-                CarData.getInstance().getDynamic(),CarData.getInstance().getEfficiency(),
-                CarData.getInstance().getPerformance());
+//        defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),
+//                CarData.getInstance().getDynamic(),CarData.getInstance().getEfficiency(),
+//                CarData.getInstance().getPerformance());
 
         switchCompat = findViewById(R.id.speaker_setting_switch);
 
@@ -172,13 +174,16 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         }
 
+
+
     }
 
     private void defaultChart(float d1, float d2, float d3, float d4, float d5) {
 
         mChart.clear();
+        mChart.destroyDrawingCache();
 
-
+        mChart = (RadarChart) findViewById(R.id.chart);
 
         List<RadarEntry> entries = new ArrayList<>();
         entries.add(new RadarEntry(d1, 0));
@@ -213,19 +218,19 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
             }
         });
 
-        mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(8);
-        mChart.getYAxis().setEnabled(false);             // disable number
+//        mChart.getYAxis().setAxisMinimum(0f);
+//        mChart.getYAxis().setAxisMaximum(7);
+//        mChart.getYAxis().setEnabled(false);             // disable number
 
-        mChart.getXAxis().setAxisMaximum(8);
-
+//        mChart.getXAxis().setAxisMaximum(7);
+//        mChart.getXAxis().setAxisMinimum(0f);
 
         RadarData data = new RadarData(dataSetList);
         mChart.setData(data);
         mChart.getDescription().setEnabled(false);
 
         mChart.getLegend().setEnabled(false);            // remove legend
-        // mChart.setDescriptionColor(Color.TRANSPARENT);   // remove description
+//         mChart.setDescriptionColor(Color.TRANSPARENT);   // remove description
 
         mChart.setTouchEnabled(false);                   // disable touch
         mChart.invalidate();
@@ -235,6 +240,9 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
                           float p1, float p2, float p3, float p4, float p5) {
         mChart.clear();
         Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        mChart.destroyDrawingCache();
+
+        mChart = (RadarChart) findViewById(R.id.chart);
 
         List<RadarEntry> entries = new ArrayList<>();
         entries.add(new RadarEntry(d1, 0));
@@ -277,8 +285,8 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         mChart.getXAxis().setTextColor(Color.WHITE);     // change label color
         mChart.getXAxis().setTextSize(13);
-        mChart.getXAxis().setYOffset(0f);
-        mChart.getXAxis().setXOffset(0f);
+//        mChart.getXAxis().setYOffset(0f);
+//        mChart.getXAxis().setXOffset(0f);
         mChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
 //        mChart.getXAxis().setValueFormatter(new ValueFormatter() {
 //            @Override
@@ -292,23 +300,23 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         mChart.getYAxis().setAxisMaximum(9f);
         mChart.getYAxis().setEnabled(false);  // disable number
 //
-//        mChart.getXAxis().setAxisMaximum(9f);
-//        mChart.getXAxis().setAxisMinimum(0f);
+        mChart.getXAxis().setAxisMaximum(9f);
+        mChart.getXAxis().setAxisMinimum(0f);
 
         RadarData data = new RadarData();
         data.addDataSet(dataset_comp1);
         data.addDataSet(dataset_comp2);
+
         mChart.setData(data);
         mChart.getDescription().setEnabled(false);
         mChart.getLegend().setEnabled(false);            // remove legend
 
         mChart.setTouchEnabled(false);                   // disable touch
-//        mChart.invalidate();
+
 
         // TODO : animation makes blink, so it is disabled
         mChart.setAnimation(animFadeIn);
-
-        mChart.notifyDataSetChanged();
+        mChart.invalidate();
     }
 
 
