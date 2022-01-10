@@ -65,7 +65,12 @@ import com.obigo.hkmotors.model.Transmission;
 import com.obigo.hkmotors.module.BaseActivity;
 import com.obigo.hkmotors.module.Result_DrivingInfo;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -312,6 +317,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private String editTitle;
     private int editId;
 
+    private String ip = "192.168.0.18";
+    private Socket socket;
+    private Handler mHandler;
+    InetAddress serverAddr;
+    PrintWriter sendWriter;
+    String read;
+    private int port = 8888;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -346,6 +358,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
 
         Constants.COMMAND_MODE = "INIT";
+
+        // 임시로 여기서 소켓 연결을 함
+
+        connectedSocket();
 
     }
 
@@ -408,6 +424,43 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     }
 
+    public void connectedSocket(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try{
+                    serverAddr = InetAddress.getByName(ip);
+                    socket = new Socket(serverAddr,port);
+                    sendWriter = new PrintWriter(socket.getOutputStream());
+                    BufferedReader input =   new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    while (true){
+                        read = input.readLine();
+
+                        if(read!=null){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    // 예시용 으로 해놓음 !!
+                                    Toast.makeText(getApplicationContext(),read,Toast.LENGTH_SHORT).show();
+
+
+                                }
+                            });
+                        }
+                    }
+
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        }).start();
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -420,39 +473,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
 
         switch(v.getId()) {
-//            case R.id.layout_bar_chart:
-/*
-
-                HttpService http = HttpService.getInstance();
-                Call<Result_DrivingInfo> call = http.httpService.drivingInfo("1", "10");
-
-                call.enqueue(new Callback<Result_DrivingInfo>() {
-                    @Override
-                    public void onResponse(Call<Result_DrivingInfo> call, Response<Result_DrivingInfo> response) {
-                        if(!response.isSuccessful()){
-                            Log.i(TAG,"not Successful");
-                            return;
-                        }
-
-                        Result_DrivingInfo re = response.body();
-
-                        Log.i(TAG,"Successful");
-                    }
-
-                    @Override
-                    public void onFailure(Call<Result_DrivingInfo> call, Throwable t) {
-
-                        Toast.makeText(getApplicationContext(), "데이터 조회 실패", Toast.LENGTH_LONG).show();
-
-                        Log.i(TAG,"failure");
-
-                    }
-                });
-*/
-
-
-//                goToDTEchartActivity();
-//                break;
 
             case R.id.gear_box_btn :
             {
@@ -532,43 +552,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 }
 
 
-//                // set second default value : 0
-//                mPref.setSDResponse(0);
-//                mPref.setSDDeceleration(0);
-//                mPref.setSDAcceleration(0);
-//                mPref.setSDMaxPower(0);
-//                mPref.setSDEcoLevel(0);
-//
-//                Constants.COMMAND_MODE = "RESET";
-//
-//                sendMessage("04" + "000000000000");
-//
-//                Handler hd2 = new Handler(Looper.getMainLooper());
-//                hd2.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        sendMessage("04" + "000000000000");
-//                    }
-//                }, 1000);
-
 
                 break;
 
-//            case R.id.ib_r_send_btn:
-//
-//                if(mObdsv == null) {
-//                    Toast.makeText(getApplicationContext(), "App과 OBD가 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                // Check that we're actually connected before trying anything
-//                if (mObdsv.getState() != Constants.STATE_CONNECTED) {
-//                    Toast.makeText(getApplicationContext(), "App과 OBD가 올바르게 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                Constants.COMMAND_MODE = "SEND";
-//                showProgressDialogMode();
-//                break;
 
             case R.id.ib_e_submit_btn:
 
