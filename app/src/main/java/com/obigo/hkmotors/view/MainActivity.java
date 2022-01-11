@@ -55,6 +55,7 @@ import com.obigo.hkmotors.common.db.helper.Obd2DBOpenHelper;
 import com.obigo.hkmotors.common.network.HttpService;
 import com.obigo.hkmotors.common.pref.SharedPreference;
 import com.obigo.hkmotors.common.service.ObdService;
+import com.obigo.hkmotors.custom.LoadingDialog;
 import com.obigo.hkmotors.model.CarData;
 import com.obigo.hkmotors.model.Drive;
 import com.obigo.hkmotors.model.FavoriteData;
@@ -323,7 +324,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     InetAddress serverAddr;
     PrintWriter sendWriter;
     String read;
+    MainActivity activity = this;
     private int port = 8888;
+
+    LoadingDialog loadingDialog ;
+
+    ArrayList<String> signalList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -346,7 +352,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         isEdit = 1;
         // isEdit 1은 일반모드 2는 편집모드
         // 일단 테스트용 으로 만들어놓음
-        getOdbData();
+
 
 
         if(Constants.INIT_FLAG) {
@@ -361,7 +367,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         // 임시로 여기서 소켓 연결을 함
 
-        connectedSocket();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // something..
+                getOdbData();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+                                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+                                        CarData.getInstance().getPerformance());
+                            }
+                        });
+
+                    }
+                }).start();
+            }
+        }, 0);
+//        connectedSocket();
 
     }
 
@@ -418,6 +446,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         CarData.getInstance().setTempEfficiency();
         CarData.getInstance().setTempLeading();
         CarData.getInstance().setTempPerformance();
+
         defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
                 CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
                 CarData.getInstance().getPerformance());
@@ -442,10 +471,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-
                                     // 예시용 으로 해놓음 !!
                                     Toast.makeText(getApplicationContext(),read,Toast.LENGTH_SHORT).show();
 
+                                    if(read.length()==23){
+                                        signalList= new ArrayList<>();
+                                        signalList.add(read);
+                                    } else if(read.length()==20){
+
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                setEditData(signalList.get(0),read);
+
+                                                loadingDialog.setTouch();
+                                                loadingDialog.hide();
+
+                                            }
+                                        });
+
+                                    }
 
                                 }
                             });
@@ -460,6 +505,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
             }
         }).start();
+
+        loadingDialog  = new LoadingDialog(MainActivity.this,1);
+        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        loadingDialog.show();
+        loadingDialog.setNotTouch();
+
+        //로딩창을 투명하게
     }
     @Override
     protected void onResume() {
@@ -609,6 +662,181 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
         }
     }
+
+
+    public void setEditData(String signal1 , String signal2){
+
+        String [] signal1Array = signal1.split(" ");
+        String [] signal2Array = signal2.split(" ");
+
+        if(signal1Array[1].equals("1")){
+            Sound.getInstance().setIsOn("1");
+        }else {
+            Sound.getInstance().setIsOn("0");
+        }
+        if(signal1Array[2].equals("1")){
+            Sound.getInstance().setDriveType("1");
+        }else{
+            Sound.getInstance().setDriveType("0");
+        }
+
+        if(signal1Array[3].equals("00")){
+            Sound.getInstance().setVolume("00");
+        }else if(signal1Array[3].equals("01")){
+            Sound.getInstance().setVolume("01");
+        }else{
+            Sound.getInstance().setVolume("10");
+        }
+
+        if(signal1Array[4].equals("00")){
+            Sound.getInstance().setBackVolume("00");
+        }else if(signal1Array[4].equals("01")){
+            Sound.getInstance().setBackVolume("01");
+        }else if(signal1Array[4].equals("10")) {
+            Sound.getInstance().setBackVolume("10");
+        }else{
+            Sound.getInstance().setBackVolume("11");
+        }
+
+        if(signal1Array[5].equals("1")){
+            Sound.getInstance().setBackSensitive("1");
+        }else{
+            Sound.getInstance().setBackSensitive("0");
+        }
+
+        if(signal1Array[6].equals("1")){
+            Drive.getInstance().setIsOn("1");
+        }else{
+            Drive.getInstance().setIsOn("0");
+        }
+
+        if(signal1Array[7].equals("00")){
+            Drive.getInstance().setStiffness("00");
+        }else if(signal1Array[7].equals("01")){
+            Drive.getInstance().setStiffness("01");
+        }else{
+            Drive.getInstance().setStiffness("10");
+        }
+
+        if(signal1Array[8].equals("00")){
+            Drive.getInstance().setReducer("00");
+        }else if(signal1Array[8].equals("01")){
+            Drive.getInstance().setReducer("01");
+        }else{
+            Drive.getInstance().setReducer("10");
+        }
+
+        if(signal2Array[0].equals("1")){
+            Transmission.getInstance().setIsOn("1");
+        }else{
+            Transmission.getInstance().setIsOn("0");
+        }
+
+        if(signal2Array[1].equals("00")){
+            Transmission.getInstance().setType("00");
+        }else if(signal2Array[1].equals("01")){
+            Transmission.getInstance().setType("01");
+        }else {
+            Transmission.getInstance().setType("10");
+        }
+
+        if(signal2Array[2].equals("000")){
+            Transmission.getInstance().setGear("000");
+        }else if(signal2Array[2].equals("001")){
+            Transmission.getInstance().setGear("001");
+        }else if(signal2Array[2].equals("010")){
+            Transmission.getInstance().setGear("010");
+        }else if(signal2Array[2].equals("011")){
+            Transmission.getInstance().setGear("011");
+        }else{
+            Transmission.getInstance().setGear("100");
+        }
+
+        if(signal2Array[3].equals("00")){
+            Transmission.getInstance().setGearRate("00");
+        }else if(signal2Array[3].equals("01")){
+            Transmission.getInstance().setGearRate("01");
+        }else{
+            Transmission.getInstance().setGearRate("10");
+        }
+
+        if(signal2Array[4].equals("00")){
+            Transmission.getInstance().setTransmissionSpeed("00");
+        }else if(signal2Array[4].equals("01")){
+            Transmission.getInstance().setTransmissionSpeed("01");
+        }else{
+            Transmission.getInstance().setTransmissionSpeed("10");
+        }
+
+        if(signal2Array[5].equals("00")){
+            Transmission.getInstance().setTransmissionPower("00");
+        }else if(signal2Array.equals("01")){
+            Transmission.getInstance().setTransmissionPower("01");
+        }else{
+            Transmission.getInstance().setTransmissionPower("10");
+        }
+
+        if(signal2Array[6].equals("00")){
+
+            Transmission.getInstance().setTransmissionMap("00");
+        }else if(signal2Array[6].equals("01")){
+
+            Transmission.getInstance().setTransmissionMap("01");
+        }else{
+
+            Transmission.getInstance().setTransmissionMap("10");
+        }
+
+
+        if(Constants.OBD_INITIALIZED){
+            if(Transmission.getInstance().getTempIsOn().equals("0") &&
+                    Sound.getInstance().getTempIsOn().equals("0") &&
+                    Drive.getInstance().getTempIsOn().equals("0")){
+                CarData.getInstance().setTempEVMode();
+                CarData.getInstance().setEVMode();
+
+            }else{
+                CarData.getInstance().setComfortable();
+                CarData.getInstance().setTempComfortable();
+                CarData.getInstance().setDynamic();
+                CarData.getInstance().setTempDynamic();
+                CarData.getInstance().setEfficiency();
+                CarData.getInstance().setTempEfficiency();
+                CarData.getInstance().setLeading();
+                CarData.getInstance().setTempLeading();
+                CarData.getInstance().setPerformance();
+                CarData.getInstance().setTempPerformance();
+            }
+
+
+        }else{
+            // 이거 어떻게 해야할까? 만약 연결 되어 있지 않다면 ....
+            if(Transmission.getInstance().getTempIsOn().equals("0") &&
+                    Sound.getInstance().getTempIsOn().equals("0") &&
+                    Drive.getInstance().getTempIsOn().equals("0")){
+                CarData.getInstance().setTempEVMode();
+                CarData.getInstance().setEVMode();
+            }else{
+                CarData.getInstance().setComfortable();
+                CarData.getInstance().setTempComfortable();
+                CarData.getInstance().setDynamic();
+                CarData.getInstance().setTempDynamic();
+                CarData.getInstance().setEfficiency();
+                CarData.getInstance().setTempEfficiency();
+                CarData.getInstance().setLeading();
+                CarData.getInstance().setTempLeading();
+                CarData.getInstance().setPerformance();
+                CarData.getInstance().setTempPerformance();
+            }
+
+        }
+
+        defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+                CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+                CarData.getInstance().getPerformance());
+
+    }
+
 
 
     public void clickRecomment(int index){
@@ -2238,271 +2466,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mChart = (RadarChart) findViewById(R.id.chart);
         mChart.setNoDataText("데이터가 없습니다.");
 
-//        defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
-
         mLayoutRcdation = (RelativeLayout) findViewById(R.id.layout_rcdation);
         mLayoutExpert = (RelativeLayout) findViewById(R.id.layout_expert);
-//        mLayoutBarChart = (RelativeLayout) findViewById(R.id.layout_bar_chart);
-//        mLayoutBarChart.setOnClickListener(this);
-
-        //mSeekerEco = (TextView) findViewById(R.id.tv_eco);
-        //mSeekerSport = (TextView) findViewById(R.id.tv_sport);
-
-        //mSbDriving = (SeekBar)findViewById(R.id.sb_driving);
-        /*mSbDriving.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                Log.d(TAG, "mParamDriving : " + mParamDriving);
-
-                Constants.COMMAND_MODE = "PARAM";
-
-                sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-                        mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-
-                // TODO : it hase timing issue, so send it by twice
-                Handler hd2 = new Handler(Looper.getMainLooper());
-                hd2.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-                                mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-                    }
-                }, 1000);
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mParamDriving = progress;
-                mSeekerEco.setText(Integer.toString(100 - mParamDriving));
-                mSeekerSport.setText(Integer.toString(mParamDriving));
-            }
-        });*/
-
-//        mSeekerTorque = (TextView) findViewById(R.id.tv_seeker_torque);
-//        mSbTorque = (SeekBar)findViewById(R.id.sb_torque);
-//        mSbTorque.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                Log.d(TAG, "mParamTorque : " + mParamTorque);
-//
-//                Constants.COMMAND_MODE = "PARAM";
-//                sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                        mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//
-//                // TODO : it hase timing issue, so send it by twice
-//                Handler hd2 = new Handler(Looper.getMainLooper());
-//                hd2.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                                mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//                    }
-//                }, 500);
-//            }
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {}
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                mParamTorque = progress + 50;
-//                mSeekerTorque.setText(Integer.toString(mParamTorque) + "%");
-//            }
-//        });
-
-//        mSeekerAcc = (TextView) findViewById(R.id.tv_seeker_acc);
-//        mSbAcc = (SeekBar)findViewById(R.id.sb_acc);
-//        mSbAcc.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                Log.d(TAG, "mParamAcceleration : " + mParamAcceleration);
-//
-//                Constants.COMMAND_MODE = "PARAM";
-//                sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                        mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//
-//                // TODO : it hase timing issue, so send it by twice
-//                Handler hd2 = new Handler(Looper.getMainLooper());
-//                hd2.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                                mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//                    }
-//                }, 500);
-//            }
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {}
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                mParamAcceleration = progress;
-//                mSeekerAcc.setText(Integer.toString(mParamAcceleration));
-//            }
-//        });
-//
-//        mSeekerDecel = (TextView) findViewById(R.id.tv_seeker_decel);
-//        mSbDecel = (SeekBar)findViewById(R.id.sb_decel);
-//        mSbDecel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                Log.d(TAG, "mParamDeceleration : " + mParamDeceleration);
-//
-//                Constants.COMMAND_MODE = "PARAM";
-//                sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                        mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//
-//                // TODO : it hase timing issue, so send it by twice
-//                Handler hd2 = new Handler(Looper.getMainLooper());
-//                hd2.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                                mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//                    }
-//                }, 500);
-//            }
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {}
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                mParamDeceleration = progress;
-//                mSeekerDecel.setText(Integer.toString(mParamDeceleration));
-//            }
-//        });
-//
-//        mSeekerBrake = (TextView) findViewById(R.id.tv_seeker_brake);
-//        mSbBrake = (SeekBar)findViewById(R.id.sb_brake);
-//        mSbBrake.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                Log.d(TAG, "mParamBrake : " + mParamBrake);
-//
-//                Constants.COMMAND_MODE = "PARAM";
-//                sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                        mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//
-//                // TODO : it hase timing issue, so send it by twice
-//                Handler hd2 = new Handler(Looper.getMainLooper());
-//                hd2.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                                mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//                    }
-//                }, 500);
-//            }
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {}
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                mParamBrake = progress;
-//                mSeekerBrake.setText(Integer.toString(mParamBrake));
-//            }
-//        });
-//
-//        mSeekerEnergy = (TextView) findViewById(R.id.tv_seeker_energy);
-//        mSbEnergy = (SeekBar)findViewById(R.id.sb_energy);
-//        mSbEnergy.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                Log.d(TAG, "mParamEnergy : " + mParamEnergy);
-//
-//                Constants.COMMAND_MODE = "PARAM";
-//                sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                        mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//
-//                // TODO : it hase timing issue, so send it by twice
-//                Handler hd2 = new Handler(Looper.getMainLooper());
-//                hd2.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                                mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//                    }
-//                }, 500);
-//            }
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {}
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                mParamEnergy = progress;
-//                if(mParamEnergy==0) mSeekerEnergy.setText("Off");
-//                else if(mParamEnergy==1) mSeekerEnergy.setText("Eco");
-//                else if(mParamEnergy==2) mSeekerEnergy.setText("Normal");
-//            }
-//        });
-//
-//        mSeekerSpeed = (TextView) findViewById(R.id.tv_seeker_speed);
-//        mSbSpeed = (SeekBar)findViewById(R.id.sb_speed);
-//        mSbSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                Log.d(TAG, "mParamSpeed : " + mParamSpeed);
-//
-//                Constants.COMMAND_MODE = "PARAM";
-//                sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                        mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//
-//                // TODO : it hase timing issue, so send it by twice
-//                Handler hd2 = new Handler(Looper.getMainLooper());
-//                hd2.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                                mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//                    }
-//                }, 500);
-//            }
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {}
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                mParamSpeed = progress + 60;
-//                mSeekerSpeed.setText(Integer.toString(mParamSpeed) + "kph");
-//            }
-//        });
-//
-//        mSeekerResponse = (TextView) findViewById(R.id.tv_seeker_response);
-//        mSbResponse = (SeekBar)findViewById(R.id.sb_response);
-//        mSbResponse.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//                Log.d(TAG, "mParamResponse : " + mParamResponse);
-//
-//                Constants.COMMAND_MODE = "PARAM";
-//                sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                        mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//
-//                // TODO : it hase timing issue, so send it by twice
-//                Handler hd2 = new Handler(Looper.getMainLooper());
-//                hd2.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        sendMessage("00" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-//                                mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-//                    }
-//                }, 500);
-//            }
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {}
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                mParamResponse = progress;
-//                mSeekerResponse.setText(Integer.toString(mParamResponse));
-//            }
-//        });
-
-        // button for general
-        //ImageButton gResetBtn = (ImageButton) findViewById(R.id.ib_g_reset_btn);
-        //gResetBtn.setOnClickListener(this);
-
-        //ImageButton gSendBtn = (ImageButton) findViewById(R.id.ib_g_send_btn);
-        //gSendBtn.setOnClickListener(this);
-
-        //ImageButton gSubmitBtn = (ImageButton) findViewById(R.id.ib_g_submit_btn);
-        //gSubmitBtn.setOnClickListener(this);
-
-        // button for expert
-
 
         saveBtn = findViewById(R.id.ib_e_save_btn);
         saveBtn.setOnClickListener(this);
@@ -2581,6 +2546,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             obdSetBtn.setBackgroundResource(R.drawable.img_tit_04);
             mainObdLight.setBackgroundResource(R.drawable.ico_light_green);
             Constants.OBD_STATUS = true;
+
         } else {
             obdSetBtn.setBackgroundResource(R.drawable.img_tit_03);
             mainObdLight.setBackgroundResource(R.drawable.ico_light_red);

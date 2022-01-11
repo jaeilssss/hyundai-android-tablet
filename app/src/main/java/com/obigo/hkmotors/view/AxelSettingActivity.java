@@ -3,6 +3,8 @@ package com.obigo.hkmotors.view;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
@@ -121,7 +123,25 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
         send = findViewById(R.id.axel_data_send);
         send.setOnClickListener(this);
 
-        setSettingValue();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // something..
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setSettingValue();
+                            }
+                        });
+
+                    }
+                }).start();
+            }
+        }, 0);
 
         obdState = findViewById(R.id.ib_obd_set_btn);
         obdLight = findViewById(R.id.iv_favorite_light);

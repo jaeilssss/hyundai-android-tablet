@@ -109,7 +109,7 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 
 
 
-         loadingDialog  = new LoadingDialog(ParamSettingActivity.this);
+         loadingDialog  = new LoadingDialog(ParamSettingActivity.this,0);
         loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         //로딩창을 투명하게
 
@@ -142,35 +142,6 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
             editId = getIntent().getIntExtra("id",-1);
         }
 
-//
-//
-//        mTorque = (TextView) findViewById(R.id.tv_torque_value);
-//        mTorque.setText(params[1] + "%");
-//
-//        mAcc = (TextView) findViewById(R.id.tv_acc_value);
-//        mAcc.setText(params[2]);
-//
-//        mDecel = (TextView) findViewById(R.id.tv_decel_value);
-//        mDecel.setText(params[3]);
-//
-//        mBrake = (TextView) findViewById(R.id.tv_brake_value);
-//        mBrake.setText(params[4]);
-//
-//        mEnergy = (TextView) findViewById(R.id.tv_energy_value);
-//        if(params[5].equals("0")) mEnergy.setText("Off");
-//        else if(params[5].equals("1")) mEnergy.setText("Eco");
-//        else if(params[5].equals("2")) mEnergy.setText("Normal");
-//
-//        mSpeed = (TextView) findViewById(R.id.tv_speed_value);
-//        mSpeed.setText(params[6] + "kph");
-//
-//        mResponse = (TextView) findViewById(R.id.tv_response_value);
-//        mResponse.setText(params[7]);
-//
-//
-//        ImageButton cancelBtn = (ImageButton) findViewById(R.id.ib_cancel_btn);
-//        cancelBtn.setOnClickListener(this);
-//
         ImageButton confirmBtn = (ImageButton) findViewById(R.id.ib_confirm_btn);
         confirmBtn.setOnClickListener(this);
         cancel = findViewById(R.id.ib_cancel_btn);
@@ -209,6 +180,8 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
                 if(mTitle.getText().toString().length() == 0) {
                     Toast.makeText(getApplicationContext(), "저장할 설정의 이름이 입력되지 않았습니다. 입력후 다시 확인을 선택해 주십시오!", Toast.LENGTH_SHORT).show();
                 } else {
+                    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
                     loadingDialog.show();
                     if(isEdit==1){
                         signal1 = "101"+" "+ Sound.getInstance().getTempIsOn()+" "+Sound.getInstance().getTempDriveType()+" "+Sound.getInstance().getTempVolume()+" "
@@ -358,6 +331,8 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
         Intent intent = new Intent();
         intent.putExtra("change",change);
         setResult(Constants.REQUEST_EDIT_CUSTOM_RESULT,intent);
+
+        this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         finish();
     }
 }

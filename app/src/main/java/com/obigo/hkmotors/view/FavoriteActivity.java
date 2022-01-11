@@ -431,50 +431,6 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
             case R.id.ib_favorite_back:
                 onBackPressed();
 
-//            case R.id.ib_f_send_btn:
-//                if(Constants.OBD_STATUS == true) {
-//
-//                    ArrayList<String> sendCheckedIndex = new ArrayList<String>(mListAdapter.getCheckedId());
-//
-//                    if (sendCheckedIndex.size() == 0) {
-//                        Toast.makeText(getApplicationContext(), "선택된 리스트 정보가 없습니다!", Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//
-//                    showProgressDialog();
-//
-//                    ((MainActivity) MainActivity.mContext).FavoriteResult(params);
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "App과 OBD가 올바르게 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
-//                    //selectOBD();
-//                }
-
-//                break;
-//            case R.id.ib_f_remove_btn:
-//                ArrayList<String> checkedIndex = new ArrayList<String>(mListAdapter.getCheckedId());
-//
-//                if(checkedIndex.size() == 0) {
-//                    Toast.makeText(getApplicationContext(), "선택된 삭제 리스트 정보가 없습니다!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                // remove adapter
-//                for(int i=0; i < checkedIndex.size(); i++) {
-//                    // mListAdapter.removeGroupItem(checkedIndex.get(i)); // remove group by id
-//                    // mListAdapter.removeChildItem(checkedIndex.get(i)); // remove child by id
-//                    mListAdapter.removeMitems(checkedIndex.get(i));
-//                    mListAdapter.removeCheckedId(checkedIndex.get(i)); // removed index
-//                }
-//
-//                // remove multiple items to database
-//                String ids = TextUtils.join(", ", checkedIndex.toArray(new String[checkedIndex.size()])); // ids : 3,2,0
-//                DBUtil.deleteMultipleDB(getApplicationContext(), ids);
-//
-//                mListAdapter.notifyDataSetChanged();
-//
-//                // if the count of group is zero, activity should be finish
-//                if(mListAdapter.getCount() == 0) finish();
-//
                 break;
             case R.id.ib_obd_set_btn:
                 if(Constants.OBD_STATUS == true) {

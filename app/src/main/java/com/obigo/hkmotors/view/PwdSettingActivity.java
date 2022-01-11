@@ -253,139 +253,20 @@ public class PwdSettingActivity extends BaseActivity implements View.OnClickList
         mNewPwChk = (ImageView) findViewById(R.id.iv_new_pw_chk);
 
         mNewPw.setOnClickListener(this);
-/*
-        mNewPw.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(mPwConfirm.getText().length() > 0 && mPwConfirm.getText().length() != 4) {
-                    Utility.toast(getApplication(), "신규 비밀번호 확인은 4자리 숫자로 되어 있습니다!", 500);
-                } else {
-                    changeFocus(mNewPw);
-                }
-                return true;
-            }
-        });*/
-/*
-        // TODO :
-        // currently, cursor is not visible
-        // so I can't know where the cursor is
-        mNewPw.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                if(s.length() == 4) {
-
-                    if(mNewPw.getText().toString().equals(Constants.D_PWD)) {
-                        mNewPw.setText("");
-                        mWrongPw.setVisibility(View.GONE);
-
-                        mNewPwChk.setVisibility(View.GONE);
-                        mNewPwLine.setSelected(false);
-                        mSaveBtn.setActivated(false);
-                        mSaveBtn.setClickable(false);
-                        Utility.toast(getApplication(), "관리자용 패스워드는 사용하실 수 없습니다", 1000);
-                        return;
-                    }
-
-                    if(mPwConfirm.getText().length() == 4) {
-                        if(mPwConfirm.getText().toString().equals(mNewPw.getText().toString())) {
-                            mWrongPw.setVisibility(View.GONE);
-                            mSaveBtn.setActivated(true);
-                            mSaveBtn.setClickable(true);
-                        } else {
-                            mWrongPw.setVisibility(View.VISIBLE);
-                            mSaveBtn.setActivated(false);
-                            mSaveBtn.setClickable(false);
-                        }
-                    }
-
-                    mNewPwChk.setVisibility(View.VISIBLE);
-                    mNewPwLine.setSelected(true);
-                } else {
-                    mWrongPw.setVisibility(View.GONE);
-
-                    mNewPwChk.setVisibility(View.GONE);
-                    mNewPwLine.setSelected(false);
-                    mSaveBtn.setActivated(false);
-                    mSaveBtn.setClickable(false);
-                }
-            }
-        });*/
 
         mPwConfirm = (TextView) findViewById(R.id.et_pw_confirm);
-        //mPwConfirm.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+
+
         mPwConfirmChk = (ImageView) findViewById(R.id.iv_pw_confirm_chk);
 
         mPwConfirm.setOnClickListener(this);
-/*
-        mPwConfirm.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(mNewPw.getText().length() > 0 && mNewPw.getText().length() != 4) {
-                    Utility.toast(getApplication(), "패스워드는 4자리 숫자로 되어 있습니다!", 500);
-                } else {
-                    changeFocus(mPwConfirm);
-                }
-                return true;
-            }
-        });*/
-
-        /*
-        mPwConfirm.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.length() == 4) {
-
-                    if(mNewPw.getText().length() == 4) {
-                        if(mNewPw.getText().toString().equals(mPwConfirm.getText().toString())) {
-                            mWrongPw.setVisibility(View.GONE);
-                            mSaveBtn.setActivated(true);
-                            mSaveBtn.setClickable(true);
-                        } else {
-                            mWrongPw.setVisibility(View.VISIBLE);
-                            mSaveBtn.setActivated(false);
-                            mSaveBtn.setClickable(false);
-                        }
-                    }
-                    mPwConfirmChk.setVisibility(View.VISIBLE);
-                    mPwConfirmLine.setSelected(true);
-                } else {
-                    mWrongPw.setVisibility(View.GONE);
-
-                    mPwConfirmChk.setVisibility(View.GONE);
-                    mPwConfirmLine.setSelected(false);
-                    mSaveBtn.setActivated(false);
-                    mSaveBtn.setClickable(false);
-                }
-            }
-        });*/
-
 
         ImageButton backBtn = (ImageButton) findViewById(R.id.ib_back);
         backBtn.setOnClickListener(this);
 
         mSaveBtn = (ImageButton) findViewById(R.id.ib_save_btn);
         mSaveBtn.setOnClickListener(this);
-        //mSaveBtn.setClickable(false);
 
-        // handle for custom keyboard
-        /*
-        mKeyboard = new Keyboard(this, R.xml.keyboard);
-        mKeyboardView = (CustomKeyboardView) findViewById(R.id.keyboard_view);
-        mKeyboardView.setKeyboard(mKeyboard);
-        mKeyboardView.setOnKeyboardActionListener(new BasicOnKeyboardActionListener(this));
-*/
         mTextPwd1 = (TextView) findViewById(R.id.tv_pwd_1);
         mTextPwd2 = (TextView) findViewById(R.id.tv_pwd_2);
         mTextPwd3 = (TextView) findViewById(R.id.tv_pwd_3);

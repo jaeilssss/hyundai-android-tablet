@@ -245,7 +245,28 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         //
         send = findViewById(R.id.ib_e_send_btn);
         send.setOnClickListener(this);
-        setSettingValue();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // something..
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setSettingValue();
+                            }
+                        });
+
+                    }
+                }).start();
+            }
+        }, 0);
+
+
+
 
         obdState = findViewById(R.id.ib_obd_set_btn);
         obdLight = findViewById(R.id.iv_favorite_light);
@@ -352,12 +373,12 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
 
         mChart.clear();
 
-        List<RadarEntry> entries = new ArrayList<>();
-        entries.add(new RadarEntry(d1, 0));
-        entries.add(new RadarEntry(d2, 1));
-        entries.add(new RadarEntry(d3, 2));
-        entries.add(new RadarEntry(d4, 3));
-        entries.add(new RadarEntry(d5, 4));
+        ArrayList<RadarEntry> entries = new ArrayList<>();
+        entries.add(new RadarEntry(d1));
+        entries.add(new RadarEntry(d2));
+        entries.add(new RadarEntry(d3));
+        entries.add(new RadarEntry(d4));
+        entries.add(new RadarEntry(d5));
 
 
         RadarDataSet dataset_comp = new RadarDataSet(entries, "");
@@ -367,8 +388,9 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
 
         dataset_comp.setValueTextColor(Color.GRAY); // set the color of real value
 
-        List<IRadarDataSet> dataSetList = new ArrayList<IRadarDataSet>();
-        dataSetList.add(dataset_comp);
+//        List<IRadarDataSet> dataSetList = new ArrayList<IRadarDataSet>();
+//        dataSetList.add(dataset_comp);
+
 
         final ArrayList<String> labels = new ArrayList<String>();
         labels.add("안락감");
@@ -379,18 +401,26 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
 
         mChart.getXAxis().setTextColor(Color.WHITE);     // change label color
         mChart.getXAxis().setTextSize(13);
-        mChart.getXAxis().setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return labels.get((int) value % labels.size());
-            }
-        });
-
+        mChart.getXAxis().setYOffset(0f);
+        mChart.getXAxis().setXOffset(0f);
+//        mChart.getXAxis().setValueFormatter(new ValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, AxisBase axis) {
+//                return labels.get((int) value % labels.size());
+//            }
+//        });
+        mChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+        //chart.getYAxis().setTextColor(Color.RED);     // change number color
         mChart.getYAxis().setAxisMinimum(0f);
-        mChart.getYAxis().setAxisMaximum(8f);
-        mChart.getYAxis().setEnabled(false);             // disable number
+        mChart.getYAxis().setAxisMaximum(9f);
+        mChart.getYAxis().setEnabled(false);              // disable number
 
-        RadarData data = new RadarData(dataSetList);
+//        mChart.getXAxis().setAxisMaximum(9f);
+//        mChart.getXAxis().setAxisMinimum(0f);
+
+
+        RadarData data = new RadarData();
+        data.addDataSet(dataset_comp);
         mChart.setData(data);
         mChart.getDescription().setEnabled(false);
 
@@ -398,7 +428,36 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         // mChart.setDescriptionColor(Color.TRANSPARENT);   // remove description
 
         mChart.setTouchEnabled(false);                   // disable touch
-        mChart.invalidate();
+//        mChart.invalidate();
+
+
+//            ArrayList<RadarEntry> dataVals = new ArrayList<>();
+//            dataVals.add(new RadarEntry(d1));
+//            dataVals.add(new RadarEntry(d2));
+//            dataVals.add(new RadarEntry(d3));
+//            dataVals.add(new RadarEntry(d4));
+//            dataVals.add(new RadarEntry(d5));
+//
+//        RadarDataSet dataSet = new RadarDataSet(dataVals, "DATA");
+//        dataSet.setColor(Color.GRAY);
+//        dataSet.setDrawFilled(true);
+//
+//
+//        RadarData data = new RadarData();
+//        data.addDataSet(dataSet);
+//        String[] labels =  {"안락감", "주도성", "역동성", "효율성", "동력성능"};
+//
+//        XAxis xAxis = mChart.getXAxis();
+//        xAxis.setTextColor(Color.WHITE);
+//        xAxis.setTextSize(13);
+//
+//        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+//        mChart.setData(data);
+//        mChart.invalidate();
+
+
+
+
     }
     @Override
     public void onClick(View view) {
@@ -555,6 +614,7 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
 //        dataSetList.add(dataset_comp1);
 //        dataSetList.add(dataset_comp2);
 
+
         final ArrayList<String> labels = new ArrayList<String>();
         labels.add("안락감");
         labels.add("주도성");
@@ -595,6 +655,8 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         // TODO : animation makes blink, so it is disabled
         mChart.setAnimation(animFadeIn);
     }
+
+
 
 
     public void typeClick(String str){

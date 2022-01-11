@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
@@ -159,7 +161,25 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
         send = findViewById(R.id.speaker_data_send);
         send.setOnClickListener(this);
-        setSettingValue();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // something..
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setSettingValue();
+                            }
+                        });
+
+                    }
+                }).start();
+            }
+        }, 0);
 
         obdLight = findViewById(R.id.iv_favorite_light);
         obdState = findViewById(R.id.ib_obd_set_btn);
