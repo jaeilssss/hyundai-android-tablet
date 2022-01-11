@@ -80,4 +80,10 @@ public class Drive {
         tempReducer = reducer;
         tempStiffness  = stiffness;
     }
+
+    public void update(){
+        isOn = tempIsOn;
+        reducer = tempReducer;
+        stiffness = tempStiffness;
+    }
 }

@@ -265,9 +265,6 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
             }
         }, 0);
 
-
-
-
         obdState = findViewById(R.id.ib_obd_set_btn);
         obdLight = findViewById(R.id.iv_favorite_light);
 

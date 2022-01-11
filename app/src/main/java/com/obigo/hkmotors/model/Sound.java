@@ -120,4 +120,12 @@ public class Sound {
         tempBackVolume =  backVolume;
         tempBackSensitive =  backSensitive;
     }
+
+    public void update(){
+        isOn  = tempIsOn;
+        driveType = tempDriveType;
+        volume = tempVolume;
+        backVolume = tempBackVolume;
+        backSensitive = tempBackSensitive;
+    }
 }

@@ -20,8 +20,10 @@ public class LoadingDialog extends Dialog {
         if(check==0){
             setContentView(R.layout.dialog_progress);
 
-        }else{
+        }else if(check==1){
             setContentView(R.layout.dialog_car_data);
+        }else{
+            setContentView(R.layout.dialog_car_send);
         }
     }
 

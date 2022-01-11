@@ -157,4 +157,14 @@ public class Transmission {
         tempTransmissionPower = transmissionPower;
         tempTransmissionMap =  transmissionMap;
     }
+
+    public void update(){
+        isOn = tempIsOn;
+        type = tempType;
+        gear = tempGear;
+        gearRate = tempGearRate;
+        transmissionSpeed =  tempTransmissionSpeed;
+        transmissionPower = tempTransmissionPower;
+        transmissionMap =  tempTransmissionMap;
+    }
 }

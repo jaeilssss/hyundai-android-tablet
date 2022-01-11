@@ -368,28 +368,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         // 임시로 여기서 소켓 연결을 함
 
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // something..
-                getOdbData();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
-                                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
-                                        CarData.getInstance().getPerformance());
-                            }
-                        });
-
-                    }
-                }).start();
-            }
-        }, 0);
-//        connectedSocket();
+//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                // something..
+//                getOdbData();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+//                                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+//                                        CarData.getInstance().getPerformance());
+//                            }
+//                        });
+//
+//                    }
+//                }).start();
+//            }
+//        }, 0);
+        connectedSocket();
 
     }
 
@@ -611,18 +611,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
             case R.id.ib_e_submit_btn:
 
-                if(mObdsv == null) {
-                    Toast.makeText(getApplicationContext(), "App과 OBD가 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                // Check that we're actually connected before trying anything
-                if (mObdsv.getState() != Constants.STATE_CONNECTED) {
-                    Toast.makeText(getApplicationContext(), "App과 OBD가 올바르게 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if(mObdsv == null) {
+//                    Toast.makeText(getApplicationContext(), "App과 OBD가 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                // Check that we're actually connected before trying anything
+//                if (mObdsv.getState() != Constants.STATE_CONNECTED) {
+//                    Toast.makeText(getApplicationContext(), "App과 OBD가 올바르게 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
 
-                Constants.COMMAND_MODE = "SEND";
-                showProgressDialog();
+                sendCarData();
+
+                loadingDialog = new LoadingDialog(MainActivity.this,2);
+                loadingDialog.show();
+                loadingDialog.setNotTouch();
+
+                Drive.getInstance().update();
+                Transmission.getInstance().update();
+                Sound.getInstance().update();
+
+                CarData.getInstance().setComfortable();
+                CarData.getInstance().setDynamic();
+                CarData.getInstance().setEfficiency();
+                CarData.getInstance().setLeading();
+                CarData.getInstance().setPerformance();
+
+                CarData.getInstance().setTempComfortable();
+                CarData.getInstance().setTempDynamic();
+                CarData.getInstance().setTempEfficiency();
+                CarData.getInstance().setTempLeading();
+                CarData.getInstance().setTempPerformance();
+
+
+                loadingDialog.hide();
+                loadingDialog.setTouch();
+                Toast.makeText(getApplicationContext(),"차량 전송이 완료되었습니다",Toast.LENGTH_SHORT).show();
+
+
+//                Constants.COMMAND_MODE = "SEND";
+//                showProgressDialog();
+
+
                 break;
 
             //case R.id.ib_g_submit_btn:
@@ -2809,6 +2839,49 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
             }
         }, 1000);
+    }
+
+
+    public void sendCarData(){
+        final String signal1 = setSignal1();
+        final String signal2 = setSignal2();
+
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    sendWriter.println(signal1);
+                    sendWriter.flush();
+                    sendWriter.println(signal2);
+                    sendWriter.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    public String setSignal1(){
+        return "101"+" "+Sound.getInstance().getTempIsOn()+" "+
+                Sound.getInstance().getTempDriveType()+" "+
+                Sound.getInstance().getTempVolume()+" "+
+                Sound.getInstance().getBackVolume()+" "+
+                Sound.getInstance().getBackSensitive()+" "+
+                Drive.getInstance().getTempIsOn()+" "+
+                Drive.getInstance().getTempStiffness()+" "+
+                Drive.getInstance().getTempReducer();
+
+    }
+    public String setSignal2(){
+        return Transmission.getInstance().getTempIsOn()+" "+
+                Transmission.getInstance().getTempType()+" "+
+                Transmission.getInstance().getTempGear()+" "+
+                Transmission.getInstance().getTempGearRate()+" "+
+                Transmission.getInstance().getTempTransmissionSpeed()+" "+
+                Transmission.getInstance().getTempTransmissionPower()+" "+
+                Transmission.getInstance().getTempTransmissionMap();
+
     }
 
     /**
