@@ -45,6 +45,7 @@ import com.obigo.hkmotors.common.db.DBUtil;
 import com.obigo.hkmotors.common.db.data.Obd2Database;
 import com.obigo.hkmotors.common.db.helper.Obd2DBOpenHelper;
 import com.obigo.hkmotors.common.service.ObdService;
+import com.obigo.hkmotors.custom.LoadingDialog;
 import com.obigo.hkmotors.model.CarData;
 import com.obigo.hkmotors.model.Drive;
 import com.obigo.hkmotors.model.FavoriteData;
@@ -146,6 +147,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     private Dialog dialog ;
     private Dialog editDialog;
+
+    LoadingDialog loadingDialog ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -932,5 +935,83 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-
+//    public void sendCarData(){
+//        final String signal1 = setSignal1();
+//        final String signal2 = setSignal2();
+//
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                super.run();
+//                try {
+//                    sendWriter.println(signal1);
+//                    sendWriter.flush();
+//                    sendWriter.println(signal2);
+//                    sendWriter.flush();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }.start();
+//
+//        loadingDialog = new LoadingDialog(MainActivity.this,2);
+//        loadingDialog.show();
+//        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        loadingDialog.setNotTouch();
+//
+//        Drive.getInstance().update();
+//        Transmission.getInstance().update();
+//        Sound.getInstance().update();
+//
+//        CarData.getInstance().setComfortable();
+//        CarData.getInstance().setDynamic();
+//        CarData.getInstance().setEfficiency();
+//        CarData.getInstance().setLeading();
+//        CarData.getInstance().setPerformance();
+//
+//        CarData.getInstance().setTempComfortable();
+//        CarData.getInstance().setTempDynamic();
+//        CarData.getInstance().setTempEfficiency();
+//        CarData.getInstance().setTempLeading();
+//        CarData.getInstance().setTempPerformance();
+//
+//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                loadingDialog.hide();
+//                loadingDialog.setTouch();
+//
+//                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+//                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+//                        CarData.getInstance().getPerformance());
+//
+//
+//                Toast.makeText(getApplicationContext(),"차량 전송이 완료되었습니다",Toast.LENGTH_SHORT).show();
+//            }
+//        },2500);
+//
+//    }
+//
+//
+//    public String setSignal1(){
+//        return "101"+" "+Sound.getInstance().getTempIsOn()+" "+
+//                Sound.getInstance().getTempDriveType()+" "+
+//                Sound.getInstance().getTempVolume()+" "+
+//                Sound.getInstance().getBackVolume()+" "+
+//                Sound.getInstance().getBackSensitive()+" "+
+//                Drive.getInstance().getTempIsOn()+" "+
+//                Drive.getInstance().getTempStiffness()+" "+
+//                Drive.getInstance().getTempReducer();
+//
+//    }
+//    public String setSignal2(){
+//        return Transmission.getInstance().getTempIsOn()+" "+
+//                Transmission.getInstance().getTempType()+" "+
+//                Transmission.getInstance().getTempGear()+" "+
+//                Transmission.getInstance().getTempGearRate()+" "+
+//                Transmission.getInstance().getTempTransmissionSpeed()+" "+
+//                Transmission.getInstance().getTempTransmissionPower()+" "+
+//                Transmission.getInstance().getTempTransmissionMap();
+//
+//    }
 }

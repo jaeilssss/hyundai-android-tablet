@@ -538,6 +538,10 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         }else{
             switchCompat.setChecked(false);
             settingLayout.setVisibility(View.INVISIBLE);
+            typeClick("Motor");
+            enginVolume("Low");
+            backSensitivityVolume("Low");
+            setBackVolume("Off");
         }
 
         changeChart();

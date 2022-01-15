@@ -20,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -327,6 +328,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     MainActivity activity = this;
     private int port = 8888;
 
+    private Button rcSend;
     LoadingDialog loadingDialog ;
 
     ArrayList<String> signalList = new ArrayList<>();
@@ -367,29 +369,43 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         // 임시로 여기서 소켓 연결을 함
 
+    loadingDialog = new LoadingDialog(MainActivity.this,0);
+    loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                // something..
-//                getOdbData();
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
-//                                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
-//                                        CarData.getInstance().getPerformance());
-//                            }
-//                        });
-//
-//                    }
-//                }).start();
-//            }
-//        }, 0);
-        connectedSocket();
+    loadingDialog.show();
+    loadingDialog.setNotTouch();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // something..
+                getOdbData();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+                                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+                                        CarData.getInstance().getPerformance());
+                            }
+                        });
+
+                    }
+                }).start();
+            }
+        }, 0);
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadingDialog.hide();
+                loadingDialog.setTouch();
+
+            }
+        },2000);
+//        connectedSocket();
 
     }
 
@@ -477,19 +493,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                                     if(read.length()==23){
                                         signalList= new ArrayList<>();
                                         signalList.add(read);
+
                                     } else if(read.length()==20){
+                                        signalList.add(read);
+                                        setEditData(signalList.get(0),read);
 
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                setEditData(signalList.get(0),read);
-
-                                                loadingDialog.setTouch();
-                                                loadingDialog.hide();
-
-                                            }
-                                        });
-
+                                    loadingDialog.hide();
+                                    loadingDialog.setTouch();
                                     }
 
                                 }
@@ -623,30 +633,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
                 sendCarData();
 
-                loadingDialog = new LoadingDialog(MainActivity.this,2);
-                loadingDialog.show();
-                loadingDialog.setNotTouch();
+//                loadingDialog = new LoadingDialog(MainActivity.this,2);
+//                loadingDialog.show();
+//                loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//                loadingDialog.setNotTouch();
+//
+//                Drive.getInstance().update();
+//                Transmission.getInstance().update();
+//                Sound.getInstance().update();
+//
+//                CarData.getInstance().setComfortable();
+//                CarData.getInstance().setDynamic();
+//                CarData.getInstance().setEfficiency();
+//                CarData.getInstance().setLeading();
+//                CarData.getInstance().setPerformance();
+//
+//                CarData.getInstance().setTempComfortable();
+//                CarData.getInstance().setTempDynamic();
+//                CarData.getInstance().setTempEfficiency();
+//                CarData.getInstance().setTempLeading();
+//                CarData.getInstance().setTempPerformance();
+//
+//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        loadingDialog.hide();
+//                        loadingDialog.setTouch();
+//
+//                        defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+//                                CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+//                                CarData.getInstance().getPerformance());
+//
+//
+//                        Toast.makeText(getApplicationContext(),"차량 전송이 완료되었습니다",Toast.LENGTH_SHORT).show();
+//                    }
+//                },2500);
 
-                Drive.getInstance().update();
-                Transmission.getInstance().update();
-                Sound.getInstance().update();
-
-                CarData.getInstance().setComfortable();
-                CarData.getInstance().setDynamic();
-                CarData.getInstance().setEfficiency();
-                CarData.getInstance().setLeading();
-                CarData.getInstance().setPerformance();
-
-                CarData.getInstance().setTempComfortable();
-                CarData.getInstance().setTempDynamic();
-                CarData.getInstance().setTempEfficiency();
-                CarData.getInstance().setTempLeading();
-                CarData.getInstance().setTempPerformance();
-
-
-                loadingDialog.hide();
-                loadingDialog.setTouch();
-                Toast.makeText(getApplicationContext(),"차량 전송이 완료되었습니다",Toast.LENGTH_SHORT).show();
 
 
 //                Constants.COMMAND_MODE = "SEND";
@@ -688,10 +710,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 clickRecomment(4);
 
                 break;
+            case R.id.rcdation_submit :
+
+                sendCarData();
+
+                break;
             default:
                 break;
         }
     }
+
 
 
     public void setEditData(String signal1 , String signal2){
@@ -2561,6 +2589,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_dialog_cancel);
 
+        rcSend = findViewById(R.id.rcdation_submit);
+        rcSend.setOnClickListener(this);
+
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.wave);
+
+        animation.setRepeatCount(Animation.INFINITE);
+
+        animation.setRepeatMode(Animation.REVERSE);
+
+        gearBtn.startAnimation(animation);
+
+
+        drivingAxleBtn.setAnimation(animation);
+        speakerBtn.setAnimation(animation);
+
+
+
 
     }
 
@@ -2860,6 +2905,49 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 }
             }
         }.start();
+
+        loadingDialog = new LoadingDialog(MainActivity.this,2);
+        loadingDialog.show();
+        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        loadingDialog.setNotTouch();
+
+        Drive.getInstance().update();
+        Transmission.getInstance().update();
+        Sound.getInstance().update();
+
+        CarData.getInstance().setComfortable();
+        CarData.getInstance().setDynamic();
+        CarData.getInstance().setEfficiency();
+        CarData.getInstance().setLeading();
+        CarData.getInstance().setPerformance();
+
+        CarData.getInstance().setTempComfortable();
+        CarData.getInstance().setTempDynamic();
+        CarData.getInstance().setTempEfficiency();
+        CarData.getInstance().setTempLeading();
+        CarData.getInstance().setTempPerformance();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadingDialog.hide();
+                loadingDialog.setTouch();
+
+                if(Transmission.getInstance().getTempIsOn().equals("0") &&
+                        Sound.getInstance().getTempIsOn().equals("0") &&
+                        Drive.getInstance().getTempIsOn().equals("0")){
+                    CarData.getInstance().setTempEVMode();
+                    CarData.getInstance().setEVMode();
+                }
+                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+                        CarData.getInstance().getPerformance());
+
+
+                Toast.makeText(getApplicationContext(),"차량 전송이 완료되었습니다",Toast.LENGTH_SHORT).show();
+            }
+        },2500);
+
     }
 
     public String setSignal1(){

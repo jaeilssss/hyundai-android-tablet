@@ -317,6 +317,8 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
         }else{
             switchCompat.setChecked(false);
             settingLayout.setVisibility(View.INVISIBLE);
+            setStiffness("Low");
+            setReduce("Low");
         }
 
         changeChart();

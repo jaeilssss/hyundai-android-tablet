@@ -349,6 +349,14 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         }else{
             switchCompat.setChecked(false);
             settingLayout.setVisibility(View.INVISIBLE);
+            typeClick("AT");
+            gearCountSeekBar.setProgress(0);
+            seekBarCountTxt.setText("4");
+            gearRate("Short");
+            gearSpeed("Low");
+            gearPower("Low");
+            map("Normal");
+
         }
         changeChart();
 
