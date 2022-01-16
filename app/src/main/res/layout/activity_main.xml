@@ -184,41 +184,45 @@
 
                     <ImageView
                         android:id="@+id/driving_axle_btn"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="2dp"
                         android:layout_alignTop="@id/car_image"
                         android:layout_alignRight="@id/car_image"
                         android:layout_marginTop="70dp"
                         android:layout_marginRight="190dp"
-                        android:src="@drawable/circle_point" />
+                        android:background="@drawable/circle_setting"
+                        android:src="@drawable/ic_setting_white" />
 
                     <View
                         android:id="@+id/driving_axle_line"
-                        android:layout_width="100dp"
+                        android:layout_width="110dp"
                         android:layout_height="1dp"
                         android:layout_alignLeft="@id/driving_axle_btn"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginTop="95dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="87dp"
                         android:background="@color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="84dp"
+                        android:layout_marginTop="77dp"
                         android:layout_toRightOf="@id/driving_axle_line"
                         android:text="구동계 설정"
                         android:textColor="@color/white"
+                        android:id="@+id/driving_box_text"
                         android:textSize="17dp" />
 
                     <ImageView
                         android:id="@+id/gear_box_btn"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="2dp"
+                        android:background="@drawable/circle_setting"
                         android:layout_alignLeft="@id/car_image"
                         android:layout_marginLeft="180dp"
                         android:layout_marginTop="160dp"
-                        android:src="@drawable/circle_point" />
+                        android:src="@drawable/ic_setting_white" />
 
                     <View
                         android:id="@+id/gear_box_line"
@@ -237,17 +241,20 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@id/gear_box_line"
                         android:text="변속기 설정"
+                        android:id="@+id/gear_box_text"
                         android:textColor="@color/white"
                         android:textSize="17dp" />
 
                     <ImageView
                         android:id="@+id/speaker_btn"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_alignLeft="@id/car_image"
                         android:layout_marginLeft="275dp"
                         android:layout_marginTop="160dp"
-                        android:src="@drawable/circle_point" />
+                        android:padding="2dp"
+                        android:background="@drawable/circle_setting"
+                        android:src="@drawable/ic_setting_white" />
 
                     <View
                         android:id="@+id/speaker_line"
@@ -265,6 +272,7 @@
                         android:layout_marginTop="175dp"
                         android:layout_toRightOf="@id/speaker_line"
                         android:text="음향설정"
+                        android:id="@+id/speaker_box_text"
                         android:textColor="@color/white"
                         android:textSize="17dp" />
 

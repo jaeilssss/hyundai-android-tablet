@@ -763,7 +763,7 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         CarData.getInstance().setTempEfficiency();
         CarData.getInstance().setTempPerformance();
         Intent intent = new Intent();
-        intent.putExtra("change",true);
+        intent.putExtra("change",false);
         setResult(Constants.REQUEST_GEAR_SETTING,intent);
         finish();
     }

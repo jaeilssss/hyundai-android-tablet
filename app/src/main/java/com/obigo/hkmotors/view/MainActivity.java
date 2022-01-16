@@ -621,58 +621,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
             case R.id.ib_e_submit_btn:
 
-//                if(mObdsv == null) {
-//                    Toast.makeText(getApplicationContext(), "App과 OBD가 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                // Check that we're actually connected before trying anything
-//                if (mObdsv.getState() != Constants.STATE_CONNECTED) {
-//                    Toast.makeText(getApplicationContext(), "App과 OBD가 올바르게 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-
                 sendCarData();
 
-//                loadingDialog = new LoadingDialog(MainActivity.this,2);
-//                loadingDialog.show();
-//                loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//                loadingDialog.setNotTouch();
-//
-//                Drive.getInstance().update();
-//                Transmission.getInstance().update();
-//                Sound.getInstance().update();
-//
-//                CarData.getInstance().setComfortable();
-//                CarData.getInstance().setDynamic();
-//                CarData.getInstance().setEfficiency();
-//                CarData.getInstance().setLeading();
-//                CarData.getInstance().setPerformance();
-//
-//                CarData.getInstance().setTempComfortable();
-//                CarData.getInstance().setTempDynamic();
-//                CarData.getInstance().setTempEfficiency();
-//                CarData.getInstance().setTempLeading();
-//                CarData.getInstance().setTempPerformance();
-//
-//                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        loadingDialog.hide();
-//                        loadingDialog.setTouch();
-//
-//                        defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
-//                                CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
-//                                CarData.getInstance().getPerformance());
-//
-//
-//                        Toast.makeText(getApplicationContext(),"차량 전송이 완료되었습니다",Toast.LENGTH_SHORT).show();
-//                    }
-//                },2500);
 
-
-
-//                Constants.COMMAND_MODE = "SEND";
-//                showProgressDialog();
 
 
                 break;
@@ -2592,17 +2543,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         rcSend = findViewById(R.id.rcdation_submit);
         rcSend.setOnClickListener(this);
 
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.wave);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.turn_anim);
 
-        animation.setRepeatCount(Animation.INFINITE);
-
-        animation.setRepeatMode(Animation.REVERSE);
+//        animation.setRepeatCount(Animation.INFINITE);
+//
+//        animation.setRepeatMode(Animation.REVERSE);
 
         gearBtn.startAnimation(animation);
+        speakerBtn.startAnimation(animation);
+        drivingAxleBtn.startAnimation(animation);
 
 
-        drivingAxleBtn.setAnimation(animation);
-        speakerBtn.setAnimation(animation);
+
+//        drivingAxleBtn.setAnimation(animation);
+//        speakerBtn.setAnimation(animation);
 
 
 
@@ -2763,14 +2717,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                             CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
                             CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
                             CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+
+                    gearBtn.clearAnimation();
+                    Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.gear_after_anim);
+                    gearBtn.setImageResource(R.drawable.setting_check_main_color);
+                    gearBtn.startAnimation(animation);
+
+
                 }
+                break;
             case Constants.REQUEST_SPEAKER_SETTING :
                 if(data.getBooleanExtra("change",false)){
                     modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),
                             CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
                             CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
                             CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+
+                    speakerBtn.clearAnimation();
+                    Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.gear_after_anim);
+                    speakerBtn.setImageResource(R.drawable.setting_check_main_color);
+                    speakerBtn.startAnimation(animation);
+
                 }
+
 
                 break;
             case Constants.REQUEST_DRIVING_SETTING :
@@ -2779,6 +2748,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                             CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
                             CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
                             CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+
+                    drivingAxleBtn.clearAnimation();
+                    Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.driving_after_anim);
+                    drivingAxleBtn.setImageResource(R.drawable.setting_check_main_color);
+                    drivingAxleBtn.startAnimation(animation);
+
                 }
                 break;
             case Constants.REQUEST_EDIT_CUSTOM_RESULT :
