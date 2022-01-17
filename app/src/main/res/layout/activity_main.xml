@@ -211,7 +211,7 @@
                         android:text="구동계 설정"
                         android:textColor="@color/white"
                         android:id="@+id/driving_box_text"
-                        android:textSize="17dp" />
+                        android:textSize="15dp" />
 
                     <ImageView
                         android:id="@+id/gear_box_btn"
@@ -243,7 +243,7 @@
                         android:text="변속기 설정"
                         android:id="@+id/gear_box_text"
                         android:textColor="@color/white"
-                        android:textSize="17dp" />
+                        android:textSize="15dp" />
 
                     <ImageView
                         android:id="@+id/speaker_btn"
@@ -274,13 +274,15 @@
                         android:text="음향설정"
                         android:id="@+id/speaker_box_text"
                         android:textColor="@color/white"
-                        android:textSize="17dp" />
+                        android:textSize="15dp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/car_image"
                         android:gravity="center"
+                        android:fontFamily="@font/notosanscjkkr_medium"
+                        android:includeFontPadding="false"
                         android:text="설정하고 싶은 부분을 클릭하여 설정"
                         android:textColor="@color/white"
                         android:textSize="17dp" />
