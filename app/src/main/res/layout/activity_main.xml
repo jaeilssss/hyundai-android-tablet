@@ -77,17 +77,46 @@
         </LinearLayout>
 
         <!-- 고급 설정 / 추천모드-->
-        <ToggleButton
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/tb_setting"
             android:layout_width="245dp"
-            android:layout_height="34dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/layout_main_top"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:clickable="true"
             android:layout_marginBottom="25dp"
-            android:background="@drawable/toggle_setting_selector"
-            android:textOff=""
-            android:textOn="" />
+
+             >
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="고급설정"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/shape_toggle_expert_on"
+                custom:layout_constraintStart_toStartOf="parent"
+                custom:layout_constraintEnd_toStartOf="@id/rc_mode"
+                custom:layout_constraintHorizontal_chainStyle="packed"
+                custom:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/expert_mode"/>
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="추천모드"
+                android:id="@+id/rc_mode"
+                android:textStyle="bold"
+                android:textSize="14dp"
+                android:background="@drawable/shape_toggle_rc_off"
+                android:textColor="@color/grey"
+                custom:layout_constraintHorizontal_chainStyle="packed"
+                custom:layout_constraintEnd_toEndOf="parent"
+                custom:layout_constraintStart_toEndOf="@id/expert_mode"
+                custom:layout_constraintTop_toTopOf="parent"
+                />
+        </android.support.constraint.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

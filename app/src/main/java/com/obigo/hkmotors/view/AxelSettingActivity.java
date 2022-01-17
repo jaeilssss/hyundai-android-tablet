@@ -441,7 +441,7 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
         CarData.getInstance().setTempEfficiency();
         CarData.getInstance().setTempPerformance();
         Intent intent = new Intent();
-        intent.putExtra("change",true);
+        intent.putExtra("change",false);
         setResult(Constants.REQUEST_DRIVING_SETTING,intent);
         finish();
     }

@@ -568,7 +568,7 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
         CarData.getInstance().setTempEfficiency();
         CarData.getInstance().setTempPerformance();
         Intent intent = new Intent();
-        intent.putExtra("change",true);
+        intent.putExtra("change",false);
         setResult(Constants.REQUEST_SPEAKER_SETTING,intent);
         finish();
     }

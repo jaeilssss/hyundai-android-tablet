@@ -13,6 +13,7 @@ import android.os.DropBoxManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -96,7 +98,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private ArrayList<FavoriteDataListItems> dataListItems = new ArrayList<>();
 
-    private ToggleButton mMode;
+    private ConstraintLayout mMode;
 
     private ImageView gearBtn;
     private ImageView speakerBtn;
@@ -326,6 +328,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     PrintWriter sendWriter;
     String read;
     MainActivity activity = this;
+    Button ex,rc;
     private int port = 8888;
 
     private Button rcSend;
@@ -337,7 +340,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "== onCreate");
-
 
         mModeValue = getIntent().getStringExtra("mode");
 
@@ -666,6 +668,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 sendCarData();
 
                 break;
+            case R.id.tb_setting :
+
+
+            case R.id.expert_mode :
+                if(mModeValue.equals(Constants.MODE_RCDATION)){
+                    mModeValue = Constants.MODE_EXPERT;
+                    setMode();
+                }
+                break;
+            case R.id.rc_mode :
+                if(mModeValue.equals(Constants.MODE_EXPERT)){
+                    mModeValue = Constants.MODE_RCDATION;
+                    setMode();
+                }
             default:
                 break;
         }
@@ -1023,7 +1039,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     public void recommendChangeBackGround(int num){
         if(num==-1){
-
             ev.setBackgroundResource(R.drawable.favorite_border_5_grey);
             vip.setBackgroundResource(R.drawable.favorite_border_5_grey);
             passenger.setBackgroundResource(R.drawable.favorite_border_5_grey);
@@ -2464,20 +2479,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         mainObdLight = (ImageView) findViewById(R.id.iv_main_light);
 
-        mMode = (ToggleButton) findViewById(R.id.tb_setting);
-
-        if(mModeValue.equals(Constants.MODE_RCDATION)){
-            mMode.setChecked(true);
-        } else if (mModeValue.equals(Constants.MODE_EXPERT)){
-            mMode.setChecked(false);
-        }
+        mMode = findViewById(R.id.tb_setting);
+        mMode.setOnClickListener(this);
+        ex = findViewById(R.id.expert_mode);
+        rc = findViewById(R.id.rc_mode);
+        ex.setOnClickListener(this);
+        rc.setOnClickListener(this);
 
         mChart = (RadarChart) findViewById(R.id.chart);
         mChart.setNoDataText("데이터가 없습니다.");
 
         mLayoutRcdation = (RelativeLayout) findViewById(R.id.layout_rcdation);
         mLayoutExpert = (RelativeLayout) findViewById(R.id.layout_expert);
+        if(mModeValue.equals(Constants.MODE_RCDATION)){
 
+            setMode();
+
+        } else if (mModeValue.equals(Constants.MODE_EXPERT)){
+            setMode();
+
+        }
         saveBtn = findViewById(R.id.ib_e_save_btn);
         saveBtn.setOnClickListener(this);
         carSend = findViewById(R.id.ib_e_submit_btn);
@@ -2487,32 +2508,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
 
-        mMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton toggleButton, boolean isChecked) {
-                //
-                if(!isChecked) {
-                    mModeValue = Constants.MODE_EXPERT;
 
-                    defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getInstance().getDynamic(),
-                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance());
-                    Transmission.getInstance().reset();
-                    Sound.getInstance().reset();
-                    Drive.getInstance().reset();
-                } else {
-                    mModeValue = Constants.MODE_RCDATION;
+        mModeValue = Constants.MODE_EXPERT;
 
-                    defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getInstance().getDynamic(),
-                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance());
-                    Transmission.getInstance().reset();
-                    Sound.getInstance().reset();
-                    Drive.getInstance().reset();
 
-                    recommendChangeBackGround(-1);
-                }
-                setParamMode(mModeValue);
-            }
-        }) ;
+//        mMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton toggleButton, boolean isChecked) {
+//                //
+//                if(!isChecked) {
+//
+//                } else {
+//                    mModeValue = Constants.MODE_RCDATION;
+//
+//                    defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getInstance().getDynamic(),
+//                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance());
+//                    Transmission.getInstance().reset();
+//                    Sound.getInstance().reset();
+//                    Drive.getInstance().reset();
+//
+//                    recommendChangeBackGround(-1);
+//                }
+//                setParamMode(mModeValue);
+//            }
+//        }) ;
+
+
 
         setParamMode(mModeValue);
 
@@ -2545,9 +2566,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.turn_anim);
 
-//        animation.setRepeatCount(Animation.INFINITE);
-//
-//        animation.setRepeatMode(Animation.REVERSE);
 
         gearBtn.startAnimation(animation);
         speakerBtn.startAnimation(animation);
@@ -2555,14 +2573,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
 
-//        drivingAxleBtn.setAnimation(animation);
-//        speakerBtn.setAnimation(animation);
-
-
 
 
     }
 
+
+    public void setMode(){
+
+        if(mModeValue.equals(Constants.MODE_EXPERT)){
+
+            ex.setTextColor(Color.WHITE);
+            rc.setTextColor(Color.GRAY);
+            ex.setBackgroundResource(R.drawable.shape_toggle_expert_on);
+            rc.setBackgroundResource(R.drawable.shape_toggle_rc_off);
+
+            mLayoutExpert.setVisibility(View.VISIBLE);
+            mLayoutRcdation.setVisibility(View.GONE);
+
+        }else{
+            ex.setTextColor(Color.GRAY);
+            rc.setTextColor(Color.WHITE);
+            findViewById(R.id.expert_mode).setBackgroundResource(R.drawable.shape_toggle_expert_off);
+            findViewById(R.id.rc_mode).setBackgroundResource(R.drawable.shape_toggle_rc_on);
+            mLayoutExpert.setVisibility(View.GONE);
+            mLayoutRcdation.setVisibility(View.VISIBLE);
+            recommendChangeBackGround(-1);
+        }
+
+        defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getInstance().getDynamic(),
+                CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance());
+        Transmission.getInstance().reset();
+        Sound.getInstance().reset();
+        Drive.getInstance().reset();
+    }
     // =============================================================================================
     /**
      * Set OBD mode
@@ -2653,9 +2696,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     String[] params = param.split(":");
 
                     if(params[0].equals(Constants.MODE_RCDATION)){
-                        mMode.setChecked(false);
+
+//                        mMode.setChecked(false);
                     } else if (params[0].equals(Constants.MODE_EXPERT)){
-                        mMode.setChecked(true);
+
+//                        mMode.setChecked(true);
                     }
 
                     mParamTorque = Integer.parseInt(params[1]);
@@ -3152,121 +3197,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }, 1000);
     }
 
-    private void showProgressDialogMode() {
-
-        sendMessage("ATSH530");
-        FavoriteDataListItems listItems = dataListItems.get(Constants.MODE_STATUS);
-
-        if(mProgressDialog == null) {
-            mProgressDialog = new Dialog(MainActivity.this, android.R.style.Theme_Translucent_NoTitleBar);
-        }
-        mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        mProgressDialog.getWindow().setDimAmount(0.9f);
-
-        mProgressDialog.setContentView(R.layout.custom_progress);
-        mProgressDialog.setCanceledOnTouchOutside(false); // not in touch with background activity
-
-        mProgress = (ProgressBar) mProgressDialog.findViewById(R.id.pb_progress);
-
-        mProgressValue = (TextView) mProgressDialog.findViewById(R.id.tv_progress_value);
-
-        ImageButton confirmBtn = (ImageButton) mProgressDialog.findViewById(R.id.ib_confirm_btn);
-        confirmBtn.setOnClickListener(this);
-
-        pStatus = 0;
-        cnt = 32;
-
-        mProgressValue.setText("0%");
-
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                Handler hd = new Handler(Looper.getMainLooper());
-
-                while (pStatus <= 100) {
-                    pStatus += 1;
-
-                    if(!Constants.SEND_MSG_01.equals("")){
-                        if(pStatus == 50){
-                            cnt = cnt + 32;
-                        } else if(pStatus == 70){
-                            cnt = cnt + 32;
-                        } else if(pStatus == 90){
-                            cnt = cnt + 32;
-                        }
-                    } else {
-                        cnt = 32;
-                    }
-
-                    if(pStatus == 100) {
-
-                        dismissProgressDialog();
-
-                        pStatus= 0;
-                        cnt = 0;
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mPref.setSDResponse(mRespResponse);
-                                mPref.setSDDeceleration(mRespDeceleration);
-                                mPref.setSDAcceleration(mRespAcceration);
-                                mPref.setSDMaxPower(mRespMaxPower);
-                                mPref.setSDEcoLevel(mRespEcoLevel);
-                                modChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel,
-                                        mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
-                            }
-                        });
-
-                        return;
-                    }
-
-                    hd.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            // TODO Auto-generated method stub
-                            mProgress.setProgress(pStatus);
-                            mProgressValue.setText(pStatus + "%");
-
-                        }
-                    });
-                    try {
-                        // Sleep for 200 milliseconds.
-                        // Just to display the progress slowly
-                        Thread.sleep(cnt); //thread will take approx 3 seconds to finish
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-
-
-        mProgressDialog.show();
-
-        final String[] params = listItems.getParam().split(":");
-
-        sendMessage("01" + Utility.convertParamIntToHex(Integer.valueOf(params[0]), Integer.valueOf(params[1]),
-                Integer.valueOf(params[2]), Integer.valueOf(params[3]), Integer.valueOf(params[4]), Integer.valueOf(params[5]), Integer.valueOf(params[6]), mParamDriving));
-
-        Handler hd2 = new Handler(Looper.getMainLooper());
-        hd2.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                mMode.setChecked(false);
-                mModeValue = Constants.MODE_EXPERT;
-                setParamMode(mModeValue);
-                sendMessage("01" + Utility.convertParamIntToHex(Integer.valueOf(params[0]), Integer.valueOf(params[1]),
-                        Integer.valueOf(params[2]), Integer.valueOf(params[3]), Integer.valueOf(params[4]), Integer.valueOf(params[5]), Integer.valueOf(params[6]), mParamDriving));
-            }
-        }, 1000);
-    }
 
     /**
      * Dismiss progress dialog
@@ -3285,7 +3215,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         final String [] respParams = resp;
 
-        mMode.setChecked(false);
+
         mModeValue = Constants.MODE_EXPERT;
         setParamMode(mModeValue);
 
