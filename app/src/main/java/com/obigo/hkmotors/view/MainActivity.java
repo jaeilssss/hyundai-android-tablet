@@ -2572,6 +2572,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         drivingAxleBtn.startAnimation(animation);
 
 
+        drivingAxleBtn.bringToFront();
 
 
 
@@ -2766,6 +2767,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     gearBtn.clearAnimation();
                     Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.gear_after_anim);
                     gearBtn.setImageResource(R.drawable.setting_check_main_color);
+                    gearBtn.setBackgroundResource(R.drawable.circle_setting_checked);
                     gearBtn.startAnimation(animation);
 
 
@@ -2781,6 +2783,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     speakerBtn.clearAnimation();
                     Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.gear_after_anim);
                     speakerBtn.setImageResource(R.drawable.setting_check_main_color);
+                    speakerBtn.setBackgroundResource(R.drawable.circle_setting_checked);
                     speakerBtn.startAnimation(animation);
 
                 }
@@ -2797,6 +2800,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     drivingAxleBtn.clearAnimation();
                     Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.driving_after_anim);
                     drivingAxleBtn.setImageResource(R.drawable.setting_check_main_color);
+                    drivingAxleBtn.setBackgroundResource(R.drawable.circle_setting_checked);
                     drivingAxleBtn.startAnimation(animation);
 
                 }

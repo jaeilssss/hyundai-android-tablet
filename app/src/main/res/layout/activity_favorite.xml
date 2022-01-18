@@ -15,7 +15,6 @@
         android:layout_marginRight="25dp"
         android:orientation="vertical">
 
-
         <RelativeLayout
             android:id="@+id/layout_favorite_top"
             android:layout_width="wrap_content"
@@ -87,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
+
             android:id="@+id/favorite_main_layout"
             android:layout_below="@id/layout_favorite_top">
             <LinearLayout
@@ -105,9 +104,9 @@
 
             <LinearLayout
                 android:id="@+id/favorite_info_layout"
-                android:layout_width="460dp"
+                android:layout_width="wrap_content"
                 android:layout_height="600dp"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="120dp"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="20dp">
@@ -119,7 +118,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <RelativeLayout
-                            android:layout_width="272dp"
+                            android:layout_width="match_parent"
                             android:layout_height="28dp"
                             android:layout_marginBottom="9dp"
                             android:background="#14172a">
@@ -156,7 +155,7 @@
                             android:orientation="vertical"
                             android:id="@+id/transmission_layout">
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -189,7 +188,7 @@
 
                             </RelativeLayout>
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -222,7 +221,7 @@
 
                             </RelativeLayout>
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -255,7 +254,7 @@
 
                             </RelativeLayout>
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -288,7 +287,7 @@
 
                             </RelativeLayout>
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -321,7 +320,7 @@
 
                             </RelativeLayout>
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -357,7 +356,7 @@
                         </LinearLayout>
 
                         <RelativeLayout
-                            android:layout_width="272dp"
+                            android:layout_width="match_parent"
                             android:layout_height="28dp"
                             android:layout_marginBottom="9dp"
                             android:background="#14172a">
@@ -390,12 +389,12 @@
                         </RelativeLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/sound_layout"
                             android:orientation="vertical">
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -428,7 +427,7 @@
 
                             </RelativeLayout>
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -461,7 +460,7 @@
 
                             </RelativeLayout>
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -494,7 +493,7 @@
 
                             </RelativeLayout>
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -528,7 +527,7 @@
                         </LinearLayout>
 
                         <RelativeLayout
-                            android:layout_width="272dp"
+                            android:layout_width="match_parent"
                             android:layout_height="28dp"
                             android:layout_marginBottom="9dp"
                             android:background="#14172a">
@@ -566,7 +565,7 @@
                             android:orientation="vertical"
                             android:id="@+id/drive_layout">
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -598,7 +597,7 @@
                                     android:textSize="17dp" />
                             </RelativeLayout>
                             <RelativeLayout
-                                android:layout_width="272dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_marginBottom="9dp"
                                 android:layout_marginLeft="10dp"
@@ -639,16 +638,14 @@
 
         </LinearLayout>
 
-
-
     <Button
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/favorite_main_layout"
         android:layout_alignEnd="@id/favorite_main_layout"
-        android:layout_marginRight="50dp"
+        android:layout_marginRight="10dp"
         android:text="차량 전송"
-        android:background="@color/mainColor"
+        android:background="@drawable/button_shape_radius_10"
         android:textColor="@color/white"
         android:textSize="16dp"
         android:id="@+id/favorite_info_send"/>
@@ -658,10 +655,10 @@
             android:layout_below="@id/favorite_main_layout"
             android:layout_alignEnd="@id/favorite_main_layout"
             android:text="편집"
-            android:background="@color/mainColor"
+            android:background="@drawable/button_shape_radius_10"
             android:textColor="@color/white"
             android:textSize="16dp"
-            android:layout_marginRight="170dp"
+            android:layout_marginRight="140dp"
             android:id="@+id/favorite_info_edit"/>
         <Button
             android:layout_width="100dp"
@@ -669,12 +666,11 @@
             android:text="삭제"
             android:layout_below="@id/favorite_main_layout"
             android:layout_alignEnd="@id/favorite_main_layout"
-            android:layout_marginRight="290dp"
+            android:layout_marginRight="270dp"
             android:textSize="16dp"
-            android:background="@color/mainColor"
+            android:background="@drawable/button_shape_radius_10"
             android:textColor="@color/white"
             android:id="@+id/favorite_info_delete"/>
-
 
     </RelativeLayout>
 

@@ -209,19 +209,20 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/prototype_car" />
+                        android:src="@drawable/prototype_car"
+                        />
 
                     <ImageView
                         android:id="@+id/driving_axle_btn"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:padding="2dp"
                         android:layout_alignTop="@id/car_image"
                         android:layout_alignRight="@id/car_image"
                         android:layout_marginTop="70dp"
                         android:layout_marginRight="190dp"
+                        android:src="@drawable/ic_setting_grey"
                         android:background="@drawable/circle_setting"
-                        android:src="@drawable/ic_setting_white" />
+                        />
 
                     <View
                         android:id="@+id/driving_axle_line"
@@ -246,12 +247,11 @@
                         android:id="@+id/gear_box_btn"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:padding="2dp"
                         android:background="@drawable/circle_setting"
                         android:layout_alignLeft="@id/car_image"
                         android:layout_marginLeft="180dp"
                         android:layout_marginTop="160dp"
-                        android:src="@drawable/ic_setting_white" />
+                        android:src="@drawable/ic_setting_grey" />
 
                     <View
                         android:id="@+id/gear_box_line"
@@ -281,9 +281,9 @@
                         android:layout_alignLeft="@id/car_image"
                         android:layout_marginLeft="275dp"
                         android:layout_marginTop="160dp"
-                        android:padding="2dp"
+
                         android:background="@drawable/circle_setting"
-                        android:src="@drawable/ic_setting_white" />
+                        android:src="@drawable/ic_setting_grey" />
 
                     <View
                         android:id="@+id/speaker_line"
@@ -452,7 +452,7 @@
                             android:layout_height="70dp"
                             android:text="차로 전송"
                             android:layout_marginVertical="10dp"
-                            android:background="@color/mainColor"
+                            android:background="@drawable/button_shape_radius_10"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/rcdation_commercial"

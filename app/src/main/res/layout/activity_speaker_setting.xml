@@ -323,8 +323,8 @@
             android:id="@+id/speaker_detail_volume_txt"/>
 
            <ImageButton
-               android:layout_width="25dp"
-               android:layout_height="25dp"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
                android:background="@drawable/oval_default"
                android:layout_alignTop="@id/speaker_detail_volume_txt"
                android:layout_alignBottom="@id/speaker_detail_volume_txt"
@@ -343,8 +343,8 @@
                 android:id="@+id/speaker_back_volume_off_txt"/>
 
             <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignTop="@id/speaker_back_volume_off_txt"
                 android:layout_alignBottom="@id/speaker_detail_volume_txt"
                 android:background="@drawable/oval_default"
@@ -364,8 +364,8 @@
                 android:id="@+id/speaker_back_volume_low_txt"/>
 
             <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/oval_default"
                 android:layout_toEndOf="@id/speaker_back_volume_low_txt"
                 android:layout_alignTop="@id/speaker_back_volume_low_txt"
@@ -384,8 +384,8 @@
                 android:layout_marginLeft="10dp"
                 android:id="@+id/speaker_back_volume_middle_txt"/>
             <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/oval_default"
                 android:layout_marginLeft="25dp"
                 android:layout_toEndOf="@id/speaker_back_volume_middle_txt"

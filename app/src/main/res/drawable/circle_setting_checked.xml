@@ -3,9 +3,9 @@
     android:shape="oval">
 
     <stroke
-        android:color="#ffffffff"
+        android:color="@color/keypad_bg"
         android:width="0.5dp"/>
     <solid
-        android:color="#ffffff"/>
+        android:color="@color/keypad_bg"/>
 
 </shape>
