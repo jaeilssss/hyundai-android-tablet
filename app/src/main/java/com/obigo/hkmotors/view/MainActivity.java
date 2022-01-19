@@ -321,7 +321,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private String editTitle;
     private int editId;
 
-    private String ip = "192.168.0.18";
+    private String ip = "10.0.2.15";
     private Socket socket;
     private Handler mHandler;
     InetAddress serverAddr;
@@ -329,7 +329,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     String read;
     MainActivity activity = this;
     Button ex,rc;
-    private int port = 8888;
+    private int port = 12345;
 
     private Button rcSend;
     LoadingDialog loadingDialog ;
@@ -407,7 +407,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
             }
         },2000);
-//        connectedSocket();
+        connectedSocket();
 
     }
 
@@ -483,6 +483,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     sendWriter = new PrintWriter(socket.getOutputStream());
                     BufferedReader input =   new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     while (true){
+
                         read = input.readLine();
 
                         if(read!=null){
@@ -490,7 +491,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                                 @Override
                                 public void run() {
                                     // 예시용 으로 해놓음 !!
-                                    Toast.makeText(getApplicationContext(),read,Toast.LENGTH_SHORT).show();
+                                System.out.println(read.toString());
 
                                     if(read.length()==23){
                                         signalList= new ArrayList<>();
