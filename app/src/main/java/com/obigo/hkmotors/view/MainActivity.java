@@ -74,6 +74,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -321,7 +322,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private String editTitle;
     private int editId;
 
-    private String ip = "10.0.2.15";
+    private String ip = "192.168.0.6";
     private Socket socket;
     private Handler mHandler;
     InetAddress serverAddr;
@@ -329,7 +330,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     String read;
     MainActivity activity = this;
     Button ex,rc;
-    private int port = 12345;
+    private int port = 1234;
 
     private Button rcSend;
     LoadingDialog loadingDialog ;
@@ -478,8 +479,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             public void run() {
 
                 try{
-                    serverAddr = InetAddress.getByName(ip);
-                    socket = new Socket(serverAddr,port);
+                    InetSocketAddress isa = new InetSocketAddress("192.168.0.3", 12345);
+                    Socket socket = new Socket();
+
+                    socket.setReuseAddress(true);
+                    socket.connect(isa);
                     sendWriter = new PrintWriter(socket.getOutputStream());
                     BufferedReader input =   new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     while (true){
