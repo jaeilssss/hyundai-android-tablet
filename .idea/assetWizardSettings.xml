@@ -34,8 +34,8 @@
                         <option name="values">
                           <map>
                             <entry key="autoMirrored" value="true" />
-                            <entry key="color" value="5e5e5e" />
-                            <entry key="outputName" value="ic_setting_grey" />
+                            <entry key="color" value="359dd5" />
+                            <entry key="outputName" value="testimage" />
                           </map>
                         </option>
                       </PersistentState>

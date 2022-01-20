@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.DropBoxManager;
 import android.os.Handler;
@@ -50,6 +51,8 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.obigo.hkmotors.R;
 import com.obigo.hkmotors.common.Constants;
 import com.obigo.hkmotors.common.Utility;
@@ -69,6 +72,10 @@ import com.obigo.hkmotors.model.Transmission;
 import com.obigo.hkmotors.module.BaseActivity;
 import com.obigo.hkmotors.module.Result_DrivingInfo;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -78,6 +85,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -322,7 +331,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private String editTitle;
     private int editId;
 
-    private String ip = "192.168.0.6";
+    private String ip = "192.168.0.3";
     private Socket socket;
     private Handler mHandler;
     InetAddress serverAddr;
@@ -372,11 +381,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         // 임시로 여기서 소켓 연결을 함
 
-    loadingDialog = new LoadingDialog(MainActivity.this,0);
-    loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-    loadingDialog.show();
-    loadingDialog.setNotTouch();
+//    loadingDialog = new LoadingDialog(MainActivity.this,0);
+//    loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//
+//    loadingDialog.show();
+//    loadingDialog.setNotTouch();
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -400,14 +409,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             }
         }, 0);
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadingDialog.hide();
-                loadingDialog.setTouch();
-
-            }
-        },2000);
         connectedSocket();
 
     }
@@ -479,42 +480,47 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             public void run() {
 
                 try{
+
                     InetSocketAddress isa = new InetSocketAddress("192.168.0.3", 12345);
                     Socket socket = new Socket();
-
+                    String data ="";
                     socket.setReuseAddress(true);
                     socket.connect(isa);
+                    int count = 0;
                     sendWriter = new PrintWriter(socket.getOutputStream());
                     BufferedReader input =   new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    while (true){
+                    while (true) {
 
                         read = input.readLine();
 
-                        if(read!=null){
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // 예시용 으로 해놓음 !!
-                                System.out.println(read.toString());
+                        if (read != null) {
+                        if(count!=12){
+                            data+=read;
+                        }else{
+                            data += read;
+                        }
 
-                                    if(read.length()==23){
-                                        signalList= new ArrayList<>();
-                                        signalList.add(read);
+                        count++;
+                        if(count==13){
+                            System.out.println(data);
+                            JSONObject jsonObject = new JSONObject(data);
 
-                                    } else if(read.length()==20){
-                                        signalList.add(read);
-                                        setEditData(signalList.get(0),read);
+                            JSONObject tpcanMsgJson = jsonObject.getJSONObject("TPCANMsg");
+                            JSONObject tpcanTimestampJson = jsonObject.getJSONObject("TPCANTimestamp");
 
-                                    loadingDialog.hide();
-                                    loadingDialog.setTouch();
-                                    }
+                            JSONArray array =  tpcanMsgJson.getJSONArray("DATA");
 
-                                }
-                            });
+                            System.out.println(array.get(0));
+
+
+                        count=0;
+                        data="";
+                        }
+
                         }
                     }
 
-                }catch (IOException e){
+                }catch (IOException | JSONException e){
                     e.printStackTrace();
                 }
 
@@ -523,11 +529,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             }
         }).start();
 
-        loadingDialog  = new LoadingDialog(MainActivity.this,1);
-        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-        loadingDialog.show();
-        loadingDialog.setNotTouch();
+//        loadingDialog  = new LoadingDialog(MainActivity.this,1);
+//        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//
+//        loadingDialog.show();
+//        loadingDialog.setNotTouch();
 
         //로딩창을 투명하게
     }
@@ -2920,14 +2926,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         final String signal1 = setSignal1();
         final String signal2 = setSignal2();
 
+        final String data = " { " +
+                "  \"TPCANMsg\" : {      " +
+                "\"DATA\" : [ 10, 10, 11, 15, 0, 16, 1, 1 ]," +
+                "  \"ID\" : 1,     " +
+                " \"LEN\" : 16,      " +
+                "\"MSGTYPE\" : 32   },   " +
+                "\"TPCANTimestamp\" : {" +
+                "  \"micros\" : 48,      " +
+                "\"millis\" : 64,      " +
+                "\"millis_overflow\" : 16   " +
+                "}" +
+                "}";
+
         new Thread() {
             @Override
             public void run() {
                 super.run();
                 try {
-                    sendWriter.println(signal1);
-                    sendWriter.flush();
-                    sendWriter.println(signal2);
+                    sendWriter.println(data);
                     sendWriter.flush();
                 } catch (Exception e) {
                     e.printStackTrace();

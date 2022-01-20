@@ -73,16 +73,18 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@id/layout_gear_setting_top"
+        android:layout_height="650dp"
         android:layout_alignParentLeft="true"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/layout_gear_setting_top"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/main_chart_background"
         android:id="@+id/gear_setting_chart_layout">
         <RelativeLayout
             android:layout_width="400dp"
-            android:layout_height="430dp"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:background="@drawable/favorite_border_5_selected">
+    >
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
@@ -103,7 +105,7 @@
                 android:textSize="18dp" />
             <com.github.mikephil.charting.charts.RadarChart
                 android:id="@+id/chart"
-                android:layout_width="320dp"
+                android:layout_width="360dp"
                 android:layout_height="400dp"
                 android:layout_centerInParent="true"
 
@@ -116,12 +118,12 @@
     </RelativeLayout>
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="650dp"
     android:layout_toEndOf="@id/gear_setting_chart_layout"
     android:layout_below="@id/layout_gear_setting_top"
-    android:layout_marginTop="20dp"
-    android:background="@drawable/favorite_border_5_selected"
-    android:layout_marginLeft="15dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/main_setting_background"
+    android:layout_marginRight="15dp"
     >
 
     <ImageView
