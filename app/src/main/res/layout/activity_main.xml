@@ -120,7 +120,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="550dp"
             android:layout_below="@+id/tb_setting">
 
             <LinearLayout
@@ -389,7 +389,7 @@
                     <android.support.constraint.ConstraintLayout
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:layout_width="match_parent"
-
+                        android:padding="5dp"
                         android:layout_height="wrap_content">
                         <Button
                             android:id="@+id/rcdation_ev"

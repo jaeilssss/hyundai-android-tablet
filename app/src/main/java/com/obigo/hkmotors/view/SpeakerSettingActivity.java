@@ -421,78 +421,78 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
     public void typeClick(String str){
         if(str.equals("Engin")){
 
-            engin.setBackgroundResource(R.drawable.oval_selected);
+            engin.setImageResource(R.drawable.setting_check_main_color);
 
-            motor.setBackgroundResource(R.drawable.oval_default);
+            motor.setImageResource(0);
         }else if(str.equals("Motor")){
 
-            motor.setBackgroundResource(R.drawable.oval_selected);
-            engin.setBackgroundResource(R.drawable.oval_default);
+            motor.setImageResource(R.drawable.setting_check_main_color);
+            engin.setImageResource(0);
         }
     }
 
     public void setBackVolume(String str){
 
         if(str.equals("Off")){
-            backVolumeOff.setImageResource(R.drawable.oval_selected);
+            backVolumeOff.setImageResource(R.drawable.setting_check_main_color);
 
-            backVolumeLow.setImageResource(R.drawable.oval_default);
-            backVolumeMiddle.setImageResource(R.drawable.oval_default);
-            backVolumeHigh.setImageResource(R.drawable.oval_default);
+            backVolumeLow.setImageResource(0);
+            backVolumeMiddle.setImageResource(0);
+            backVolumeHigh.setImageResource(0);
         }else if(str.equals("Low")){
 
-            backVolumeLow.setImageResource(R.drawable.oval_selected);
+            backVolumeLow.setImageResource(R.drawable.setting_check_main_color);
 
-            backVolumeOff.setImageResource(R.drawable.oval_default);
-            backVolumeMiddle.setImageResource(R.drawable.oval_default);
-            backVolumeHigh.setImageResource(R.drawable.oval_default);
+            backVolumeOff.setImageResource(0);
+            backVolumeMiddle.setImageResource(0);
+            backVolumeHigh.setImageResource(0);
         }else if(str.equals("Middle")){
 
-            backVolumeMiddle.setImageResource(R.drawable.oval_selected);
+            backVolumeMiddle.setImageResource(R.drawable.setting_check_main_color);
 
-            backVolumeOff.setImageResource(R.drawable.oval_default);
-            backVolumeLow.setImageResource(R.drawable.oval_default);
-            backVolumeHigh.setImageResource(R.drawable.oval_default);
+            backVolumeOff.setImageResource(0);
+            backVolumeLow.setImageResource(0);
+            backVolumeHigh.setImageResource(0);
 
         }else{
 
-            backVolumeHigh.setImageResource(R.drawable.oval_selected);
+            backVolumeHigh.setImageResource(R.drawable.setting_check_main_color);
 
-            backVolumeOff.setImageResource(R.drawable.oval_default);
-            backVolumeLow.setImageResource(R.drawable.oval_default);
-            backVolumeMiddle.setImageResource(R.drawable.oval_default);
+            backVolumeOff.setImageResource(0);
+            backVolumeLow.setImageResource(0);
+            backVolumeMiddle.setImageResource(0);
         }
     }
 
     public void enginVolume(String str){
         if(str.equals("Low")){
 
-            enginVolumeLow.setBackgroundResource(R.drawable.oval_selected);
+            enginVolumeLow.setImageResource(R.drawable.setting_check_main_color);
 
-            enginVolumeMiddle.setBackgroundResource(R.drawable.oval_default);
-            enginVolumeHigh.setBackgroundResource(R.drawable.oval_default);
+            enginVolumeMiddle.setImageResource(0);
+            enginVolumeHigh.setImageResource(0);
         }else if(str.equals("Middle")){
-            enginVolumeMiddle.setBackgroundResource(R.drawable.oval_selected);
+            enginVolumeMiddle.setImageResource(R.drawable.setting_check_main_color);
 
-            enginVolumeLow.setBackgroundResource(R.drawable.oval_default);
-            enginVolumeHigh.setBackgroundResource(R.drawable.oval_default);
+            enginVolumeLow.setImageResource(0);
+            enginVolumeHigh.setImageResource(0);
         }else{
 
-            enginVolumeHigh.setBackgroundResource(R.drawable.oval_selected);
+            enginVolumeHigh.setImageResource(R.drawable.setting_check_main_color);
 
-            enginVolumeMiddle.setBackgroundResource(R.drawable.oval_default);
-            enginVolumeLow.setBackgroundResource(R.drawable.oval_default);
+            enginVolumeMiddle.setImageResource(0);
+            enginVolumeLow.setImageResource(0);
         }
     }
 
     public void backSensitivityVolume(String str){
 
         if(str.equals("High")){
-            speakerSensitivityHigh.setBackgroundResource(R.drawable.oval_selected);
-            speakerSensitivityLow.setBackgroundResource(R.drawable.oval_default);
+            speakerSensitivityHigh.setImageResource(R.drawable.setting_check_main_color);
+            speakerSensitivityLow.setImageResource(0);
         }else{
-            speakerSensitivityLow.setBackgroundResource(R.drawable.oval_selected);
-            speakerSensitivityHigh.setBackgroundResource(R.drawable.oval_default);
+            speakerSensitivityLow.setImageResource(R.drawable.setting_check_main_color);
+            speakerSensitivityHigh.setImageResource(0);
         }
     }
 

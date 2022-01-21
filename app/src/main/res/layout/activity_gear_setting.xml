@@ -73,10 +73,10 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="650dp"
+        android:layout_height="620dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/layout_gear_setting_top"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="15dp"
         android:background="@drawable/main_chart_background"
         android:id="@+id/gear_setting_chart_layout">
@@ -118,10 +118,10 @@
     </RelativeLayout>
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="650dp"
+    android:layout_height="620dp"
     android:layout_toEndOf="@id/gear_setting_chart_layout"
     android:layout_below="@id/layout_gear_setting_top"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="20dp"
     android:background="@drawable/main_setting_background"
     android:layout_marginRight="15dp"
     >
@@ -182,8 +182,8 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_at_check"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_marginLeft="100dp"
                 android:background="@drawable/oval_default"
@@ -206,8 +206,8 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_dct_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_marginLeft="60dp"
                 android:layout_toEndOf="@id/gear_setting_at_txt"
@@ -228,8 +228,8 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_amt_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_marginLeft="60dp"
                 android:layout_toEndOf="@id/gear_setting_dct_txt"
@@ -329,8 +329,8 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_short_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_count_seekbar"
                 android:layout_marginTop="50dp"
@@ -354,8 +354,8 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_default_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_count_seekbar"
                 android:layout_alignStart="@id/gear_setting_dct_img"
@@ -379,8 +379,8 @@
 
             <ImageButton
                 android:id="@+id/gear_setting_long_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_count_seekbar"
                 android:layout_alignStart="@id/gear_setting_amt_img"
@@ -416,8 +416,8 @@
 
             <ImageButton
                 android:id="@+id/gear_speed_high_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_setting_short_img"
                 android:layout_alignStart="@id/gear_setting_short_img"
@@ -441,8 +441,8 @@
 
             <ImageButton
                 android:id="@+id/gear_speed_middle_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_setting_default_img"
                 android:layout_alignStart="@id/gear_setting_default_img"
@@ -466,8 +466,8 @@
 
             <ImageButton
                 android:id="@+id/gear_speed_low_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_setting_long_img"
                 android:layout_alignStart="@id/gear_setting_long_img"
@@ -503,8 +503,8 @@
 
             <ImageButton
                 android:id="@+id/gear_power_high_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_speed_high_img"
                 android:layout_alignStart="@id/gear_speed_high_img"
@@ -528,8 +528,8 @@
 
             <ImageButton
                 android:id="@+id/gear_power_middle_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_speed_middle_img"
                 android:layout_alignTop="@id/gear_power_high_img"
@@ -554,8 +554,8 @@
 
             <ImageButton
                 android:id="@+id/gear_power_low_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_speed_low_img"
                 android:layout_alignStart="@id/gear_speed_low_img"
@@ -589,8 +589,8 @@
 
             <ImageButton
                 android:id="@+id/gear_map_normal_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_power_high_img"
                 android:layout_alignStart="@id/gear_power_high_img"
@@ -612,8 +612,8 @@
 
             <ImageButton
                 android:id="@+id/gear_map_sport_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_power_middle_img"
                 android:layout_alignStart="@id/gear_power_middle_img"
@@ -636,8 +636,8 @@
 
             <ImageButton
                 android:id="@+id/gear_map_track_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="5dp"
                 android:layout_below="@id/gear_power_low_img"
                 android:layout_alignStart="@id/gear_power_low_img"
@@ -666,7 +666,7 @@
             android:layout_below="@id/gear_setting_layout"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/button_shape"
             android:text="확인"

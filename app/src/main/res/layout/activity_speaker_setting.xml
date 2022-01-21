@@ -72,18 +72,17 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="550dp"
         android:layout_below="@id/layout_gear_setting_top"
-        android:layout_alignParentLeft="true"
-        android:layout_centerInParent="true"
-
+        android:background="@drawable/main_chart_background"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="10dp"
         android:id="@+id/gear_setting_chart_layout">
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/favorite_border_5_selected"
-            android:layout_marginTop="146dp"
+            android:layout_height="match_parent"
+
             android:layout_marginHorizontal="10dp">
             <ImageView
                 android:layout_width="22dp"
@@ -91,7 +90,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:id="@+id/gear_setting_img"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="11.5dp"
                 android:background="@drawable/input_sub_shape" />
 
             <TextView
@@ -104,8 +103,8 @@
                 android:textSize="18dp" />
             <com.github.mikephil.charting.charts.RadarChart
                 android:id="@+id/chart"
-                android:layout_width="350dp"
-                android:layout_height="300dp"
+                android:layout_width="370dp"
+                android:layout_height="330dp"
                 android:layout_centerInParent="true"
                 />
             <!--        260dp-->
@@ -116,11 +115,12 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="550dp"
         android:layout_toEndOf="@id/gear_setting_chart_layout"
-        android:layout_centerInParent="true"
-        android:background="@drawable/favorite_border_5_selected"
-        android:layout_marginHorizontal="10dp"
+        android:layout_below="@id/layout_gear_setting_top"
+        android:background="@drawable/main_setting_background"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"
         >
 
         <ImageView
@@ -128,6 +128,7 @@
             android:layout_height="22dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="5dp"
+            android:layout_marginTop="12dp"
             android:id="@+id/gear_detail_setting_img"
             android:background="@drawable/input_sub_shape" />
 
@@ -136,6 +137,7 @@
             android:layout_height="wrap_content"
             android:text="설정"
             android:textColor="#0075ae"
+            android:layout_marginTop="11dp"
             android:id="@+id/speaker_detail_setting_txt"
             android:layout_toEndOf="@id/gear_detail_setting_img"
             android:textSize="18dp" />
@@ -164,14 +166,14 @@
             android:layout_height="wrap_content"
             android:text="구동원"
             android:textColor="@color/white"
-            android:textSize="24dp"
+            android:textSize="20dp"
             android:layout_marginTop="20dp"
             android:id="@+id/speaker_setting_engin_txt"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
-            android:background="@drawable/favorite_border_5_selected"
+            android:background="@drawable/border_radius_15_grey"
             android:layout_below="@id/speaker_setting_engin_txt"
             android:padding="10dp"
             android:layout_marginTop="20dp"
@@ -187,8 +189,8 @@
                 android:id="@+id/speaker_setting_engin_type_txt"/>
                 
         <ImageButton
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_toEndOf="@id/speaker_setting_engin_type_txt"
             android:layout_marginLeft="100dp"
             android:soundEffectsEnabled="true"
@@ -199,13 +201,16 @@
                 android:layout_height="wrap_content"
                 android:text="엔진"
                 android:layout_toEndOf="@id/speaker_engin_type_engin_img"
+                android:layout_alignTop="@id/speaker_engin_type_engin_img"
+                android:layout_alignBottom="@id/speaker_engin_type_engin_img"
                 android:textSize="20dp"
                 android:textColor="@color/white"
+                android:includeFontPadding="false"
                 android:layout_marginLeft="10dp"
                 android:id="@+id/speaker_engin_type_engin_txt"/>
             <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/oval_default"
                 android:layout_toEndOf="@id/speaker_engin_type_engin_txt"
                 android:layout_marginLeft="100dp"
@@ -215,6 +220,8 @@
                 android:layout_height="wrap_content"
                 android:text="모터"
                 android:layout_toEndOf="@id/speaker_engin_type_motor_img"
+                android:layout_alignBottom="@id/speaker_engin_type_motor_img"
+                android:layout_alignTop="@id/speaker_engin_type_motor_img"
                 android:textSize="20dp"
                 android:textColor="@color/white"
                 android:layout_marginLeft="10dp"
@@ -230,8 +237,8 @@
                 android:layout_marginTop="40dp"
                 android:id="@+id/speaker_engin_volume_txt"/>
             <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_toEndOf="@id/speaker_engin_volume_txt"
                 android:layout_marginLeft="60dp"
                 android:background="@drawable/oval_default"
@@ -244,14 +251,16 @@
                 android:text="소"
                 android:layout_below="@id/speaker_engin_type_engin_img"
                 android:layout_toEndOf="@id/speaker_volume_low_img"
-                android:layout_marginTop="40dp"
+                android:layout_alignBottom="@id/speaker_volume_low_img"
+                android:layout_alignTop="@id/speaker_volume_high_img"
                 android:textColor="@color/white"
+                android:includeFontPadding="false"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
                 android:id="@+id/speaker_volume_low_txt"/>
             <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_toEndOf="@id/speaker_volume_low_txt"
                 android:layout_below="@id/speaker_engin_type_engin_img"
                 android:background="@drawable/oval_default"
@@ -264,16 +273,18 @@
                 android:text="중"
                 android:textColor="@color/white"
                 android:textSize="20dp"
+                android:includeFontPadding="false"
                 android:layout_below="@id/speaker_engin_type_engin_img"
+                android:layout_alignTop="@id/speaker_volume_middle_img"
+                android:layout_alignBottom="@id/speaker_volume_middle_img"
                 android:layout_toEndOf="@id/speaker_volume_middle_img"
-                android:layout_marginTop="40dp"
                 android:layout_marginLeft="10dp"
                 android:id="@+id/speaker_volume_middle_txt"/>
 
             <ImageButton
                 android:id="@+id/speaker_volume_high_img"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_below="@id/speaker_engin_type_engin_img"
                 android:layout_marginLeft="60dp"
                 android:layout_marginTop="40dp"
@@ -284,10 +295,12 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/speaker_volume_high_img"
                 android:layout_below="@id/speaker_engin_type_motor_img"
+                android:layout_alignTop="@id/speaker_volume_high_img"
+                android:layout_alignBottom="@id/speaker_volume_high_img"
+                android:includeFontPadding="false"
                 android:text="대"
                 android:textColor="@color/white"
                 android:textSize="20dp"
-                android:layout_marginTop="40dp"
                 android:layout_marginLeft="10dp"/>
 
         </RelativeLayout>
@@ -295,7 +308,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24dp"
+            android:textSize="20dp"
             android:text="후연소음"
             android:textColor="@color/white"
             android:layout_below="@id/speaker_engin_layout"
@@ -306,7 +319,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
-            android:background="@drawable/favorite_border_5_selected"
+            android:background="@drawable/border_radius_15_grey"
             android:layout_below="@id/speaker_detail_noise_txt"
             android:padding="10dp"
             android:layout_marginTop="20dp"
@@ -420,8 +433,8 @@
                 android:id="@+id/speaker_sensitivity_txt"
                 android:layout_alignStart="@id/speaker_detail_volume_txt"/>
             <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_toEndOf="@id/speaker_sensitivity_txt"
                 android:layout_marginLeft="100dp"
                 android:background="@drawable/oval_default"
@@ -440,8 +453,8 @@
                 android:layout_below="@id/speaker_back_volume_off"
                 android:id="@+id/speaker_sensitivity_high_txt"/>
             <ImageButton
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_below="@id/speaker_back_volume_off"
                 android:layout_toEndOf="@id/speaker_sensitivity_high_txt"
                 android:background="@drawable/oval_default"
