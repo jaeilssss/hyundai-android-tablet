@@ -33,9 +33,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".view.SpeakerSettingActivity"></activity>
-        <activity android:name=".view.AxelSettingActivity" />
-        <activity android:name=".view.GearSettingActivity" />
+        <activity android:name=".view.connectionActivity"
+
+            android:screenOrientation="landscape"
+
+            ></activity>
+
+        <activity android:name=".view.SpeakerSettingActivity"
+            android:theme="@android:style/Theme.Translucent"/>
+        <activity android:name=".view.AxelSettingActivity"
+            android:theme="@android:style/Theme.Translucent"/>
+        <activity android:name=".view.GearSettingActivity"
+            android:theme="@android:style/Theme.Translucent"/>
         <activity
             android:name=".view.LoginActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden">

@@ -70,6 +70,7 @@ import com.obigo.hkmotors.model.Sound;
 import com.obigo.hkmotors.model.TempTransmission;
 import com.obigo.hkmotors.model.Transmission;
 import com.obigo.hkmotors.module.BaseActivity;
+import com.obigo.hkmotors.module.Network;
 import com.obigo.hkmotors.module.Result_DrivingInfo;
 
 import org.json.JSONArray;
@@ -332,10 +333,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private int editId;
 
     private String ip = "192.168.0.3";
-    private Socket socket;
     private Handler mHandler;
     InetAddress serverAddr;
     PrintWriter sendWriter;
+    BufferedReader input;
     String read;
     MainActivity activity = this;
     Button ex,rc;
@@ -345,6 +346,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     LoadingDialog loadingDialog ;
 
     ArrayList<String> signalList = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -409,7 +412,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             }
         }, 0);
 
-        connectedSocket();
+//        connectedSocket();
 
     }
 
@@ -473,70 +476,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     }
 
-    public void connectedSocket(){
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try{
-
-                    InetSocketAddress isa = new InetSocketAddress("192.168.0.3", 12345);
-                    Socket socket = new Socket();
-                    String data ="";
-                    socket.setReuseAddress(true);
-                    socket.connect(isa);
-                    int count = 0;
-                    sendWriter = new PrintWriter(socket.getOutputStream());
-                    BufferedReader input =   new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    while (true) {
-
-                        read = input.readLine();
-
-                        if (read != null) {
-                        if(count!=12){
-                            data+=read;
-                        }else{
-                            data += read;
-                        }
-
-                        count++;
-                        if(count==13){
-                            System.out.println(data);
-                            JSONObject jsonObject = new JSONObject(data);
-
-                            JSONObject tpcanMsgJson = jsonObject.getJSONObject("TPCANMsg");
-                            JSONObject tpcanTimestampJson = jsonObject.getJSONObject("TPCANTimestamp");
-
-                            JSONArray array =  tpcanMsgJson.getJSONArray("DATA");
-
-                            System.out.println(array.get(0));
-
-
-                        count=0;
-                        data="";
-                        }
-
-                        }
-                    }
-
-                }catch (IOException | JSONException e){
-                    e.printStackTrace();
-                }
-
-
-
-            }
-        }).start();
-
-//        loadingDialog  = new LoadingDialog(MainActivity.this,1);
-//        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//
-//        loadingDialog.show();
-//        loadingDialog.setNotTouch();
-
-        //로딩창을 투명하게
-    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -2648,6 +2588,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult // requestCode :: " + requestCode + " // resultCode :: " + resultCode);
         switch (requestCode) {
+            case Constants.REQUEST_CONNECT_WIFI :
+
+
+
+
+
+
+                break;
             case Constants.REQUEST_CONNECT_DEVICE_SECURE:
                 // When DeviceListActivity returns with a device to connect
                 if (resultCode == Activity.RESULT_OK) {
@@ -3055,9 +3003,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
      * OBD(device list) popup for the selection
      */
     private void selectOBD() {
-        Intent serverIntent = null;
-        serverIntent = new Intent(getApplicationContext(), DeviceListActivity.class);
-        startActivityForResult(serverIntent, Constants.REQUEST_CONNECT_DEVICE_SECURE);
+        Intent intent = new Intent(this,connectionActivity.class);
+
+        startActivityForResult(intent,Constants.REQUEST_CONNECT_WIFI);
     }
 
     /**

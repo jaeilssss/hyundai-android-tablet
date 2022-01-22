@@ -228,7 +228,8 @@
                         android:layout_alignRight="@id/car_image"
                         android:layout_marginTop="70dp"
                         android:layout_marginRight="190dp"
-                        android:src="@drawable/setting_img"
+                        android:src="@drawable/ic_setting_grey"
+                        android:background="@drawable/oval_brown"
 
                         />
 
@@ -253,28 +254,29 @@
 
                     <ImageView
                         android:id="@+id/gear_box_btn"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_alignLeft="@id/car_image"
                         android:layout_marginLeft="170dp"
-                        android:layout_marginTop="160dp"
-                        android:background="@drawable/setting_img" />
+                        android:layout_marginTop="170dp"
+                        android:src="@drawable/ic_setting_grey"
+                        android:background="@drawable/oval_brown" />
 
                     <View
                         android:id="@+id/gear_box_line"
                         android:layout_width="80dp"
                         android:layout_height="1dp"
                         android:layout_alignRight="@id/gear_box_btn"
-                        android:layout_marginTop="180dp"
-                        android:layout_marginRight="40dp"
+                        android:layout_marginTop="190dp"
+                        android:layout_marginRight="54dp"
                         android:background="@color/white" />
 
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_alignRight="@id/gear_box_line"
-                        android:layout_marginTop="170dp"
-                        android:layout_marginRight="80dp"
+                        android:layout_marginTop="180dp"
+                        android:layout_marginRight="65dp"
                         android:layout_toLeftOf="@id/gear_box_line"
                         android:text="변속기 설정"
                         android:id="@+id/gear_box_text"
@@ -288,8 +290,8 @@
                         android:layout_alignLeft="@id/car_image"
                         android:layout_marginLeft="275dp"
                         android:layout_marginTop="160dp"
-
-                        android:src="@drawable/testimage" />
+                        android:src="@drawable/ic_setting_grey"
+                        android:background="@drawable/oval_brown" />
 
                     <View
                         android:id="@+id/speaker_line"
@@ -315,9 +317,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/car_image"
+
                         android:gravity="center"
                         android:fontFamily="@font/notosanscjkkr_medium"
                         android:includeFontPadding="false"
+
                         android:text="설정하고 싶은 부분을 클릭하여 설정"
                         android:textColor="@color/white"
                         android:textSize="17dp" />
