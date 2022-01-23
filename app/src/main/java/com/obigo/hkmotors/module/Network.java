@@ -43,6 +43,11 @@ public class Network {
 
     }
 
+    public boolean isConnected(){
+
+        return socket.isConnected();
+    }
+
     public void sendData(){
 
     }

@@ -1,6 +1,7 @@
 package com.obigo.hkmotors.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -63,7 +64,9 @@ public class MyFavoriteRecyclerAdapter extends RecyclerView.Adapter<MyFavoriteRe
             super(itemView);
 
             title = itemView.findViewById(R.id.my_favorite_item_title);
+            title.setTextColor(Color.WHITE);
             date = itemView.findViewById(R.id.my_favorite_item_date);
+            date.setTextColor(Color.WHITE);
             layout = itemView.findViewById(R.id.favorite_layout);
             layout.setOnClickListener(new ButtonClick());
         }

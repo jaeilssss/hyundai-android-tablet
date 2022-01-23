@@ -1,10 +1,16 @@
 package com.obigo.hkmotors.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.obigo.hkmotors.R;
+import com.obigo.hkmotors.common.Constants;
 import com.obigo.hkmotors.module.BaseActivity;
 import com.obigo.hkmotors.module.Network;
 
@@ -20,6 +26,12 @@ public class connectionActivity extends BaseActivity {
     PrintWriter sendWriter;
     static BufferedReader input;
     String read;
+
+
+    Button connection;
+    EditText ipEdit;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,69 +39,59 @@ public class connectionActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_connection);
 
-
-
-        connectedSocket();
+        init();
 
     }
 
+    public void init(){
 
-    public void connectedSocket(){
+        connection = findViewById(R.id.connection_btn);
+        ipEdit = findViewById(R.id.ip_edit);
+
+        connection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(ipEdit.getText().length()!=0){
+                    connectedSocket(ipEdit.getText().toString());
+                }
+            }
+        });
+    }
+
+
+    public void connectedSocket(final String ip){
 
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                try{
+                String data ="";
+                Network.getInstance(ip);
+                if(Network.getInstance(ip).isConnected()){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),"차량과 연결이 완료되었습니다",Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-                    String data ="";
-                    input = Network.getInstance("192.168.0.3").input;
-                    int count=0;
-                    while (true) {
-
-                        read = input.readLine();
-                        if (read != null) {
-                            if(count!=12){
-                                data+=read;
-
-                            }else{
-                                data += read;
-
-                            }
-
-                            count++;
-                            if(count==13){
-                                System.out.println(data);
-                                JSONObject jsonObject = new JSONObject(data);
-
-                                JSONObject tpcanMsgJson = jsonObject.getJSONObject("TPCANMsg");
-                                JSONObject tpcanTimestampJson = jsonObject.getJSONObject("TPCANTimestamp");
-
-                                JSONArray array =  tpcanMsgJson.getJSONArray("DATA");
-
-
-                                count=0;
-                                data="";
-                            }
+                    Intent intent = new Intent();
+                    intent.putExtra("isConnected",true);
+                    setResult(Constants.REQUEST_CONNECT_WIFI,intent);
+                    finish();
+                }else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),"차량과 연결이 실패했습니다",Toast.LENGTH_SHORT).show();
 
                         }
-                    }
-
-                }catch (IOException | JSONException e){
-                    e.printStackTrace();
+                    });
                 }
-
 
 
             }
         }).start();
 
-//        loadingDialog  = new LoadingDialog(MainActivity.this,1);
-//        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//
-//        loadingDialog.show();
-//        loadingDialog.setNotTouch();
-
-        //로딩창을 투명하게
     }
 }

@@ -345,6 +345,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private Button rcSend;
     LoadingDialog loadingDialog ;
 
+
+    Boolean isConnected  = false;
     ArrayList<String> signalList = new ArrayList<>();
 
 
@@ -370,15 +372,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         // isEdit 1은 일반모드 2는 편집모드
         // 일단 테스트용 으로 만들어놓음
 
-
-
-        if(Constants.INIT_FLAG) {
-            // in case of the initialization
-            selectOBD();
-            Constants.INIT_FLAG = false;
-        } else {
-            mObdsv = ObdService.getInstance(getApplicationContext(), mObdDataHandler);
-        }
+//
+//
+//        if(!isConnected) {
+//            // in case of the initialization
+//            connectedWifi();
+//            Constants.INIT_FLAG = false;
+//        } else {
+//            mObdsv = ObdService.getInstance(getApplicationContext(), mObdDataHandler);
+//        }
 
         Constants.COMMAND_MODE = "INIT";
 
@@ -514,33 +516,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
                 break;
 
-            case R.id.ib_obd_set_btn:
-                if(Constants.OBD_STATUS == true) {
-                    try {
-                        mRespMaxPower = mPref.getFDMaxPower();
-                        mRespAcceration = mPref.getFDAcceleration();
-                        mRespDeceleration = mPref.getFDDeceleration();
-                        mRespResponse = mPref.getFDResponse();
-                        mRespEcoLevel = mPref.getFDEcoLevel();
 
-                        // set second default value : 0
-                        mPref.setSDResponse(0);
-                        mPref.setSDDeceleration(0);
-                        mPref.setSDAcceleration(0);
-                        mPref.setSDMaxPower(0);
-                        mPref.setSDEcoLevel(0);
-
-                        // show default spider chart
-                        defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
-
-                        mObdsv.disconnectDevice();
-                    } catch (IOException e) {
-                        Log.d(TAG, "블루투스 통신을 끊는 도중에 예외상황이 발생함~");
-                    }
-                } else {
-                    selectOBD();
-                }
-                break;
 
             //case R.id.ib_g_reset_btn:
             case R.id.ib_e_reset_btn:
@@ -2590,49 +2566,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         switch (requestCode) {
             case Constants.REQUEST_CONNECT_WIFI :
 
-
+            if(data.getBooleanExtra("isConnected",false)){
+                isConnected = true;
+            }
 
 
 
 
                 break;
-            case Constants.REQUEST_CONNECT_DEVICE_SECURE:
-                // When DeviceListActivity returns with a device to connect
-                if (resultCode == Activity.RESULT_OK) {
 
-                    String obdName = data.getExtras().getString("obdName");
-                    obdMac = data.getExtras().getString("obdMac");
 
-                    Log.d(TAG, "onActivityResult // obdName :: " + obdName + " // obdMac :: " + obdMac);
-
-                    if(!obdName.contains("OBDLink MX")) {
-                        showDialog("App과 OBD가 올바르게 연결되지 않았습니다. OBDLink MX를 선택했는지 다시 확인해주세요.\n", true);
-                        Constants.OBD_STATUS = false;
-                    } else {
-                        String msg = "OBDLink MX와 Bluetooth 연결 중....";
-                        showMessageDialog(msg);
-                        createOBDSingleton(data, true);
-                    }
-                } else if(resultCode == Activity.RESULT_CANCELED) {
-                    showDialogCancelData();
-                }
-                break;
-            case Constants.REQUEST_CONNECT_DEVICE_INSECURE:
-                // When DeviceListActivity returns with a device to connect
-                if (resultCode == Activity.RESULT_OK) {
-                    createOBDSingleton(data, false);
-                }
-                break;
-            case Constants.REQUEST_ENABLE_BT:
-                // When the request to enable Bluetooth returns
-                if (resultCode == Activity.RESULT_OK) {
-                    // Bluetooth is now enabled, so set up a chat session
-                } else {
-                    // User did not enable Bluetooth or an error occurred
-                    Log.d(TAG, "블루투스를 사용할수 없습니다 않습니다. 블루투스를 다시 설정하십시오");
-                    finish();
-                }
-                break;
             case Constants.REQUEST_FAVORITE:
 
                 if(data.getBooleanExtra("check",false)){
@@ -2781,93 +2724,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    /**
-     * Dialog about that obd name is wrong
-     */
-    private void showDialog(String popStrChk_1, final boolean moveFlag) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-        builder.setMessage(popStrChk_1)
-                .setCancelable(false)
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    // 확인 버튼 클릭시 설정
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel();
-                        if (moveFlag) {
-                            selectOBD();
-                        }
-                    }
-                });
-
-        AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.dialog_bg);
-        dialog.show();
-    }
-
-    /**
-     * Create singleton OBD instance
-     *
-     * @param data - data about obd name and mac
-     * @param secure - method whether it is secure or not
-     */
-    private void createOBDSingleton(Intent data, boolean secure) {
-        Log.d(TAG, "=== createOBDSingleton");
-
-        mObdsv = ObdService.getInstance(getApplicationContext(), mObdDataHandler);
-
-        mObdsv.connectDevice(data, secure);
-
-        Handler hd2 = new Handler(Looper.getMainLooper());
-        hd2.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                // in case of no connection
-                if(mObdsv.getState() != Constants.STATE_CONNECTED) {
-                    Log.d(TAG, "=== createOBDSingleton :: != Constants.STATE_CONNECTED :: 연결안댐!!");
-                    showDialogRetry();
-                    // OBD Status 변경
-                    //Constants.OBD_STATUS = false;
-                    setOBDMode(false);
-                } else {
-                    // connected
-                    successConnectOBD();
-                }
-            }
-        }, 5000);
-    }
-
-    /**
-     * Connection with OBD is the success
-     */
-    private void successConnectOBD() {
-
-        Handler hd2 = new Handler(Looper.getMainLooper());
-        hd2.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                closeMessageDialog();
-                //closeDialog();
-
-                Log.d(TAG, "=== createOBDSingleton :: == Constants.STATE_CONNECTED :: 연결댐!!");
-                String successStr = "App과 OBD의 Bluetooth 연결에 성공하였습니다.";
-                showDialog(successStr, false);
-
-                // OBD Status 변경
-                // Constants.OBD_STATUS = true;
-                setOBDMode(true);
-
-                // set mode to obd service
-                // mObdsv.setOBDServiceMode(mModeValue);
-
-                // start send message it
-                sendMessage("AT Z");
-
-            }
-        }, 1000);
-    }
 
 
     public void sendCarData(){
@@ -3002,66 +2858,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     /**
      * OBD(device list) popup for the selection
      */
-    private void selectOBD() {
+    private void connectedWifi() {
         Intent intent = new Intent(this,connectionActivity.class);
 
         startActivityForResult(intent,Constants.REQUEST_CONNECT_WIFI);
     }
 
-    /**
-     * Show or cancel dialog
-     */
-    private void showDialogCancelData() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setMessage("App과 OBD를 연결하지 않으면 App 사용에 제한이 있을 수 있습니다. OBD 연결을 하지 않고 사용하시겠습니까?\n")        // 메세지 설정
-                .setCancelable(false)
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    // 확인 버튼 클릭시 설정
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel();
 
-                    }
-                })
-                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel();
-                        selectOBD();
-                    }
-                });
-
-        AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.dialog_bg);
-        dialog.show();
-    }
-
-    /**
-     * Retry dialog
-     */
-    private void showDialogRetry() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setMessage("App과 OBD의 Bluetooth 연결에 실패하였습니다. 다시 시도하시겠습니까?\n")
-                .setCancelable(false)
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    // 확인 버튼 클릭시 설정
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel();
-                        selectOBD();
-
-                    }
-                })
-                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    // 확인 버튼 클릭시 설정
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        closeMessageDialog();
-                        dialog.cancel();
-                        showDialogCancelData();
-                    }
-                });
-
-        AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.dialog_bg);
-        dialog.show();
-    }
 
 
     /**
@@ -3281,32 +3084,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         // mChart.setDescriptionColor(Color.TRANSPARENT);   // remove description
 
         mChart.setTouchEnabled(false);                   // disable touch
-//        mChart.invalidate();
-
-
-//            ArrayList<RadarEntry> dataVals = new ArrayList<>();
-//            dataVals.add(new RadarEntry(d1));
-//            dataVals.add(new RadarEntry(d2));
-//            dataVals.add(new RadarEntry(d3));
-//            dataVals.add(new RadarEntry(d4));
-//            dataVals.add(new RadarEntry(d5));
-//
-//        RadarDataSet dataSet = new RadarDataSet(dataVals, "DATA");
-//        dataSet.setColor(Color.GRAY);
-//        dataSet.setDrawFilled(true);
-//
-//
-//        RadarData data = new RadarData();
-//        data.addDataSet(dataSet);
-//        String[] labels =  {"안락감", "주도성", "역동성", "효율성", "동력성능"};
-//
-//        XAxis xAxis = mChart.getXAxis();
-//        xAxis.setTextColor(Color.WHITE);
-//        xAxis.setTextSize(13);
-//
-//        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-//        mChart.setData(data);
-//        mChart.invalidate();
 
 
 
@@ -3471,7 +3248,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void goToGearSettingActivity(){
-        Intent gear = new Intent(this, GearSettingActivity.class);
+        Intent gear = new Intent(getApplicationContext(), GearSettingActivity.class);
         startActivityForResult(gear , Constants.REQUEST_GEAR_SETTING);
     }
 
@@ -3481,7 +3258,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void goToDrivingSettingActivity(){
-        Intent driving = new Intent(this , AxelSettingActivity.class);
+        Intent driving = new Intent(getApplicationContext() , AxelSettingActivity.class);
         startActivityForResult(driving , Constants.REQUEST_DRIVING_SETTING);
     }
     /**

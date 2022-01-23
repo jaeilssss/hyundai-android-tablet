@@ -32,7 +32,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:screenOrientation="landscape">
         <activity android:name=".view.connectionActivity"
 
             android:screenOrientation="landscape"
@@ -40,14 +41,15 @@
             ></activity>
 
         <activity android:name=".view.SpeakerSettingActivity"
-            android:theme="@android:style/Theme.Translucent"/>
+            android:screenOrientation="landscape"/>
         <activity android:name=".view.AxelSettingActivity"
-            android:theme="@android:style/Theme.Translucent"/>
+            android:screenOrientation="landscape"/>
         <activity android:name=".view.GearSettingActivity"
-            android:theme="@android:style/Theme.Translucent"/>
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".view.LoginActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,12 +63,10 @@
         <activity
             android:name=".view.DeviceListActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Translucent"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".view.PwdSettingActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Translucent"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".view.ParamSettingActivity"
@@ -76,12 +76,10 @@
         <activity
             android:name=".view.DTEchartActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Translucent"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".view.FavoriteActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Translucent"
             android:windowSoftInputMode="adjustPan" /> <!-- SERVICE -->
         <service
             android:name=".common.obd.ObdGatewayService"

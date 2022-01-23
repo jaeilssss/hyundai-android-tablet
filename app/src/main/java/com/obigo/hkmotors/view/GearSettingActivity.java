@@ -124,7 +124,7 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gear_setting);
-
+        System.out.println("변속기 설정 페이지");
         initUI();
     }
 
@@ -140,6 +140,7 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         settingLayout = findViewById(R.id.gear_setting_layout);
 
         switchCompat = findViewById(R.id.gear_setting_switch);
+
         switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -265,18 +266,6 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
             }
         }, 0);
 
-        obdState = findViewById(R.id.ib_obd_set_btn);
-        obdLight = findViewById(R.id.iv_favorite_light);
-
-        if(Constants.OBD_STATUS){
-            obdLight.setBackgroundResource(R.drawable.ico_light_green);
-            obdState.setBackgroundResource(R.drawable.img_tit_04);
-
-        }else{
-            obdLight.setBackgroundResource(R.drawable.ico_light_red);
-            obdState.setBackgroundResource(R.drawable.img_tit_03);
-
-        }
     }
 
     private void setSettingValue(){
@@ -420,10 +409,6 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         mChart.getYAxis().setAxisMaximum(9f);
         mChart.getYAxis().setEnabled(false);              // disable number
 
-//        mChart.getXAxis().setAxisMaximum(9f);
-//        mChart.getXAxis().setAxisMinimum(0f);
-
-
         RadarData data = new RadarData();
         data.addDataSet(dataset_comp);
         mChart.setData(data);
@@ -433,35 +418,6 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         // mChart.setDescriptionColor(Color.TRANSPARENT);   // remove description
 
         mChart.setTouchEnabled(false);                   // disable touch
-//        mChart.invalidate();
-
-
-//            ArrayList<RadarEntry> dataVals = new ArrayList<>();
-//            dataVals.add(new RadarEntry(d1));
-//            dataVals.add(new RadarEntry(d2));
-//            dataVals.add(new RadarEntry(d3));
-//            dataVals.add(new RadarEntry(d4));
-//            dataVals.add(new RadarEntry(d5));
-//
-//        RadarDataSet dataSet = new RadarDataSet(dataVals, "DATA");
-//        dataSet.setColor(Color.GRAY);
-//        dataSet.setDrawFilled(true);
-//
-//
-//        RadarData data = new RadarData();
-//        data.addDataSet(dataSet);
-//        String[] labels =  {"안락감", "주도성", "역동성", "효율성", "동력성능"};
-//
-//        XAxis xAxis = mChart.getXAxis();
-//        xAxis.setTextColor(Color.WHITE);
-//        xAxis.setTextSize(13);
-//
-//        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-//        mChart.setData(data);
-//        mChart.invalidate();
-
-
-
 
     }
     @Override
@@ -632,12 +588,6 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         mChart.getXAxis().setYOffset(0f);
         mChart.getXAxis().setXOffset(0f);
         mChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-//        mChart.getXAxis().setValueFormatter(new ValueFormatter() {
-//            @Override
-//            public String getFormattedValue(float value, AxisBase axis) {
-//                return labels.get((int) value % labels.size());
-//            }
-//        });
 
         mChart.getYAxis().setTextColor(Color.RED);     // change number color
         mChart.getYAxis().setAxisMinimum(0f);
