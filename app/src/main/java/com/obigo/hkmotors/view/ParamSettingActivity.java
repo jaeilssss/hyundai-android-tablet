@@ -54,20 +54,6 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
     private ImageView mStep04;
     private ImageView mStep05;
 
-    private int pStatus = 0;
-
-    private TextView mTorque;
-    private TextView mAcc;
-    private TextView mDecel;
-    private TextView mBrake;
-    private TextView mEnergy;
-    private TextView mSpeed;
-    private TextView mResponse;
-
-    private String mMode;
-
-    private String mParam;
-    private String mResp;
 
     private String signal1;
     private String signal2;
@@ -83,6 +69,23 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 
 
 
+    private TextView transmissionIsOn;
+    private TextView transmissionType;
+    private TextView transmissionGear;
+    private TextView transmissionGearRate;
+    private TextView transmissionGearSpeed;
+    private TextView transmissionGearPower;
+    private TextView transmissionMap;
+
+    private TextView soundIsOn;
+    private TextView soundType;
+    private TextView soundVolume;
+    private TextView backSoundVolume;
+    private TextView backSoundSensitive;
+
+    private TextView driveIsOn;
+    private TextView driveStiffness;
+    private TextView driveReducer;
 
 
     @Override
@@ -97,7 +100,7 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
         getWindow().setDimAmount(0.9f);
 
         setContentView(R.layout.activity_param_setting);
-
+        init();
 //               mParam = getIntent().getStringExtra("param");
 //        mResp = getIntent().getStringExtra("resp");
 //
@@ -112,6 +115,7 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
          loadingDialog  = new LoadingDialog(ParamSettingActivity.this,0);
         loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         //로딩창을 투명하게
+
 
 
 
@@ -150,6 +154,162 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 
     }
 
+
+
+    public void init(){
+        transmissionIsOn = findViewById(R.id.transmission_is_on);
+        transmissionType = findViewById(R.id.transmission_type);
+        transmissionGear = findViewById(R.id.transmission_gear);
+        transmissionGearRate = findViewById(R.id.transmission_gear_rate);
+        transmissionGearSpeed = findViewById(R.id.transmission_speed);
+        transmissionGearPower = findViewById(R.id.transmission_power);
+        transmissionMap = findViewById(R.id.transmission_map);
+
+        soundIsOn = findViewById(R.id.sound_is_on);
+        soundType = findViewById(R.id.sound_type);
+        soundVolume = findViewById(R.id.sound_volume);
+        backSoundVolume = findViewById(R.id.sound_back_volume);
+        backSoundSensitive = findViewById(R.id.sound_back_sensitive);
+
+        driveIsOn = findViewById(R.id.drive_is_on);
+        driveStiffness = findViewById(R.id.drive_stiffness);
+        driveReducer = findViewById(R.id.drive_reduce);
+
+
+
+        soundIsOn.setText(Sound.getInstance().getTempIsOn());
+        driveIsOn.setText(Drive.getInstance().getTempIsOn());
+
+
+        if(Transmission.getInstance().getTempIsOn().equals("1")){
+            transmissionIsOn.setText("ON");
+            if(Transmission.getInstance().getTempType().equals("00")){
+                transmissionType.setText("AT");
+            }else if(Transmission.getInstance().getTempType().equals("01")){
+                transmissionType.setText("DCT");
+            }else{
+                transmissionType.setText("AMT");
+            }
+            if(Transmission.getInstance().getTempGear().equals("000")){
+                transmissionGear.setText("4");
+            }else if(Transmission.getInstance().getTempGear().equals("001")){
+                transmissionGear.setText("5");
+            }else if(Transmission.getInstance().getTempGear().equals("010")){
+                transmissionGear.setText("6");
+            }else if(Transmission.getInstance().getTempGear().equals("011")){
+                transmissionGear.setText("7");
+            }else{
+                transmissionGear.setText("8");
+            }
+
+            if(Transmission.getInstance().getTempGearRate().equals("00")){
+                transmissionGearRate.setText("Short");
+            }else if(Transmission.getInstance().getTempGearRate().equals("01")){
+                transmissionGearRate.setText("Default");
+            }else{
+                transmissionGearRate.setText("Long");
+            }
+
+            if(Transmission.getInstance().getTempTransmissionSpeed().equals("00")){
+                transmissionGearSpeed.setText("하");
+            }else if(Transmission.getInstance().getTempTransmissionSpeed().equals("01")) {
+                transmissionGearSpeed.setText("중");
+            }else{
+                transmissionGearSpeed.setText("상");
+            }
+
+            if(Transmission.getInstance().getTempTransmissionPower().equals("00")){
+                transmissionGearPower.setText("하");
+            }else if(Transmission.getInstance().getTempTransmissionPower().equals("01")){
+                transmissionGearPower.setText("중");
+            }else{
+                transmissionGearPower.setText("상");
+            }
+
+            if(Transmission.getInstance().getTempTransmissionMap().equals("00")){
+                transmissionMap.setText("Normal");
+            }else if(Transmission.getInstance().getTempTransmissionMap().equals("01")){
+                transmissionMap.setText("Sport");
+            }else {
+                transmissionMap.setText("Track");
+            }
+
+        }else{
+            transmissionIsOn.setText("OFF");
+           findViewById(R.id.transmission_type_layout).setVisibility(View.INVISIBLE);
+           findViewById(R.id.transmission_gear_layout).setVisibility(View.INVISIBLE);
+           findViewById(R.id.transmission_gear_rate_layout).setVisibility(View.INVISIBLE);
+           findViewById(R.id.transmission_speed_layout).setVisibility(View.INVISIBLE);
+           findViewById(R.id.transmission_power_layout).setVisibility(View.INVISIBLE);
+           findViewById(R.id.transmission_map_layout).setVisibility(View.INVISIBLE);
+        }
+
+        if(Sound.getInstance().getTempIsOn().equals("1")){
+            soundIsOn.setText("ON");
+
+            if(Sound.getInstance().getTempDriveType().equals("0")){
+                soundType.setText("모터");
+            }else {
+
+            soundType.setText("엔진");
+            }
+
+            if(Sound.getInstance().getTempVolume().equals("00")){
+                soundVolume.setText("소");
+            }else if(Sound.getInstance().getTempVolume().equals("01")){
+                soundVolume.setText("중");
+            }else {
+                soundVolume.setText("대");
+            }
+
+            if(Sound.getInstance().getTempBackVolume().equals("00")){
+                backSoundVolume.setText("OFF");
+            }else if(Sound.getInstance().getTempBackVolume().equals("01")){
+                backSoundVolume.setText("소");
+            }else if(Sound.getInstance().getTempBackVolume().equals("10")){
+                backSoundVolume.setText("중");
+            }else {
+                backSoundVolume.setText("대");
+            }
+
+            if(Sound.getInstance().getTempBackSensitive().equals("0")){
+                backSoundSensitive.setText("저");
+            }else{
+                backSoundSensitive.setText("고");
+            }
+        }else{
+            soundIsOn.setText("OFF");
+            findViewById(R.id.sound_type_layout).setVisibility(View.INVISIBLE);
+            findViewById(R.id.sound_volume_layout).setVisibility(View.INVISIBLE);
+            findViewById(R.id.sound_back_volme_layout).setVisibility(View.INVISIBLE);
+            findViewById(R.id.sound_back_sensitive_layout).setVisibility(View.INVISIBLE);
+        }
+
+        if(Drive.getInstance().getTempIsOn().equals("1")){
+            driveIsOn.setText("ON");
+
+            if(Drive.getInstance().getTempStiffness().equals("00")){
+                driveStiffness.setText("하");
+            }else if(Drive.getInstance().getTempStiffness().equals("01")){
+                driveStiffness.setText("중");
+            }else{
+                driveStiffness.setText("상");
+            }
+
+            if(Drive.getInstance().getTempReducer().equals("00")){
+                driveReducer.setText("하");
+            }else if(Drive.getInstance().getTempReducer().equals("01")){
+                driveReducer.setText("중");
+            }else{
+                driveReducer.setText("상");
+            }
+        }else{
+            driveIsOn.setText("OFF");
+            findViewById(R.id.drive_stiffness_layout).setVisibility(View.INVISIBLE);
+            findViewById(R.id.drive_reduce_layout).setVisibility(View.INVISIBLE);
+
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -257,7 +417,7 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
         mStep04 = (ImageView) mProgressDialog.findViewById(R.id.step_04);
         mStep05 = (ImageView) mProgressDialog.findViewById(R.id.step_05);
 
-        pStatus = 0;
+
 
         mProgressDialog.show();
 

@@ -396,7 +396,7 @@ public class ObdService {
     public void disconnectDevice() throws IOException {
 
         Constants.INITIALIZED = false;
-        Constants.OBD_STATUS = false;
+
 
         mWhichCommand = 0;
 
@@ -524,41 +524,7 @@ public class ObdService {
     /**
      * Indicate that the connection attempt failed and notify the UI Activity.
      */
-    private void connectionFailed() {
-        Log.i(TAG, "connectionFailed");
-        Constants.OBD_STATUS = false;
 
-//        // Send a failure message back to the Activity
-//        Message msg = mHandler.obtainMessage(BluetoothChatActivity.MESSAGE_TOAST);
-//        Bundle bundle = new Bundle();
-//        bundle.putString(BluetoothChatActivity.TOAST, "Unable to connect device");
-//        msg.setData(bundle);
-//        mHandler.sendMessage(msg);
-
-        // TODO : if multiple connection is needed, enable it. but I don't know whether this position is correct or not
-        //        currently hyundai-kia project doesn't need it
-        // Start the service over to restart listening mode
-        //ObdService.this.start();
-    }
-
-    /**
-     * Indicate that the connection was lost and notify the UI Activity.
-     */
-    private void connectionLost(boolean user) {
-        Log.i(TAG, "connectionLost");
-        Constants.OBD_STATUS = false;
-
-        Message msg = user ? Message.obtain(mCallBackMsg, Constants.HANDLE_OBD_USER_DISCONN) : Message.obtain(mCallBackMsg, Constants.HANDLE_OBD_CONN_LOST);
-        mCallBackMsg.sendMessage(msg);
-        Log.i(TAG, "msg 실행");
-        Constants.INITIALIZED = false;
-        mWhichCommand = 0;
-
-        // TODO : if multiple connection is needed, enable it. but I don't know whether this position is correct or not
-        //        currently hyundai-kia project doesn't need it
-        // Start the service over to restart listening mode
-        //ObdService.this.start();
-    }
 
     /**
      * Write to the ConnectedThread in an unsynchronized manner
@@ -705,7 +671,7 @@ public class ObdService {
                                     " socket during connection failure", e3);
                         }
                         mmSocket = null;
-                        connectionFailed();
+
                         return;
                     }
                 }
@@ -733,7 +699,7 @@ public class ObdService {
                     Log.e(TAG, "unable to close() " + mSocketType +
                             " socket during connection failure", e2);
                 }
-                connectionFailed();
+
                 return;
             }
 
@@ -819,7 +785,7 @@ public class ObdService {
                         Log.e(TAG, "close inputstream and outputstream", e2);
                     }
                     // if connectoin is lost
-                    connectionLost(mUserDisconnect);
+
                     break;
                 }
             }

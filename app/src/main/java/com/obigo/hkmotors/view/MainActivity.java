@@ -100,8 +100,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private static final String TAG = "MainActivity";
 
     public static Context mContext;
-    private ImageView mainObdLight;
-    private ImageButton obdSetBtn;
+    private ImageView  mainConnectionLight;
+    private TextView obdSetBtn;
 
     private RelativeLayout mLayoutBarChart;
     private RelativeLayout mLayoutRcdation;
@@ -367,30 +367,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         // UI 초기화
         initUI();
-
+        if(Constants.CONNECTION_STATUS){
+            mainConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
+            obdSetBtn.setText("차량 연결 ON");
+        }else{
+            mainConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
+            obdSetBtn.setText("차량 연결 OFF");
+        }
         isEdit = 1;
-        // isEdit 1은 일반모드 2는 편집모드
-        // 일단 테스트용 으로 만들어놓음
-
-//
-//
-//        if(!isConnected) {
-//            // in case of the initialization
-//            connectedWifi();
-//            Constants.INIT_FLAG = false;
-//        } else {
-//            mObdsv = ObdService.getInstance(getApplicationContext(), mObdDataHandler);
-//        }
-
-        Constants.COMMAND_MODE = "INIT";
-
-        // 임시로 여기서 소켓 연결을 함
-
-//    loadingDialog = new LoadingDialog(MainActivity.this,0);
-//    loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//
-//    loadingDialog.show();
-//    loadingDialog.setNotTouch();
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -487,6 +471,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
 
+    public void setBtnAnimation(){
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.turn_anim);
+
+        gearBtn.clearAnimation();
+        speakerBtn.clearAnimation();
+        drivingAxleBtn.clearAnimation();
+
+        gearBtn.startAnimation(animation);
+        speakerBtn.startAnimation(animation);
+        drivingAxleBtn.startAnimation(animation);
+        gearBtn.setBackgroundResource(R.drawable.oval_brown);
+        speakerBtn.setBackgroundResource(R.drawable.oval_brown);
+        drivingAxleBtn.setBackgroundResource(R.drawable.oval_brown);
+        gearBtn.setImageResource(R.drawable.ic_setting_grey);
+        speakerBtn.setImageResource(R.drawable.ic_setting_grey);
+        drivingAxleBtn.setImageResource(R.drawable.ic_setting_grey);
+    }
     @Override
     public void onClick(View v) {
 
@@ -521,11 +522,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             //case R.id.ib_g_reset_btn:
             case R.id.ib_e_reset_btn:
 
-                if(Constants.OBD_STATUS == true) {
-                    mObdsv.initializeParam();
-                }
 
                 if(isEdit==1){
+                    setBtnAnimation();
                     Transmission.getInstance().reset();
                     Drive.getInstance().reset();
                     Sound.getInstance().reset();
@@ -538,6 +537,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
                             CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
                             CarData.getInstance().getPerformance());
+
                 }else{
                     showDialog01();
 
@@ -551,9 +551,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case R.id.ib_e_submit_btn:
 
                 sendCarData();
-
-
-
 
                 break;
 
@@ -1146,12 +1143,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     break;
                 case Constants.HANDLE_OBD_CONN_LOST:
                     Log.i(TAG, "OBD 연결끊어졌을때");
-                    setOBDMode(false);
+
                     //Toast.makeText(getApplicationContext(), "OBDLink MX와의 연결이 끊어졌습니다!", Toast.LENGTH_SHORT).show();
                     break;
                 case Constants.HANDLE_OBD_USER_DISCONN:
                     Log.i(TAG, "OBD 연결을 의도적으로 끊을 경우");
-                    setOBDMode(false);
+
                     Toast.makeText(getApplicationContext(), "요청하신 OBDLink MX와의 연결이 종료 되었습니다!", Toast.LENGTH_SHORT).show();
                     break;
 
@@ -2367,13 +2364,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
                     break;
 
-                case Constants.HANDLE_OBD_OTHER:
+                case Constants.REQUEST_CONNECT_WIFI:
                     // Log.d(TAG, "이외의 상황은?");
 
-                    if(Constants.OBD_INITIALIZED){
-                        mainObdLight.setBackgroundResource(R.drawable.ico_light_green);
+                    if(Constants.CONNECTION_STATUS){
+                        mainConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
+                        obdSetBtn.setText("차량 연결 ON");
                     }else{
-                        mainObdLight.setBackgroundResource(R.drawable.ico_light_red);
+                        mainConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
+                        obdSetBtn.setText("차량 연결 OFF");
                     }
 
                     break;
@@ -2390,7 +2389,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
      */
     public void initUI() {
 
-        ImageButton favoriteBtn = (ImageButton) findViewById(R.id.ib_favorite_btn);
+        TextView favoriteBtn =  findViewById(R.id.ib_favorite_btn);
         favoriteBtn.setOnClickListener(this);
 
         gearBtn = findViewById(R.id.gear_box_btn);
@@ -2401,10 +2400,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         drivingAxleBtn.setOnClickListener(this);
 
 
-        obdSetBtn = (ImageButton) findViewById(R.id.ib_obd_set_btn);
+        obdSetBtn =  findViewById(R.id.ib_obd_set_btn);
         obdSetBtn.setOnClickListener(this);
 
-        mainObdLight = (ImageView) findViewById(R.id.iv_main_light);
+        mainConnectionLight = (ImageView) findViewById(R.id.iv_main_light);
 
         mMode = findViewById(R.id.tb_setting);
         mMode.setOnClickListener(this);
@@ -2465,8 +2464,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         setParamMode(mModeValue);
 
         // OBD Status 변경
-        Log.d(TAG, " ================= OBD Status 변경 :: " + Constants.OBD_STATUS);
-        setOBDMode(Constants.OBD_STATUS);
 
         vip = findViewById(R.id.rcdation_vip);
         vip.setOnClickListener(this);
@@ -2491,13 +2488,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         rcSend = findViewById(R.id.rcdation_submit);
         rcSend.setOnClickListener(this);
 
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.turn_anim);
 
-
-        gearBtn.startAnimation(animation);
-        speakerBtn.startAnimation(animation);
-        drivingAxleBtn.startAnimation(animation);
-
+        setBtnAnimation();
 
         drivingAxleBtn.bringToFront();
 
@@ -2540,19 +2532,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
      *
      * @param switchFlag - odb mode about whether switch is on or off
      */
-    private void setOBDMode(boolean switchFlag) {
-
-        if(switchFlag) {
-            obdSetBtn.setBackgroundResource(R.drawable.img_tit_04);
-            mainObdLight.setBackgroundResource(R.drawable.ico_light_green);
-            Constants.OBD_STATUS = true;
-
-        } else {
-            obdSetBtn.setBackgroundResource(R.drawable.img_tit_03);
-            mainObdLight.setBackgroundResource(R.drawable.ico_light_red);
-            Constants.OBD_STATUS = false;
-        }
-    }
 
     /**
      * Result from another activity
@@ -2565,14 +2544,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         Log.d(TAG, "onActivityResult // requestCode :: " + requestCode + " // resultCode :: " + resultCode);
         switch (requestCode) {
             case Constants.REQUEST_CONNECT_WIFI :
-
-            if(data.getBooleanExtra("isConnected",false)){
-                isConnected = true;
-            }
-
-
-
-
+                if(Constants.CONNECTION_STATUS){
+                    mainConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
+                    obdSetBtn.setText("차량 연결 ON");
+                }else{
+                    mainConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
+                    obdSetBtn.setText("차량 연결 OFF");
+                }
                 break;
 
 

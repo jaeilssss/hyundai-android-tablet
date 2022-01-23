@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -67,7 +68,7 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
     private ImageView back;
 
     private ImageView obdLight;
-    private ImageButton obdState;
+    private TextView obdState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,13 +147,13 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
         obdState = findViewById(R.id.ib_obd_set_btn);
         obdLight = findViewById(R.id.iv_favorite_light);
 
-        if(Constants.OBD_STATUS){
+        if(Constants.CONNECTION_STATUS){
             obdLight.setBackgroundResource(R.drawable.ico_light_green);
-            obdState.setBackgroundResource(R.drawable.img_tit_04);
+            obdState.setText("차량 연결 ON");
 
         }else{
             obdLight.setBackgroundResource(R.drawable.ico_light_red);
-            obdState.setBackgroundResource(R.drawable.img_tit_03);
+            obdState.setText("차량 연결 OFF");
 
         }
 

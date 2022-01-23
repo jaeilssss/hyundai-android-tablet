@@ -119,12 +119,12 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
     private TextView gearMapTrackTxt;
 
     private ImageView obdLight;
-    private ImageButton obdState;
+    private TextView obdState;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gear_setting);
-        System.out.println("변속기 설정 페이지");
+
         initUI();
     }
 
@@ -136,6 +136,8 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         mChart = (RadarChart) findViewById(R.id.chart);
         mChart.setNoDataText("데이터가 없습니다.");
 
+        obdLight = findViewById(R.id.iv_favorite_light);
+        obdState = findViewById(R.id.ib_obd_set_btn);
 
         settingLayout = findViewById(R.id.gear_setting_layout);
 
@@ -265,6 +267,18 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
                 }).start();
             }
         }, 0);
+
+
+        if(Constants.CONNECTION_STATUS){
+            obdLight.setBackgroundResource(R.drawable.ico_light_green);
+            obdState.setText("차량 연결 ON");
+
+        }else{
+            obdLight.setBackgroundResource(R.drawable.ico_light_red);
+            obdState.setText("차량 연결 OFF");
+
+        }
+
 
     }
 

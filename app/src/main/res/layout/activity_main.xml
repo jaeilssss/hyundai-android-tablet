@@ -37,11 +37,14 @@
                 />
 
             <!-- 나의 설정 -->
-            <ImageButton
+            <TextView
                 android:id="@+id/ib_favorite_btn"
-                android:layout_width="80dp"
-                android:layout_height="18dp"
-                android:background="@drawable/img_tit_02" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="나의 설정"
+                android:textColor="@color/white"
+                android:textSize="19dp"
+                android:textStyle="bold"/>
 
             <LinearLayout
                 android:layout_width="2dp"
@@ -53,11 +56,15 @@
                 android:paddingBottom="3dp" />
 
             <!-- OBD 설정 및 상태 -->
-            <ImageButton
+            <TextView
                 android:id="@+id/ib_obd_set_btn"
-                android:layout_width="130dp"
-                android:layout_height="18dp"
-                android:background="@drawable/img_tit_03" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="차량 연결 상태"
+                android:textColor="@color/white"
+                android:textSize="19dp"
+                android:textStyle="bold"
+                />
 
             <LinearLayout
                 android:layout_width="2dp"

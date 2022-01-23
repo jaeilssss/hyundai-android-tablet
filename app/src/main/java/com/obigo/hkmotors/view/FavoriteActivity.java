@@ -135,7 +135,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private LinearLayout soundLayout;
 
 
-    private ImageButton obdState;
+    private TextView obdState;
     private ImageView obdLight;
 
     private MyFavoriteRecyclerAdapter adapter ;
@@ -170,7 +170,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     public void initUI() {
 
         // OBD Status 변경
-        Log.d(TAG, " ================= OBD Status 변경 :: " + Constants.OBD_STATUS);
+
 //        setOBDMode(Constants.OBD_STATUS);
 //        setOBDInitialized(Constants.OBD_INITIALIZED);
         addDataFromDatabase();
@@ -225,13 +225,14 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         obdState = findViewById(R.id.ib_obd_set_btn);
         obdLight = findViewById(R.id.iv_favorite_light);
 
-        if(Constants.OBD_STATUS){
+        if(Constants.CONNECTION_STATUS){
             obdLight.setBackgroundResource(R.drawable.ico_light_green);
-            obdState.setBackgroundResource(R.drawable.img_tit_04);
+            obdState.setText("차량 연결 ON");
 
         }else{
             obdLight.setBackgroundResource(R.drawable.ico_light_red);
             obdState.setBackgroundResource(R.drawable.img_tit_03);
+            obdState.setText("차량 연결 OFF");
 
         }
 
@@ -435,33 +436,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                 onBackPressed();
 
                 break;
-            case R.id.ib_obd_set_btn:
-                if(Constants.OBD_STATUS == true) {
-                    try {
-                        mRespMaxPower = mPref.getFDMaxPower();
-                        mRespAcceration = mPref.getFDAcceleration();
-                        mRespDeceleration = mPref.getFDDeceleration();
-                        mRespResponse = mPref.getFDResponse();
-                        mRespEcoLevel = mPref.getFDEcoLevel();
 
-                        // set second default value : 0
-                        mPref.setSDResponse(0);
-                        mPref.setSDDeceleration(0);
-                        mPref.setSDAcceleration(0);
-                        mPref.setSDMaxPower(0);
-                        mPref.setSDEcoLevel(0);
-
-                        // show default spider chart
-                        defaultChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
-
-                        mObdsv.disconnectDevice();
-                    } catch (IOException e) {
-                        Log.d(TAG, "블루투스 통신을 끊는 도중에 예외상황이 발생함~");
-                    }
-                } else {
-                    selectOBD();
-                }
-                break;
             case R.id.favorite_info_delete:
                 showDialog01();
                 break;
@@ -705,21 +680,6 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
             cursor.close();
         }
         helper.close();
-    }
-    /**
-     * Set OBD mode
-     *
-     * @param switchFlag - odb mode about whether switch is on or off
-     */
-    private void setOBDMode(boolean switchFlag) {
-
-        if(switchFlag) {
-            obdSetBtn.setBackgroundResource(R.drawable.img_tit_04);
-            Constants.OBD_STATUS = true;
-        } else {
-            obdSetBtn.setBackgroundResource(R.drawable.img_tit_03);
-            Constants.OBD_STATUS = false;
-        }
     }
 
     private void setOBDInitialized(boolean switchFlag) {
