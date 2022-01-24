@@ -29,6 +29,7 @@ public class connectionActivity extends BaseActivity {
 
 
     Button connection;
+    Button notConnection;
     EditText ipEdit;
 
 
@@ -47,7 +48,17 @@ public class connectionActivity extends BaseActivity {
 
         connection = findViewById(R.id.connection_btn);
         ipEdit = findViewById(R.id.ip_edit);
-
+        notConnection = findViewById(R.id.not_connection_btn);
+        notConnection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Constants.CONNECTION_STATUS = false;
+                Intent intent = new Intent();
+                intent.putExtra("isConnected",false);
+                setResult(Constants.REQUEST_CONNECT_WIFI,intent);
+                finish();
+            }
+        });
         connection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,6 +86,8 @@ public class connectionActivity extends BaseActivity {
                         }
                     });
 
+
+                    Constants.CONNECTION_STATUS = true;
                     Intent intent = new Intent();
                     intent.putExtra("isConnected",true);
                     setResult(Constants.REQUEST_CONNECT_WIFI,intent);
@@ -84,7 +97,7 @@ public class connectionActivity extends BaseActivity {
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(),"차량과 연결이 실패했습니다",Toast.LENGTH_SHORT).show();
-
+                     Constants.CONNECTION_STATUS = false;
                         }
                     });
                 }

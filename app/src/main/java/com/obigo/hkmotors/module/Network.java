@@ -63,7 +63,16 @@ public class Network {
         }
         return instance;
     }
+    public static Network getInstance() {
 
+        if(instance==null){
+
+                instance = new Network();
+
+
+        }
+        return instance;
+    }
     public void say() {
         System.out.println("hi, there");
     }

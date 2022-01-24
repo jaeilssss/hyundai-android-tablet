@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.inputmethodservice.Keyboard;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -18,6 +20,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -48,13 +51,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     // origin widget
     private ImageView mLogo;
     private LinearLayout mLayoutMode;
-    private ToggleButton mMode;
+    private ConstraintLayout mMode;
     private EditText mPwd;
     private ImageView mPwdChk;
     private ImageView mPwdLine;
     private Keyboard mKeyboard;
     private LinearLayout mLayoutKeyboard;
-    private ImageButton mLoginBtn;
+    private Button mLoginBtn;
 
     // custom widget or event
     private CustomKeyboardView mKeyboardView;
@@ -62,6 +65,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private String mModeValue= Constants.MODE_EXPERT;
 
+    private Button ex , rc;
+    private boolean isExpert = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +75,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         // initialize UI
         initUI();
+
 
         // exit handler for back button with two times
         backPressCloseHandler = new BackPressCloseHandler(this);
@@ -93,11 +99,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         System.gc();
     }
 
-    /**
-     * Event for clicking
-     *
-     * @param v - view to click
-     */
+
+    public void setMode(){
+        if(isExpert) {
+            mModeValue = Constants.MODE_EXPERT;
+
+            ex.setTextColor(Color.WHITE);
+            rc.setTextColor(Color.GRAY);
+            ex.setBackgroundResource(R.drawable.shape_toggle_expert_on);
+            rc.setBackgroundResource(R.drawable.shape_toggle_rc_off);
+            isExpert = true;
+        } else {
+            mModeValue = Constants.MODE_RCDATION;
+            ex.setTextColor(Color.GRAY);
+            rc.setTextColor(Color.WHITE);
+            ex.setBackgroundResource(R.drawable.shape_toggle_expert_off);
+            rc.setBackgroundResource(R.drawable.shape_toggle_rc_on);
+            isExpert = false;
+        }
+    }
     @Override
     public void onClick(View v) {
 
@@ -111,6 +131,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.ib_pw_setting:
                 goToPwdSettingActivity();
+                break;
+
+            case R.id.expert_mode :
+                isExpert = true;
+                setMode();
+                break;
+            case R.id.rc_mode:
+                isExpert = false;
+                setMode();
                 break;
             default:
                 // nothing to this
@@ -152,19 +181,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         mLayoutMode = (LinearLayout) findViewById(R.id.layout_mode);
 
-        mMode = (ToggleButton) findViewById(R.id.tb_mode);
+        mMode =  findViewById(R.id.tb_mode);
 
-        mMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton toggleButton, boolean isChecked) {
-                //
-                if(!isChecked) {
-                    mModeValue = Constants.MODE_EXPERT;
-                } else {
-                    mModeValue = Constants.MODE_RCDATION;
-                }
-            }
-        });
+        ex = findViewById(R.id.expert_mode);
+        rc = findViewById(R.id.rc_mode);
+
+        ex.setOnClickListener(this);
+        rc.setOnClickListener(this);
+
 
         mPwd = (EditText) findViewById(R.id.et_pwd);
 
@@ -204,7 +228,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mPwdChk = (ImageView) findViewById(R.id.iv_pwd_chk);
         mPwdLine = (ImageView) findViewById(R.id.iv_pwd_line);
 
-        ImageButton pwSettingBtn = (ImageButton) findViewById(R.id.ib_pw_setting);
+        Button pwSettingBtn = (Button) findViewById(R.id.ib_pw_setting);
         pwSettingBtn.setOnClickListener(this);
 
         mKeyboard = new Keyboard(this, R.xml.keyboard);
@@ -213,7 +237,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mKeyboardView.setKeyboard(mKeyboard);
         mKeyboardView.setOnKeyboardActionListener(new BasicOnKeyboardActionListener(this));
 
-        mLoginBtn = (ImageButton) findViewById(R.id.ib_login_btn);
+        mLoginBtn =  findViewById(R.id.ib_login_btn);
         mLoginBtn.setOnClickListener(this);
         mLoginBtn.setClickable(false);
 
@@ -376,9 +400,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      */
     private void goToMainActivity() {
 
-        Intent obd = new Intent(this, MainActivity.class);
-        obd.putExtra("mode", mModeValue);
-        startActivity(obd);
+        Intent intent = new Intent(this, MainActivity.class);
+
+        if(isExpert){
+            mModeValue = Constants.MODE_EXPERT;
+        }else{
+            mModeValue = Constants.MODE_RCDATION;
+        }
+
+        intent.putExtra("mode",mModeValue);
+
+
+        startActivity(intent);
         finish();
     }
 

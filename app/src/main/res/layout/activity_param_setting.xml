@@ -643,18 +643,24 @@
                 android:background="#10162b"
                 android:gravity="center_horizontal">
 
-                <ImageButton
+                <Button
                     android:id="@+id/ib_cancel_btn"
                     android:layout_width="135dp"
                     android:layout_height="35.7dp"
-                    android:background="@drawable/btn_cancel" />
+                    android:text="취소"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"
+                    android:background="@drawable/button_click" />
 
-                <ImageButton
+                <Button
                     android:id="@+id/ib_confirm_btn"
                     android:layout_width="135dp"
                     android:layout_height="35.7dp"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/btn_confirm" />
+                    android:textColor="@color/white"
+                    android:text="확인"
+                    android:textSize="15dp"
+                    android:background="@drawable/button_click" />
 
             </LinearLayout>
 

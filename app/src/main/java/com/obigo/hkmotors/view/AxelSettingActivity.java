@@ -67,8 +67,8 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
 
     private ImageView back;
 
-    private ImageView obdLight;
-    private TextView obdState;
+    private TextView carConnectionState;
+    private ImageView carConnectionLight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,16 +144,16 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
             }
         }, 0);
 
-        obdState = findViewById(R.id.ib_obd_set_btn);
-        obdLight = findViewById(R.id.iv_favorite_light);
+        carConnectionState = findViewById(R.id.ib_obd_set_btn);
+        carConnectionLight = findViewById(R.id.iv_favorite_light);
 
         if(Constants.CONNECTION_STATUS){
-            obdLight.setBackgroundResource(R.drawable.ico_light_green);
-            obdState.setText("차량 연결 ON");
+            carConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
+            carConnectionState.setText("차량 연결 ON");
 
         }else{
-            obdLight.setBackgroundResource(R.drawable.ico_light_red);
-            obdState.setText("차량 연결 OFF");
+            carConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
+            carConnectionState.setText("차량 연결 OFF");
 
         }
 
@@ -378,22 +378,25 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
     }
     public void setStiffness(String str){
         if(str.equals("Low")){
-            stiffnessLow.setImageResource(R.drawable.oval_selected);
 
-            stiffnessMiddle.setImageResource(R.drawable.oval_default);
-            stiffnessHigh.setImageResource(R.drawable.oval_default);
+
+            stiffnessLow.setImageResource(R.drawable.setting_check_main_color);
+
+            stiffnessMiddle.setImageResource(0);
+            stiffnessHigh.setImageResource(0);
         }else if(str.equals("Middle")){
 
-            stiffnessMiddle.setImageResource(R.drawable.oval_selected);
 
-            stiffnessHigh.setImageResource(R.drawable.oval_default);
-            stiffnessLow.setImageResource(R.drawable.oval_default);
+            stiffnessMiddle.setImageResource(R.drawable.setting_check_main_color);
+
+            stiffnessHigh.setImageResource(0);
+            stiffnessLow.setImageResource(0);
         }else {
 
-            stiffnessHigh.setImageResource(R.drawable.oval_selected);
+            stiffnessHigh.setImageResource(R.drawable.setting_check_main_color);
 
-            stiffnessMiddle.setImageResource(R.drawable.oval_default);
-            stiffnessLow.setImageResource(R.drawable.oval_default);
+            stiffnessMiddle.setImageResource(0);
+            stiffnessLow.setImageResource(0);
         }
 
     }
@@ -402,21 +405,21 @@ public class AxelSettingActivity extends BaseActivity implements View.OnClickLis
 
         if(str.equals("Low")){
 
-            reduceLow.setImageResource(R.drawable.oval_selected);
+            reduceLow.setImageResource(R.drawable.setting_check_main_color);
 
-            reduceMiddle.setImageResource(R.drawable.oval_default);
-            reduceHigh.setImageResource(R.drawable.oval_default);
+            reduceMiddle.setImageResource(0);
+            reduceHigh.setImageResource(0);
         }else if(str.equals("Middle")){
 
-            reduceMiddle.setImageResource(R.drawable.oval_selected);
+            reduceMiddle.setImageResource(R.drawable.setting_check_main_color);
 
-            reduceLow.setImageResource(R.drawable.oval_default);
-            reduceHigh.setImageResource(R.drawable.oval_default);
+            reduceLow.setImageResource(0);
+            reduceHigh.setImageResource(0);
         }else{
-            reduceHigh.setImageResource(R.drawable.oval_selected);
+            reduceHigh.setImageResource(R.drawable.setting_check_main_color);
 
-            reduceMiddle.setImageResource(R.drawable.oval_default);
-            reduceLow.setImageResource(R.drawable.oval_default);
+            reduceMiddle.setImageResource(0);
+            reduceLow.setImageResource(0);
         }
 
 

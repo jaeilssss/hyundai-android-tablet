@@ -80,9 +80,8 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
 
     private ImageView back;
 
-    private TextView obdState;
-    private ImageView obdLight;
-
+    private TextView carConnectionState;
+    private ImageView carConnectionLight;
     AudioManager audioManager;
 
     @Override
@@ -181,16 +180,16 @@ public class SpeakerSettingActivity extends BaseActivity implements View.OnClick
             }
         }, 0);
 
-        obdLight = findViewById(R.id.iv_favorite_light);
-        obdState = findViewById(R.id.ib_obd_set_btn);
+        carConnectionLight = findViewById(R.id.iv_favorite_light);
+        carConnectionState = findViewById(R.id.ib_obd_set_btn);
 
         if(Constants.CONNECTION_STATUS){
-            obdLight.setBackgroundResource(R.drawable.ico_light_green);
-            obdState.setText("차량 연결 ON");
+            carConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
+            carConnectionState.setText("차량 연결 ON");
 
         }else{
-            obdLight.setBackgroundResource(R.drawable.ico_light_red);
-            obdState.setText("차량 연결 OFF");
+            carConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
+            carConnectionState.setText("차량 연결 OFF");
 
         }
 

@@ -29,7 +29,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         android:text="삭제"
         android:textColor="@color/white"
-        android:background="@color/mainColor"
+        android:background="@drawable/button_click"
         android:textSize="16dp"
         android:id="@+id/custom_delete"
         android:layout_marginRight="6dp"
@@ -44,7 +44,7 @@
         android:layout_marginTop="20dp"
         android:id="@+id/custom_cancel"
         android:layout_marginLeft="6dp"
-        android:background="@color/mainColor"
+        android:background="@drawable/button_click"
         android:text="취소"
         android:textSize="16dp"
         android:textColor="@color/white"/>

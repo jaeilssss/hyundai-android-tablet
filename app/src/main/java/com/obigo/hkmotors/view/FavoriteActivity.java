@@ -53,8 +53,10 @@ import com.obigo.hkmotors.model.FavoriteDataListItems;
 import com.obigo.hkmotors.model.Sound;
 import com.obigo.hkmotors.model.Transmission;
 import com.obigo.hkmotors.module.BaseActivity;
+import com.obigo.hkmotors.module.Network;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +72,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     private ArrayList<FavoriteData> FavoriteList = new ArrayList<>();
     private ImageView favoriteObdLight;
-    private ImageButton obdSetBtn;
+
 
     private ObdService mObdsv;
 
@@ -135,8 +137,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private LinearLayout soundLayout;
 
 
-    private TextView obdState;
-    private ImageView obdLight;
+    private TextView carConnectionState;
+    private ImageView carConnectionLight;
 
     private MyFavoriteRecyclerAdapter adapter ;
 
@@ -149,6 +151,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private Dialog editDialog;
 
     LoadingDialog loadingDialog ;
+
+    PrintWriter sendWriter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,17 +226,16 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         }
 
 
-        obdState = findViewById(R.id.ib_obd_set_btn);
-        obdLight = findViewById(R.id.iv_favorite_light);
+        carConnectionState = findViewById(R.id.ib_obd_set_btn);
+        carConnectionLight = findViewById(R.id.iv_favorite_light);
 
         if(Constants.CONNECTION_STATUS){
-            obdLight.setBackgroundResource(R.drawable.ico_light_green);
-            obdState.setText("차량 연결 ON");
+            carConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
+            carConnectionState.setText("차량 연결 ON");
 
         }else{
-            obdLight.setBackgroundResource(R.drawable.ico_light_red);
-            obdState.setBackgroundResource(R.drawable.img_tit_03);
-            obdState.setText("차량 연결 OFF");
+            carConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
+            carConnectionState.setText("차량 연결 OFF");
 
         }
 
@@ -442,7 +445,10 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.favorite_info_edit  :
                 showDialog02();
-
+                break;
+            case R.id.favorite_info_send:
+                sendCarData();
+                break;
             default:
                 break;
         }
@@ -458,7 +464,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClick(View view) {
                 // 원하는 기능 구현
-                dialog.dismiss(); // 다이얼로그 닫기
+                editDialog.dismiss(); // 다이얼로그 닫기
             }
         });
         // 네 버튼
@@ -717,7 +723,6 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         dialog.findViewById(R.id.custom_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("delete->"+adapter.list.get(adapter.clickIndex).getId());
                 DBUtil.deleteDB(getApplicationContext(),adapter.list.get(adapter.clickIndex).getId());
                 runOnUiThread(new Runnable() {
                     @Override
@@ -895,83 +900,86 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-//    public void sendCarData(){
-//        final String signal1 = setSignal1();
-//        final String signal2 = setSignal2();
-//
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                super.run();
-//                try {
-//                    sendWriter.println(signal1);
-//                    sendWriter.flush();
-//                    sendWriter.println(signal2);
-//                    sendWriter.flush();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }.start();
-//
-//        loadingDialog = new LoadingDialog(MainActivity.this,2);
-//        loadingDialog.show();
-//        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//        loadingDialog.setNotTouch();
-//
-//        Drive.getInstance().update();
-//        Transmission.getInstance().update();
-//        Sound.getInstance().update();
-//
-//        CarData.getInstance().setComfortable();
-//        CarData.getInstance().setDynamic();
-//        CarData.getInstance().setEfficiency();
-//        CarData.getInstance().setLeading();
-//        CarData.getInstance().setPerformance();
-//
-//        CarData.getInstance().setTempComfortable();
-//        CarData.getInstance().setTempDynamic();
-//        CarData.getInstance().setTempEfficiency();
-//        CarData.getInstance().setTempLeading();
-//        CarData.getInstance().setTempPerformance();
-//
-//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                loadingDialog.hide();
-//                loadingDialog.setTouch();
-//
-//                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
-//                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
-//                        CarData.getInstance().getPerformance());
-//
-//
-//                Toast.makeText(getApplicationContext(),"차량 전송이 완료되었습니다",Toast.LENGTH_SHORT).show();
-//            }
-//        },2500);
-//
-//    }
-//
-//
-//    public String setSignal1(){
-//        return "101"+" "+Sound.getInstance().getTempIsOn()+" "+
-//                Sound.getInstance().getTempDriveType()+" "+
-//                Sound.getInstance().getTempVolume()+" "+
-//                Sound.getInstance().getBackVolume()+" "+
-//                Sound.getInstance().getBackSensitive()+" "+
-//                Drive.getInstance().getTempIsOn()+" "+
-//                Drive.getInstance().getTempStiffness()+" "+
-//                Drive.getInstance().getTempReducer();
-//
-//    }
-//    public String setSignal2(){
-//        return Transmission.getInstance().getTempIsOn()+" "+
-//                Transmission.getInstance().getTempType()+" "+
-//                Transmission.getInstance().getTempGear()+" "+
-//                Transmission.getInstance().getTempGearRate()+" "+
-//                Transmission.getInstance().getTempTransmissionSpeed()+" "+
-//                Transmission.getInstance().getTempTransmissionPower()+" "+
-//                Transmission.getInstance().getTempTransmissionMap();
-//
-//    }
+    public void sendCarData(){
+
+
+        final String data = " { " +
+                "  \"TPCANMsg\" : {      " +
+                "\"DATA\" : [ 10, 10, 11, 15, 0, 16, 1, 1 ]," +
+                "  \"ID\" : 1,     " +
+                " \"LEN\" : 16,      " +
+                "\"MSGTYPE\" : 32   },   " +
+                "\"TPCANTimestamp\" : {" +
+                "  \"micros\" : 48,      " +
+                "\"millis\" : 64,      " +
+                "\"millis_overflow\" : 16   " +
+                "}" +
+                "}";
+
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    if(Network.getInstance().isConnected()){
+
+                        sendWriter = Network.getInstance().sendWriter;
+
+                        sendWriter.println(data);
+                        sendWriter.flush();
+
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),"차량 연결 상태를 확인해주세요",Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+        loadingDialog = new LoadingDialog(FavoriteActivity.this,2);
+        loadingDialog.show();
+        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        loadingDialog.setNotTouch();
+
+        Drive.getInstance().update();
+        Transmission.getInstance().update();
+        Sound.getInstance().update();
+
+        CarData.getInstance().setComfortable();
+        CarData.getInstance().setDynamic();
+        CarData.getInstance().setEfficiency();
+        CarData.getInstance().setLeading();
+        CarData.getInstance().setPerformance();
+
+        CarData.getInstance().setTempComfortable();
+        CarData.getInstance().setTempDynamic();
+        CarData.getInstance().setTempEfficiency();
+        CarData.getInstance().setTempLeading();
+        CarData.getInstance().setTempPerformance();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadingDialog.hide();
+                loadingDialog.setTouch();
+
+                if(Transmission.getInstance().getTempIsOn().equals("0") &&
+                        Sound.getInstance().getTempIsOn().equals("0") &&
+                        Drive.getInstance().getTempIsOn().equals("0")){
+                    CarData.getInstance().setTempEVMode();
+                    CarData.getInstance().setEVMode();
+                }
+                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+                        CarData.getInstance().getPerformance());
+
+
+                Toast.makeText(getApplicationContext(),"차량 전송이 완료되었습니다",Toast.LENGTH_SHORT).show();
+            }
+        },2500);
+
+    }
 }

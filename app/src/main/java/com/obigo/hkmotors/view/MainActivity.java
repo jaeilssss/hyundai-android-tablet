@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     public static Context mContext;
     private ImageView  mainConnectionLight;
-    private TextView obdSetBtn;
+    private TextView carConnectionBtn;
 
     private RelativeLayout mLayoutBarChart;
     private RelativeLayout mLayoutRcdation;
@@ -369,10 +369,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         initUI();
         if(Constants.CONNECTION_STATUS){
             mainConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
-            obdSetBtn.setText("차량 연결 ON");
+            carConnectionBtn.setText("차량 연결 ON");
         }else{
             mainConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
-            obdSetBtn.setText("차량 연결 OFF");
+            carConnectionBtn.setText("차량 연결 OFF");
+            connectedWifi();
         }
         isEdit = 1;
 
@@ -481,9 +482,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         gearBtn.startAnimation(animation);
         speakerBtn.startAnimation(animation);
         drivingAxleBtn.startAnimation(animation);
-        gearBtn.setBackgroundResource(R.drawable.oval_brown);
-        speakerBtn.setBackgroundResource(R.drawable.oval_brown);
-        drivingAxleBtn.setBackgroundResource(R.drawable.oval_brown);
+        gearBtn.setBackgroundResource(R.drawable.no_setting_click);
+        speakerBtn.setBackgroundResource(R.drawable.no_setting_click);
+        drivingAxleBtn.setBackgroundResource(R.drawable.no_setting_click);
         gearBtn.setImageResource(R.drawable.ic_setting_grey);
         speakerBtn.setImageResource(R.drawable.ic_setting_grey);
         drivingAxleBtn.setImageResource(R.drawable.ic_setting_grey);
@@ -605,7 +606,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 if(mModeValue.equals(Constants.MODE_EXPERT)){
                     mModeValue = Constants.MODE_RCDATION;
                     setMode();
+                    setBtnAnimation();
                 }
+                break;
+            case R.id.car_connection_btn:
+                connectedWifi();
+
+                break;
             default:
                 break;
         }
@@ -963,51 +970,51 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     public void recommendChangeBackGround(int num){
         if(num==-1){
-            ev.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            vip.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            passenger.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            sport.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            commercial.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            ev.setBackgroundResource(R.drawable.shape_rc_border_10);
+            vip.setBackgroundResource(R.drawable.shape_rc_border_10);
+            passenger.setBackgroundResource(R.drawable.shape_rc_border_10);
+            sport.setBackgroundResource(R.drawable.shape_rc_border_10);
+            commercial.setBackgroundResource(R.drawable.shape_rc_border_10);
         } else if(num==0){
-            ev.setBackgroundResource(R.drawable.favorite_border_5_selected);
+            ev.setBackgroundResource(R.drawable.button_shape_radius_10);
 
-            vip.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            passenger.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            sport.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            commercial.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            vip.setBackgroundResource(R.drawable.shape_rc_border_10);
+            passenger.setBackgroundResource(R.drawable.shape_rc_border_10);
+            sport.setBackgroundResource(R.drawable.shape_rc_border_10);
+            commercial.setBackgroundResource(R.drawable.shape_rc_border_10);
         }else if(num==1){
-            vip.setBackgroundResource(R.drawable.favorite_border_5_selected);
+            vip.setBackgroundResource(R.drawable.button_shape_radius_10);
 
-            ev.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            passenger.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            sport.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            commercial.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            ev.setBackgroundResource(R.drawable.shape_rc_border_10);
+            passenger.setBackgroundResource(R.drawable.shape_rc_border_10);
+            sport.setBackgroundResource(R.drawable.shape_rc_border_10);
+            commercial.setBackgroundResource(R.drawable.shape_rc_border_10);
         }else if(num==2){
 
-            passenger.setBackgroundResource(R.drawable.favorite_border_5_selected);
+            passenger.setBackgroundResource(R.drawable.button_shape_radius_10);
 
-            ev.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            vip.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            sport.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            commercial.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            ev.setBackgroundResource(R.drawable.shape_rc_border_10);
+            vip.setBackgroundResource(R.drawable.shape_rc_border_10);
+            sport.setBackgroundResource(R.drawable.shape_rc_border_10);
+            commercial.setBackgroundResource(R.drawable.shape_rc_border_10);
 
         }else if(num==3){
 
-            sport.setBackgroundResource(R.drawable.favorite_border_5_selected);
+            sport.setBackgroundResource(R.drawable.button_shape_radius_10);
 
-            ev.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            vip.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            passenger.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            commercial.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            ev.setBackgroundResource(R.drawable.shape_rc_border_10);
+            vip.setBackgroundResource(R.drawable.shape_rc_border_10);
+            passenger.setBackgroundResource(R.drawable.shape_rc_border_10);
+            commercial.setBackgroundResource(R.drawable.shape_rc_border_10);
 
         }else{
             
-            commercial.setBackgroundResource(R.drawable.favorite_border_5_selected);
+            commercial.setBackgroundResource(R.drawable.button_shape_radius_10);
             
-            ev.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            vip.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            passenger.setBackgroundResource(R.drawable.favorite_border_5_grey);
-            sport.setBackgroundResource(R.drawable.favorite_border_5_grey);
+            ev.setBackgroundResource(R.drawable.shape_rc_border_10);
+            vip.setBackgroundResource(R.drawable.shape_rc_border_10);
+            passenger.setBackgroundResource(R.drawable.shape_rc_border_10);
+            sport.setBackgroundResource(R.drawable.shape_rc_border_10);
 
         }
 
@@ -2369,10 +2376,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
                     if(Constants.CONNECTION_STATUS){
                         mainConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
-                        obdSetBtn.setText("차량 연결 ON");
+                        carConnectionBtn.setText("차량 연결 ON");
                     }else{
                         mainConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
-                        obdSetBtn.setText("차량 연결 OFF");
+                        carConnectionBtn.setText("차량 연결 OFF");
                     }
 
                     break;
@@ -2400,13 +2407,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         drivingAxleBtn.setOnClickListener(this);
 
 
-        obdSetBtn =  findViewById(R.id.ib_obd_set_btn);
-        obdSetBtn.setOnClickListener(this);
+        carConnectionBtn =  findViewById(R.id.car_connection_btn);
+        carConnectionBtn.setOnClickListener(this);
 
         mainConnectionLight = (ImageView) findViewById(R.id.iv_main_light);
 
         mMode = findViewById(R.id.tb_setting);
-        mMode.setOnClickListener(this);
         ex = findViewById(R.id.expert_mode);
         rc = findViewById(R.id.rc_mode);
         ex.setOnClickListener(this);
@@ -2417,14 +2423,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         mLayoutRcdation = (RelativeLayout) findViewById(R.id.layout_rcdation);
         mLayoutExpert = (RelativeLayout) findViewById(R.id.layout_expert);
-        if(mModeValue.equals(Constants.MODE_RCDATION)){
 
-            setMode();
-
-        } else if (mModeValue.equals(Constants.MODE_EXPERT)){
-            setMode();
-
-        }
         saveBtn = findViewById(R.id.ib_e_save_btn);
         saveBtn.setOnClickListener(this);
         carSend = findViewById(R.id.ib_e_submit_btn);
@@ -2432,10 +2431,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         resetBtn = findViewById(R.id.ib_e_reset_btn);
         resetBtn.setOnClickListener(this);
 
-
-
-
-        mModeValue = Constants.MODE_EXPERT;
 
 
 //        mMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -2461,7 +2456,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
 
-        setParamMode(mModeValue);
+
 
         // OBD Status 변경
 
@@ -2487,11 +2482,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         rcSend = findViewById(R.id.rcdation_submit);
         rcSend.setOnClickListener(this);
+        if(mModeValue.equals(Constants.MODE_RCDATION)){
+
+            setMode();
+
+        } else if (mModeValue.equals(Constants.MODE_EXPERT)){
+            setMode();
+
+        }
 
 
         setBtnAnimation();
-
-        drivingAxleBtn.bringToFront();
 
 
 
@@ -2546,10 +2547,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case Constants.REQUEST_CONNECT_WIFI :
                 if(Constants.CONNECTION_STATUS){
                     mainConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
-                    obdSetBtn.setText("차량 연결 ON");
+                    carConnectionBtn.setText("차량 연결 ON");
                 }else{
                     mainConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
-                    obdSetBtn.setText("차량 연결 OFF");
+                    carConnectionBtn.setText("차량 연결 OFF");
                 }
                 break;
 
@@ -2647,7 +2648,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     gearBtn.clearAnimation();
                     Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.gear_after_anim);
                     gearBtn.setImageResource(R.drawable.setting_check_main_color);
-                    gearBtn.setBackgroundResource(R.drawable.circle_setting_checked);
+                    gearBtn.setBackgroundResource(R.drawable.setting_click);
                     gearBtn.startAnimation(animation);
 
 
@@ -2663,7 +2664,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     speakerBtn.clearAnimation();
                     Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.gear_after_anim);
                     speakerBtn.setImageResource(R.drawable.setting_check_main_color);
-                    speakerBtn.setBackgroundResource(R.drawable.circle_setting_checked);
+                    speakerBtn.setBackgroundResource(R.drawable.setting_click);
                     speakerBtn.startAnimation(animation);
 
                 }
@@ -2680,7 +2681,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     drivingAxleBtn.clearAnimation();
                     Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.driving_after_anim);
                     drivingAxleBtn.setImageResource(R.drawable.setting_check_main_color);
-                    drivingAxleBtn.setBackgroundResource(R.drawable.circle_setting_checked);
+                    drivingAxleBtn.setBackgroundResource(R.drawable.setting_click);
                     drivingAxleBtn.startAnimation(animation);
 
                 }
@@ -2726,8 +2727,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             public void run() {
                 super.run();
                 try {
-                    sendWriter.println(data);
-                    sendWriter.flush();
+                    if(Network.getInstance().isConnected()){
+
+                        sendWriter = Network.getInstance().sendWriter;
+
+                        sendWriter.println(data);
+                        sendWriter.flush();
+
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),"차량 연결 상태를 확인해주세요",Toast.LENGTH_SHORT).show();
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -2972,7 +2983,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
         mModeValue = Constants.MODE_EXPERT;
-        setParamMode(mModeValue);
 
 
         sendMessage("01" + Utility.convertParamIntToHex(Integer.valueOf(respParams[1]), Integer.valueOf(respParams[2]),
@@ -3164,48 +3174,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
 
-    /**
-     * Set mode(setting)
-     *
-     * @param mode general or expert
-     */
-    private void setParamMode(String mode){
-        if(mode.equals(Constants.MODE_RCDATION)) {
-            mLayoutExpert.setVisibility(View.GONE);
-            mLayoutRcdation.setVisibility(View.VISIBLE);
-
-            sendMessage("ATSH531");
-
-            Handler hd2 = new Handler(Looper.getMainLooper());
-            hd2.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    sendMessage("ATSH531");
-                }
-            }, 1000);
-
-            // 추천모드 실행
-//            modeInit(recommentList.get(Constants.MODE_STATUS));
-
-        } else if(mode.equals(Constants.MODE_EXPERT)) {
-
-            mLayoutExpert.setVisibility(View.VISIBLE);
-            mLayoutRcdation.setVisibility(View.GONE);
-
-            sendMessage("ATSH530");
-
-            Handler hd2 = new Handler(Looper.getMainLooper());
-            hd2.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    sendMessage("ATSH530");
-                }
-            }, 1000);
-
-            //initUI();
-
-        }
-    }
 
     /**
      * Move to favorite activity

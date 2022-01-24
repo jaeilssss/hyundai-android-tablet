@@ -118,8 +118,8 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
     private TextView gearMapSportTxt;
     private TextView gearMapTrackTxt;
 
-    private ImageView obdLight;
-    private TextView obdState;
+    private TextView carConnectionState;
+    private ImageView carConnectionLight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,8 +136,8 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
         mChart = (RadarChart) findViewById(R.id.chart);
         mChart.setNoDataText("데이터가 없습니다.");
 
-        obdLight = findViewById(R.id.iv_favorite_light);
-        obdState = findViewById(R.id.ib_obd_set_btn);
+        carConnectionLight = findViewById(R.id.iv_favorite_light);
+        carConnectionState = findViewById(R.id.ib_obd_set_btn);
 
         settingLayout = findViewById(R.id.gear_setting_layout);
 
@@ -270,12 +270,12 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
 
 
         if(Constants.CONNECTION_STATUS){
-            obdLight.setBackgroundResource(R.drawable.ico_light_green);
-            obdState.setText("차량 연결 ON");
+            carConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
+            carConnectionState.setText("차량 연결 ON");
 
         }else{
-            obdLight.setBackgroundResource(R.drawable.ico_light_red);
-            obdState.setText("차량 연결 OFF");
+            carConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
+            carConnectionState.setText("차량 연결 OFF");
 
         }
 

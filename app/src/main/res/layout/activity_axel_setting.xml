@@ -186,8 +186,7 @@
                 android:layout_marginLeft="100dp"
                 android:layout_marginTop="85dp"
                 android:layout_toEndOf="@id/axel_setting_type_txt"
-                android:background="@color/keypad_bg"
-                android:src="@drawable/oval_default" />
+                android:background="@drawable/oval_default" />
 
 
         <TextView
@@ -207,8 +206,7 @@
         <ImageButton
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@color/keypad_bg"
-            android:src="@drawable/oval_default"
+            android:background="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_setting_low_txt"
 
             android:layout_marginTop="85dp"
@@ -229,8 +227,7 @@
         <ImageButton
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@color/keypad_bg"
-            android:src="@drawable/oval_default"
+            android:background="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_setting_middle_txt"
 
             android:layout_marginTop="85dp"
@@ -262,8 +259,7 @@
         <ImageButton
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@color/keypad_bg"
-            android:src="@drawable/oval_default"
+            android:background="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_detail_axel_rate"
             android:layout_below="@id/axel_setting_low_check"
             android:layout_alignStart="@id/axel_setting_low_check"
@@ -287,8 +283,7 @@
         <ImageButton
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@color/keypad_bg"
-            android:src="@drawable/oval_default"
+            android:background="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_low_txt"
             android:layout_below="@id/axel_setting_middle_check"
             android:layout_marginTop="76dp"
@@ -310,8 +305,7 @@
         <ImageButton
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@color/keypad_bg"
-            android:src="@drawable/oval_default"
+            android:background="@drawable/oval_default"
             android:layout_toEndOf="@id/axel_setting_reduce_middle_txt"
             android:layout_below="@id/axel_setting_high_img"
             android:layout_marginTop="76dp"
@@ -337,7 +331,7 @@
             android:layout_height="41dp"
             android:id="@+id/axel_data_send"
             android:layout_below="@id/axel_setting_layout"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/button_click"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_marginTop="35dp"

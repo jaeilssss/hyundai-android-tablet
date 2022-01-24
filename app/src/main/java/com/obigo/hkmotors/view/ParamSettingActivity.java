@@ -40,7 +40,7 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 
     private TextView mTitle;
     private ImageButton mDeleteBtn;
-    private ImageButton cancel;
+    private Button cancel;
     private Dialog mProgressDialog;
 
     private LinearLayout mLayoutGeneral;
@@ -101,14 +101,6 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 
         setContentView(R.layout.activity_param_setting);
         init();
-//               mParam = getIntent().getStringExtra("param");
-//        mResp = getIntent().getStringExtra("resp");
-//
-//
-//        String[] params = mParam.split(":");
-//
-//        mMode = params[0]; // 20181113 지금 프로그램에서는 필요없음
-//
 
 
 
@@ -146,7 +138,7 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
             editId = getIntent().getIntExtra("id",-1);
         }
 
-        ImageButton confirmBtn = (ImageButton) findViewById(R.id.ib_confirm_btn);
+        Button confirmBtn = (Button) findViewById(R.id.ib_confirm_btn);
         confirmBtn.setOnClickListener(this);
         cancel = findViewById(R.id.ib_cancel_btn);
         cancel.setOnClickListener(this);
