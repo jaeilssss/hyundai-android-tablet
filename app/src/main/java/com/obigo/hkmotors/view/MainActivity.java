@@ -2709,18 +2709,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         final String signal1 = setSignal1();
         final String signal2 = setSignal2();
 
+        signal1.replace(" ","");
+        int dataInt = Integer.parseInt(signal1,2);
+
         final String data = " { " +
                 "  \"TPCANMsg\" : {      " +
-                "\"DATA\" : [ 10, 10, 11, 15, 0, 16, 1, 1 ]," +
+                "\"DATA\" : ["+"23913"+", 11097, 0, 0, 0, 0, 0, 0 ]," +
+
                 "  \"ID\" : 1,     " +
-                " \"LEN\" : 16,      " +
-                "\"MSGTYPE\" : 32   },   " +
+                " \"LEN\" : 2,      " +
+                "\"MSGTYPE\" : 1   },   " +
                 "\"TPCANTimestamp\" : {" +
-                "  \"micros\" : 48,      " +
-                "\"millis\" : 64,      " +
-                "\"millis_overflow\" : 16   " +
+                "  \"micros\" : 1,      " +
+                "\"millis\" : 1,      " +
+                "\"millis_overflow\" : 1   " +
                 "}" +
                 "}";
+
+
 
         new Thread() {
             @Override
@@ -2790,23 +2796,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
     public String setSignal1(){
-        return "101"+" "+Sound.getInstance().getTempIsOn()+" "+
-                Sound.getInstance().getTempDriveType()+" "+
-                Sound.getInstance().getTempVolume()+" "+
-                Sound.getInstance().getBackVolume()+" "+
-                Sound.getInstance().getBackSensitive()+" "+
-                Drive.getInstance().getTempIsOn()+" "+
-                Drive.getInstance().getTempStiffness()+" "+
+        return "101"+""+Sound.getInstance().getTempIsOn()+""+
+                Sound.getInstance().getTempDriveType()+""+
+                Sound.getInstance().getTempVolume()+""+
+                Sound.getInstance().getBackVolume()+""+
+                Sound.getInstance().getBackSensitive()+""+
+                Drive.getInstance().getTempIsOn()+""+
+                Drive.getInstance().getTempStiffness()+""+
                 Drive.getInstance().getTempReducer();
 
     }
     public String setSignal2(){
-        return Transmission.getInstance().getTempIsOn()+" "+
-                Transmission.getInstance().getTempType()+" "+
-                Transmission.getInstance().getTempGear()+" "+
-                Transmission.getInstance().getTempGearRate()+" "+
-                Transmission.getInstance().getTempTransmissionSpeed()+" "+
-                Transmission.getInstance().getTempTransmissionPower()+" "+
+        return Transmission.getInstance().getTempIsOn()+""+
+                Transmission.getInstance().getTempType()+""+
+                Transmission.getInstance().getTempGear()+""+
+                Transmission.getInstance().getTempGearRate()+""+
+                Transmission.getInstance().getTempTransmissionSpeed()+""+
+                Transmission.getInstance().getTempTransmissionPower()+""+
                 Transmission.getInstance().getTempTransmissionMap();
 
     }

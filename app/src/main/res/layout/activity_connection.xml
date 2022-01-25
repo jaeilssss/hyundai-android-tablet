@@ -1,84 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/touchInterceptor"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/motor_background"
-    tools:context=".view.connectionActivity">
+    android:background="@drawable/bg_pwreset">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:text="차량과 연결하기"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/white"
-        android:id="@+id/top_txt"
-        android:layout_marginTop="50dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="22dp"
-        android:text="IP"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="30dp"
-        app:layout_constraintTop_toTopOf="@id/top_txt"
-        app:layout_constraintEnd_toStartOf="@id/ip_edit"
-        android:textColor="@color/white"
-        android:layout_marginTop="130dp"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        android:id="@+id/ip_txt"/>
-    <EditText
-        android:layout_width="500dp"
-        android:layout_height="wrap_content"
-        android:textSize="22dp"
-        android:textColor="@color/white"
-        android:hint="IP를 입력하세요"
+    <!-- title -->
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:gravity="center_vertical">
 
-        app:layout_constraintHorizontal_chainStyle="packed"
-        android:backgroundTint="@color/white"
-        android:textColorHighlight="@color/mainColor"
-        android:textSelectHandle="@color/mainColor"
-        android:textSelectHandleLeft="@color/mainColor"
-        android:textSelectHandleRight="@color/mainColor"
-        android:textCursorDrawable="@drawable/cursor_drawable"
-        android:textColorHint="@color/white"
-        app:layout_constraintStart_toEndOf="@id/ip_txt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ip_txt"
-        app:layout_constraintBottom_toBottomOf="@id/ip_txt"
-        android:layout_marginLeft="30dp"
-        android:id="@+id/ip_edit"/>
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="차량과 연결하기"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ip_edit"
-        android:textColorHighlight="@color/white"
-        android:background="@drawable/button_click"
-        android:textColor="@color/white"
-        android:layout_marginTop="20dp"
-        android:id="@+id/connection_btn"/>
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/connection_btn"
-        android:text="연결 없이 아용하기"
-        android:textSize="20dp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/white"
-        android:background="@drawable/button_click"
-        android:id="@+id/not_connection_btn"/>
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:textSize="18dp"
+            android:textColor="#fff"
+            android:text="차량과 연결하기"/>
+    </RelativeLayout>
+
+    <!-- 비밀번호 -->
+    <RelativeLayout
+        android:layout_below="@id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="384dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="80dp"
+            android:paddingTop="200dp"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true">
+
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="68dp"
+                android:textColor="#bacbd9"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16dp"
+                android:id="@+id/new_pw_txt"
+                android:text="IP 입력"/>
+
+            <FrameLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/connection_ip"
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:letterSpacing="1"
+                    android:textColor="#bacbd9"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_new_pw_chk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:background="@drawable/btn_check"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+
+
+            <View
+                android:id="@+id/connection_line"
+                android:layout_width="300dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/grey"/>
+
+            <Button
+                android:id="@+id/connection_btn"
+                android:layout_width="300dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="29dp"
+                android:layout_gravity="center_horizontal"
+                android:text="연결하기"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:background="@drawable/button_click" />
+            <Button
+                android:layout_width="300dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="29dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/button_click"
+                android:text="연결 없이 사용하기"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:id="@+id/not_connection_btn"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="384dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentRight="true">
+
+            <LinearLayout
+                android:paddingTop="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/connection_1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="1"
+                    android:background="@drawable/btn_oval"/>
+
+
+                <TextView
+                    android:id="@+id/connection_2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="2"
+                    android:background="@drawable/btn_oval"/>
+
+
+                <TextView
+                    android:id="@+id/connection_3"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="3"
+                    android:background="@drawable/btn_oval"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/connection_4"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="4"
+                    android:clickable="true"
+                    android:background="@drawable/btn_oval"/>
+
+
+                <TextView
+                    android:id="@+id/connection_5"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="5"
+                    android:background="@drawable/btn_oval"/>
+
+
+                <TextView
+                    android:id="@+id/connection_6"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="6"
+                    android:background="@drawable/btn_oval"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/connection_7"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="7"
+                    android:background="@drawable/btn_oval"/>
+
+
+                <TextView
+                    android:id="@+id/connection_8"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="8"
+                    android:background="@drawable/btn_oval"/>
+
+
+                <TextView
+                    android:id="@+id/connection_9"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="9"
+                    android:background="@drawable/btn_oval"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/connection_point"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="."
+                    android:background="@drawable/btn_oval"/>
+
+                <TextView
+                    android:id="@+id/connection_0"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="0"
+                    android:background="@drawable/btn_oval"/>
+
+
+                <TextView
+                    android:id="@+id/connection_del"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="35dp"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="X"
+                    android:background="@drawable/btn_oval"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
