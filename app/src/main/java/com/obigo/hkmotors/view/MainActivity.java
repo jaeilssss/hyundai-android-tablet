@@ -345,6 +345,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private Button rcSend;
     LoadingDialog loadingDialog ;
 
+    boolean isTransmissionSetting = false;
+    boolean isDrivingSetting = false;
+    boolean isSoundSetting = false;
+
 
     Boolean isConnected  = false;
     ArrayList<String> signalList = new ArrayList<>();
@@ -551,7 +555,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
             case R.id.ib_e_submit_btn:
 
-                sendCarData();
+                if(isDrivingSetting && isTransmissionSetting && isSoundSetting){
+                    sendCarData();
+                }else{
+                    Toast.makeText(getApplicationContext(), "아직 설정하지 않은 세팅이 있습니다",Toast.LENGTH_SHORT).show();
+
+                }
+
 
                 break;
 
@@ -607,6 +617,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     mModeValue = Constants.MODE_RCDATION;
                     setMode();
                     setBtnAnimation();
+                    isDrivingSetting = false;
+                    isSoundSetting = false;
+                    isTransmissionSetting = false;
                 }
                 break;
             case R.id.car_connection_btn:
@@ -790,12 +803,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
                 CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
                 CarData.getInstance().getPerformance());
-
     }
 
 
 
     public void clickRecomment(int index){
+
         recommendChangeBackGround(index);
         String signal1 = recommentList.get(index).getSignal1();
         String signal2 = recommentList.get(index).getSignal2();
@@ -1042,6 +1055,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     mRespDeceleration = responseValue.get(Constants.RESP_DECELERATION);
                     mRespResponse = responseValue.get(Constants.RESP_RESPONSE);
                     mRespEcoLevel = responseValue.get(Constants.RESP_ECO_LEVEL);
+
 
                     // at first
                     if(mPref.getFD()) {
@@ -2431,33 +2445,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         resetBtn = findViewById(R.id.ib_e_reset_btn);
         resetBtn.setOnClickListener(this);
 
-
-
-//        mMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton toggleButton, boolean isChecked) {
-//                //
-//                if(!isChecked) {
-//
-//                } else {
-//                    mModeValue = Constants.MODE_RCDATION;
-//
-//                    defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getInstance().getDynamic(),
-//                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance());
-//                    Transmission.getInstance().reset();
-//                    Sound.getInstance().reset();
-//                    Drive.getInstance().reset();
-//
-//                    recommendChangeBackGround(-1);
-//                }
-//                setParamMode(mModeValue);
-//            }
-//        }) ;
-
-
-
-
-
         // OBD Status 변경
 
         vip = findViewById(R.id.rcdation_vip);
@@ -2474,8 +2461,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mainModeTxt = findViewById(R.id.main_mode_text);
         mainModeTxt.setVisibility(View.INVISIBLE);
 
-
-
         dialog =  new Dialog(MainActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_dialog_cancel);
@@ -2487,6 +2472,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             setMode();
 
         } else if (mModeValue.equals(Constants.MODE_EXPERT)){
+
             setMode();
 
         }
@@ -2527,12 +2513,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         Sound.getInstance().reset();
         Drive.getInstance().reset();
     }
+
+
     // =============================================================================================
     /**
      * Set OBD mode
      *
      * @param switchFlag - odb mode about whether switch is on or off
      */
+
 
     /**
      * Result from another activity
@@ -2541,6 +2530,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
      * @param resultCode - result code
      * @param data - data
      */
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult // requestCode :: " + requestCode + " // resultCode :: " + resultCode);
         switch (requestCode) {
@@ -2651,6 +2641,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     gearBtn.setBackgroundResource(R.drawable.setting_click);
                     gearBtn.startAnimation(animation);
 
+                    isTransmissionSetting  = true;
 
                 }
                 break;
@@ -2667,6 +2658,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     speakerBtn.setBackgroundResource(R.drawable.setting_click);
                     speakerBtn.startAnimation(animation);
 
+                    isSoundSetting = true;
                 }
 
 
@@ -2684,17 +2676,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     drivingAxleBtn.setBackgroundResource(R.drawable.setting_click);
                     drivingAxleBtn.startAnimation(animation);
 
+                    isDrivingSetting = true;
+
                 }
                 break;
             case Constants.REQUEST_EDIT_CUSTOM_RESULT :
                 if(data.getBooleanExtra("change",false)){
                     if(isEdit==2){
-                        Toast.makeText(getApplicationContext(),"수정이 완료되었습니다",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"편집이 완료되었습니다",Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(getApplicationContext(),"새로운 커스텀 모드를 저장했습니다",Toast.LENGTH_SHORT).show();
                     }
                     isEdit=1;
                     setEditMode();
+                }else{
+
                 }
 
                 break;
@@ -2710,11 +2706,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         final String signal2 = setSignal2();
 
         signal1.replace(" ","");
-        int dataInt = Integer.parseInt(signal1,2);
-
+        int decimalSignal1 = Integer.parseInt(signal1,2);
+        int decimalSignal2 = Integer.parseInt(signal2,2);
         final String data = " { " +
                 "  \"TPCANMsg\" : {      " +
-                "\"DATA\" : ["+"23913"+", 11097, 0, 0, 0, 0, 0, 0 ]," +
+                "\"DATA\" : ["+decimalSignal1+"," + decimalSignal2+ ", 0, 0, 0, 0, 0, 0 ]," +
 
                 "  \"ID\" : 1,     " +
                 " \"LEN\" : 2,      " +
@@ -2739,8 +2735,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
                         sendWriter.println(data);
                         sendWriter.flush();
-
-
                     }else{
                         Toast.makeText(getApplicationContext(),"차량 연결 상태를 확인해주세요",Toast.LENGTH_SHORT).show();
                     }
@@ -2787,7 +2781,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
                         CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
                         CarData.getInstance().getPerformance());
-
+                setBtnAnimation();
 
                 Toast.makeText(getApplicationContext(),"차량 전송이 완료되었습니다",Toast.LENGTH_SHORT).show();
             }
@@ -2848,6 +2842,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             byte[] send = message.getBytes();
             mObdsv.write(send);
         }
+
+
     }
 
     /**
@@ -2857,6 +2853,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         Intent intent = new Intent(this,connectionActivity.class);
 
         startActivityForResult(intent,Constants.REQUEST_CONNECT_WIFI);
+
     }
 
 
@@ -2980,36 +2977,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    public void FavoriteResult(String[] resp){
-
-
-        sendMessage("ATSH530");
-
-        final String [] respParams = resp;
-
-
-        mModeValue = Constants.MODE_EXPERT;
-
-
-        sendMessage("01" + Utility.convertParamIntToHex(Integer.valueOf(respParams[1]), Integer.valueOf(respParams[2]),
-                Integer.valueOf(respParams[3]), Integer.valueOf(respParams[4]), Integer.valueOf(respParams[5]), Integer.valueOf(respParams[6]), Integer.valueOf(respParams[7]), mParamDriving));
-
-        Handler hd2 = new Handler(Looper.getMainLooper());
-        hd2.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                sendMessage("01" + Utility.convertParamIntToHex(Integer.valueOf(respParams[1]), Integer.valueOf(respParams[2]),
-                        Integer.valueOf(respParams[3]), Integer.valueOf(respParams[4]), Integer.valueOf(respParams[5]), Integer.valueOf(respParams[6]), Integer.valueOf(respParams[7]), mParamDriving));
-
-            }
-        }, 1000);
-
-
-        sendMessage("0000");
-    }
-
-
-
     /**
      * Set and Show default chart
      *
@@ -3065,8 +3032,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mChart.getYAxis().setAxisMaximum(9f);
         mChart.getYAxis().setEnabled(false);              // disable number
 
-//        mChart.getXAxis().setAxisMaximum(9f);
-//        mChart.getXAxis().setAxisMinimum(0f);
 
 
         RadarData data = new RadarData();
@@ -3101,6 +3066,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
      * @param p4 - charging time
      * @param p5 - eco level
      */
+
     private void modChart(float d1, float d2, float d3, float d4, float d5,
                           float p1, float p2, float p3, float p4, float p5) {
         mChart.clear();
@@ -3134,10 +3100,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         dataset_comp2.setValueTextColor(Color.parseColor("#32A3D9")); // set the color of real value
 
 
-//        List<IRadarDataSet> dataSetList = new ArrayList<IRadarDataSet>();
-//        dataSetList.add(dataset_comp1);
-//        dataSetList.add(dataset_comp2);
-
         final ArrayList<String> labels = new ArrayList<String>();
         labels.add("안락감");
         labels.add("주도성");
@@ -3150,20 +3112,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mChart.getXAxis().setYOffset(0f);
         mChart.getXAxis().setXOffset(0f);
         mChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-//        mChart.getXAxis().setValueFormatter(new ValueFormatter() {
-//            @Override
-//            public String getFormattedValue(float value, AxisBase axis) {
-//                return labels.get((int) value % labels.size());
-//            }
-//        });
 
         mChart.getYAxis().setTextColor(Color.RED);     // change number color
         mChart.getYAxis().setAxisMinimum(0f);
         mChart.getYAxis().setAxisMaximum(9f);
         mChart.getYAxis().setEnabled(false);  // disable number
 //
-//        mChart.getXAxis().setAxisMaximum(9f);
-//        mChart.getXAxis().setAxisMinimum(0f);
+
 
         RadarData data = new RadarData();
         data.addDataSet(dataset_comp1);

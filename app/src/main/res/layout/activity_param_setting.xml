@@ -41,7 +41,7 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="#fff"
                 android:textSize="17dp"
-                android:text="운전감 설정 저장"/>
+                android:text="커스텀 모드 저장"/>
 
       <RelativeLayout
           android:layout_width="400dp"
@@ -528,7 +528,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
-                        android:text=" 구동축 효과"
+                        android:text=" 구동축 설정"
                         android:textColor="#fff"
                         android:textSize="16dp" />
 

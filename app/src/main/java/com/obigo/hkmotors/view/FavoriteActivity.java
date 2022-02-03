@@ -731,6 +731,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                         adapter.clickIndex=0;
                         adapter.notifyDataSetChanged();
                         Toast.makeText(getApplicationContext(),"삭제가 완료되었습니다",Toast.LENGTH_SHORT).show();
+                        setDetailData(0);
                         dialog.dismiss();
                     }
                 });
@@ -902,17 +903,19 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     public void sendCarData(){
 
-
+        final String signal1 = setSignal1();
+        final String signal2 = setSignal2();
         final String data = " { " +
                 "  \"TPCANMsg\" : {      " +
-                "\"DATA\" : [ 10, 10, 11, 15, 0, 16, 1, 1 ]," +
+                "\"DATA\" : ["+signal1+"," + signal2+ ", 0, 0, 0, 0, 0, 0 ]," +
+
                 "  \"ID\" : 1,     " +
-                " \"LEN\" : 16,      " +
-                "\"MSGTYPE\" : 32   },   " +
+                " \"LEN\" : 2,      " +
+                "\"MSGTYPE\" : 1   },   " +
                 "\"TPCANTimestamp\" : {" +
-                "  \"micros\" : 48,      " +
-                "\"millis\" : 64,      " +
-                "\"millis_overflow\" : 16   " +
+                "  \"micros\" : 1,      " +
+                "\"millis\" : 1,      " +
+                "\"millis_overflow\" : 1   " +
                 "}" +
                 "}";
 
@@ -982,4 +985,29 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         },2500);
 
     }
+
+
+    public String setSignal1(){
+        return "101"+""+Sound.getInstance().getTempIsOn()+""+
+                Sound.getInstance().getTempDriveType()+""+
+                Sound.getInstance().getTempVolume()+""+
+                Sound.getInstance().getBackVolume()+""+
+                Sound.getInstance().getBackSensitive()+""+
+                Drive.getInstance().getTempIsOn()+""+
+                Drive.getInstance().getTempStiffness()+""+
+                Drive.getInstance().getTempReducer();
+
+    }
+    public String setSignal2(){
+        return Transmission.getInstance().getTempIsOn()+""+
+                Transmission.getInstance().getTempType()+""+
+                Transmission.getInstance().getTempGear()+""+
+                Transmission.getInstance().getTempGearRate()+""+
+                Transmission.getInstance().getTempTransmissionSpeed()+""+
+                Transmission.getInstance().getTempTransmissionPower()+""+
+                Transmission.getInstance().getTempTransmissionMap();
+
+    }
+
+
 }

@@ -69,6 +69,8 @@ public class PwdSettingActivity extends BaseActivity implements View.OnClickList
 
         // initialize UI
         initUI();
+
+
     }
 
     @Override
@@ -101,10 +103,10 @@ public class PwdSettingActivity extends BaseActivity implements View.OnClickList
             case R.id.ib_save_btn:
                 if(mNewPw.getText().length() == 4) {
                     mPref.setPWD(mNewPw.getText().toString());
-                    Toast.makeText(getApplicationContext(), "신규 비밀번호가 저장되었습니다!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "비밀번호가 저장되었습니다!!", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "신규 비밀번호는 4자리 숫자입니다!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), " 비밀번호는 4자리 숫자입니다!!", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -294,7 +296,7 @@ public class PwdSettingActivity extends BaseActivity implements View.OnClickList
         if(mPref.getDPWD() != null) {
             System.out.println("-------");
             System.out.println(mPref.getDPWD());
-            Toast.makeText(this, "이미 등록한 비밀번호가 있습니다. 초기화하고 재등록 하시겠습니까?", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "이미 등록한 비밀번호가 있습니다. 초기화하고 재등록 하시겠습니까?", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -1,6 +1,6 @@
 <animated-rotate
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/loading_img"
+    android:drawable="@drawable/ic_setting_main_color"
     android:pivotX="50%"
     android:pivotY="50%">
 </animated-rotate>
