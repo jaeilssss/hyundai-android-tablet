@@ -342,7 +342,7 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
 
             if(Transmission.getInstance().getTempTransmissionMap().equals("00")){
                 map("Normal");
-            }else if(Transmission.getInstance().getTempTransmissionPower().equals("01")){
+            }else if(Transmission.getInstance().getTempTransmissionMap().equals("01")){
                 map("Sport");
             }else{
                 map("Track");
@@ -350,6 +350,7 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
 
 
         }else{
+            Toast.makeText(getApplicationContext(),"elst",Toast.LENGTH_SHORT).show();
             switchCompat.setChecked(false);
             settingLayout.setVisibility(View.INVISIBLE);
             typeClick("AT");
@@ -502,6 +503,7 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
                 changeChart();
                 break;
             case R.id.gear_map_sport_img :
+
                 Transmission.getInstance().setTempTransmissionMap("01");
                 map("Sport");
                 changeChart();
@@ -541,8 +543,8 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
             gearMapTrack.setImageResource(0);
         }else if(str.equals("Sport")){
 
-
             gearMapSport.setImageResource(R.drawable.setting_check_main_color);
+
             gearMapTrack.setImageResource(0);
             gearMapNormal.setImageResource(0);
         }else{
