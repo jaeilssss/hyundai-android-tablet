@@ -177,6 +177,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
 //        setOBDMode(Constants.OBD_STATUS);
 //        setOBDInitialized(Constants.OBD_INITIALIZED);
+        send = findViewById(R.id.favorite_info_send);
+        send.setOnClickListener(this);
         addDataFromDatabase();
         rcv = findViewById(R.id.favorite_rcv);
         adapter = new MyFavoriteRecyclerAdapter(FavoriteList);
@@ -447,8 +449,13 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                 showDialog02();
                 break;
             case R.id.favorite_info_send:
-                sendCarData();
+                if(Network.getInstance()!=null){
+                    sendCarData();
+                }else {
+                    Toast.makeText(getApplicationContext(),"차량과 연결되어 있지 않습니다",Toast.LENGTH_SHORT).show();
+                }
                 break;
+
             default:
                 break;
         }
@@ -490,86 +497,6 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
-    private void showProgressDialog() {
-
-        if(mProgressDialog == null) {
-            mProgressDialog = new Dialog(FavoriteActivity.this, android.R.style.Theme_Translucent_NoTitleBar);
-        }
-        mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        mProgressDialog.getWindow().setDimAmount(0.9f);
-
-        mProgressDialog.setContentView(R.layout.custom_progress);
-        mProgressDialog.setCanceledOnTouchOutside(false); // not in touch with background activity
-
-        mProgress = (ProgressBar) mProgressDialog.findViewById(R.id.pb_progress);
-
-        mProgressValue = (TextView) mProgressDialog.findViewById(R.id.tv_progress_value);
-
-        ImageButton confirmBtn = (ImageButton) mProgressDialog.findViewById(R.id.ib_confirm_btn);
-        confirmBtn.setOnClickListener(this);
-
-        pStatus = 0;
-        cnt = 32;
-
-        mProgressValue.setText("0%");
-
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                Handler hd = new Handler(Looper.getMainLooper());
-
-                while (pStatus <= 100) {
-                    pStatus += 1;
-
-                    if(!Constants.SEND_MSG_01.equals("")){
-                        if(pStatus == 50){
-                            cnt = cnt + 32;
-                        } else if(pStatus == 70){
-                            cnt = cnt + 32;
-                        } else if(pStatus == 90){
-                            cnt = cnt + 32;
-                        }
-                    } else {
-                        cnt = 32;
-                    }
-
-
-                    if(pStatus == 100) {
-
-                        dismissProgressDialog();
-                        pStatus= 0;
-                        cnt = 0;
-
-                        return;
-                    }
-
-                    hd.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            // TODO Auto-generated method stub
-                            mProgress.setProgress(pStatus);
-                            mProgressValue.setText(pStatus + "%");
-
-                        }
-                    });
-                    try {
-                        // Sleep for 200 milliseconds.
-                        // Just to display the progress slowly
-                        Thread.sleep(cnt); //thread will take approx 3 seconds to finish
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-
-        mProgressDialog.show();
-    }
 
     /**
      * Dismiss progress dialog
@@ -662,14 +589,6 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         for(int i=0; i < cursor.getCount(); i ++) {
             cursor.moveToNext();
 
-//            FavoriteDataListItems items = new FavoriteDataListItems();
-//            items.setId(String.valueOf(cursor.getInt(Obd2Database.CreateDB.ID_IDX)));
-//            items.setDate(cursor.getString(Obd2Database.CreateDB.DATE_IDX));
-//            items.setTitle(cursor.getString(Obd2Database.CreateDB.TITLE_IDX));
-//            items.setParam(cursor.getString(Obd2Database.CreateDB.PARAM_IDX));
-//            items.setResp(cursor.getString(Obd2Database.CreateDB.RESP_IDX));
-//            items.setChecked(false);
-//            mListAdapter.addItem(items);  // unique id
 
 
             FavoriteData data = new FavoriteData();
@@ -981,6 +900,11 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
 
                 Toast.makeText(getApplicationContext(),"차량 전송이 완료되었습니다",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.putExtra("check",false);
+                setResult(Activity.RESULT_CANCELED, intent);
+                finish();
+
             }
         },2500);
 

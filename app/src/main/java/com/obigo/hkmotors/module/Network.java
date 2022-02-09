@@ -17,6 +17,7 @@ public class Network {
     public PrintWriter sendWriter;
     Socket socket;
     Observable<Observer> observable;
+    boolean isConnected = false;
    public BufferedReader input;
 
     private Network(){
@@ -32,6 +33,7 @@ public class Network {
             String data ="";
             socket.setReuseAddress(true);
             socket.connect(isa);
+            isConnected = socket.isConnected();
             int count = 0;
             sendWriter = new PrintWriter(socket.getOutputStream());
              input =   new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -65,15 +67,7 @@ public class Network {
     }
     public static Network getInstance() {
 
-        if(instance==null){
-
-                instance = new Network();
-
-
-        }
         return instance;
     }
-    public void say() {
-        System.out.println("hi, there");
-    }
+
 }

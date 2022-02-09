@@ -34,4 +34,9 @@ public class LoadingDialog extends Dialog {
     public void setTouch(){
         this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

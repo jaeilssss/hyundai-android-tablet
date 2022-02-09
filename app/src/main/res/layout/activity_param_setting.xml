@@ -578,7 +578,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="265dp"
+                    android:layout_width="272dp"
                     android:layout_height="28dp"
                     android:layout_marginBottom="9dp"
                     android:id="@+id/drive_reduce_layout"

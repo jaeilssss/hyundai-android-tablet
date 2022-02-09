@@ -87,6 +87,7 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
     private TextView driveStiffness;
     private TextView driveReducer;
 
+    private boolean stopBackBtn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -374,6 +375,7 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
             public void run() {
                 loadingDialog.dismiss();
                 loadingDialog=null;
+                stopBackBtn = true;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -476,7 +478,10 @@ public class ParamSettingActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        exit(false);
+        if(!stopBackBtn){
+            exit(false);
+        }
+
     }
 
     public void exit(boolean change){
