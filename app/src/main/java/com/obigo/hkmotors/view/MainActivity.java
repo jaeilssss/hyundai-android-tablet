@@ -276,6 +276,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
         isEdit = 1;
 
+
+
+//        connectedSocket();
+
+    }
+
+    public void getCarData(){
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -297,9 +304,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 }).start();
             }
         }, 0);
-
-//        connectedSocket();
-
     }
 
     private void setEditMode(){
@@ -1051,6 +1055,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
 
+    public void setOffSetting(){
+
+        Transmission.getInstance().setIsOn("0");
+        Transmission.getInstance().setType("00");
+        Transmission.getInstance().setGear("000");
+        Transmission.getInstance().setGearRate("00");
+        Transmission.getInstance().setTransmissionSpeed("00");
+        Transmission.getInstance().setTransmissionPower("00");
+        Transmission.getInstance().setTransmissionMap("00");
+
+        Sound.getInstance().setIsOn("0");
+        Sound.getInstance().setDriveType("0");
+        Sound.getInstance().setVolume("00");
+        Sound.getInstance().setBackVolume("00");
+        Sound.getInstance().setBackSensitive("0");
+
+        Drive.getInstance().setStiffness("00");
+        Drive.getInstance().setIsOn("0");
+        Drive.getInstance().setReducer("00");
+        
+
+    }
     // =============================================================================================
     /**
      * Set OBD mode
@@ -1067,6 +1093,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
      * @param data - data
      */
 
+
+
+
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult // requestCode :: " + requestCode + " // resultCode :: " + resultCode);
         switch (requestCode) {
@@ -1074,9 +1104,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 if(Constants.CONNECTION_STATUS){
                     mainConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
                     carConnectionBtn.setText("차량 연결 ON");
+                    // 차량 데이터 가저오기 기능 여기서 구현
+                    getCarData();
                 }else{
                     mainConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
                     carConnectionBtn.setText("차량 연결 OFF");
+                    setOffSetting();
                 }
                 break;
 

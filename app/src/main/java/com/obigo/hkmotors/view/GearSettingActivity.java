@@ -350,7 +350,6 @@ public class GearSettingActivity extends BaseActivity implements View.OnClickLis
 
 
         }else{
-            Toast.makeText(getApplicationContext(),"elst",Toast.LENGTH_SHORT).show();
             switchCompat.setChecked(false);
             settingLayout.setVisibility(View.INVISIBLE);
             typeClick("AT");
