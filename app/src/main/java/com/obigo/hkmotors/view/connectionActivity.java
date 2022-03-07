@@ -105,6 +105,7 @@ public class connectionActivity extends BaseActivity implements View.OnClickList
                 if(ipTxt.getText().length()!=0){
                     connectedSocket(ipTxt.getText().toString());
                 }
+
             }
         });
 

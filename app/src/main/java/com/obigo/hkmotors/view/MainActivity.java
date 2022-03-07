@@ -1,99 +1,61 @@
 package com.obigo.hkmotors.view;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.DropBoxManager;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.BounceInterpolator;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.github.mikephil.charting.charts.RadarChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.obigo.hkmotors.R;
 import com.obigo.hkmotors.common.Constants;
-import com.obigo.hkmotors.common.Utility;
 import com.obigo.hkmotors.common.db.DBUtil;
 import com.obigo.hkmotors.common.db.helper.Obd2DBOpenHelper;
-import com.obigo.hkmotors.common.network.HttpService;
 import com.obigo.hkmotors.common.pref.SharedPreference;
-import com.obigo.hkmotors.common.service.ObdService;
 import com.obigo.hkmotors.custom.LoadingDialog;
 import com.obigo.hkmotors.model.CarData;
 import com.obigo.hkmotors.model.Drive;
 import com.obigo.hkmotors.model.FavoriteData;
 import com.obigo.hkmotors.model.FavoriteDataListItems;
 import com.obigo.hkmotors.model.Sound;
-import com.obigo.hkmotors.model.TempTransmission;
 import com.obigo.hkmotors.model.Transmission;
 import com.obigo.hkmotors.module.BaseActivity;
 import com.obigo.hkmotors.module.Network;
-import com.obigo.hkmotors.module.Result_DrivingInfo;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
 
@@ -116,7 +78,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private ImageView drivingAxleBtn;
 
 
-
     private Dialog mProgressDialog;
     private ProgressBar mProgress;
     private TextView mProgressValue;
@@ -126,86 +87,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     // MPandroidchart or event
     private RadarChart mChart;
 
-    private ObdService mObdsv;
 
-
-    //private BackPressCloseHandler backPressCloseHandler;
-    //public SharedPreference mPref;
-
-    private String obdMac = "";
 
     private String mModeValue;
 
-
-    // initial value
-    private int mParamDriving=50;
-    private int mParamTorque=50;
-    private int mParamAcceleration=0;
-    private int mParamDeceleration=0;
-    private int mParamBrake=0;
-    private int mParamEnergy=0;
-    private int mParamSpeed=60;
-    private int mParamResponse=0;
-
-    private float mRespEcoLevel=2.5f;
-    private float mRespMaxPower=2.5f;
-    private float mRespAcceration=2.5f;
-    private float mRespDeceleration=2.5f;
-    private float mRespResponse=2.5f;
-
-
-    private int mRespVehicleSpeedDTE=3;
-    private int mRespHarmonizationDTE=3;
-    private int mRespDrivingFeelingDTE=3;
-    private int mRespDriverPatternDTE=3;
-    private int mRespAvailableDistanceBase=3;
-
-    private int mRespVehicleSpeedDTEMax=3;
-    private int mRespVehicleSpeedDTEMin=3;
-    private int mRespHarmonizationDTEMax=3;
-    private int mRespHarmonizationDTEMin=3;
-    private int mRespDrivingFeelingDTEMax=3;
-    private int mRespDrivingFeelingDTEMin=3;
-    private int mRespDriverPatternDTEMax=3;
-    private int mRespDriverPatternDTEMin=3;
-
-    // availableDistance
-    private int mRespAvailableDistance=0;
-    private int mRespAvailableDistanceMin=0;
-    private int mRespAvailableDistanceMax=0;
-
-    // left
-    private int mRespPGauge=0;
-    private int mRespBtrSOC=0;
-
-    // center
-    private int mRespVSpeed=0;
-    private int mRespLStatus=0;
-    private int mRespEVReady=0;
-    private int mRespPaddle=0;
-    private int mRespDMode=0;
-
-    // rigth
-    private int mRespInstFlefc=0;
-    private int mRespAvgFlefc=0;
-
-    // graph
-    private int aa ;
-
-    // 차량 데이터 값
-    private int comfortable;    //안락감
-    private int leading;        //주도성
-    private int dynamic;        //역동성
-    private int Efficiency;     //효율성
-    private int performance;    // 동력성능
-
-    // newSettingData
-
-    private int nComfortable;
-    private int nLeading;
-    private int nDynamic;
-    private int nEfficiency;
-    private int nPerformance;
 
     private  Button resetBtn;
     private Button carSend;
@@ -248,6 +133,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     Boolean isConnected  = false;
     ArrayList<String> signalList = new ArrayList<>();
 
+    String sampleSignal1="";
+    String sampleSignal2 = "";
+
+    SharedPreferences preference;
+    final static String foldername = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Motors";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,22 +150,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         mPref = new SharedPreference(getApplicationContext());
 
+
+        preference = (SharedPreferences) getSharedPreferences("Motors",MODE_PRIVATE);
         mContext = this;
 
         // 추천모드 리스트
         recommentList = modeListDatabase();
 
         // UI 초기화
+
+
         initUI();
         if(Constants.CONNECTION_STATUS){
             mainConnectionLight.setBackgroundResource(R.drawable.ico_light_green);
             carConnectionBtn.setText("차량 연결 ON");
         }else{
             mainConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
-            carConnectionBtn.setText("차량 연결 OFF");
+            carConnectionBtn.setText("가상모드 ON");
             connectedWifi();
+
+            sampleSignal1 = preference.getString("Signal1","101 1 1 01 01 1 0 10 01");
+            sampleSignal2 = preference.getString("Signal2","1 01 011 01 01 10 01");
+
         }
         isEdit = 1;
+
+
 
 
 
@@ -282,28 +183,63 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     }
 
+
+    public void WriteTextFile(String foldername, String filename, String contents){
+        try{
+            File dir = new File (foldername);
+            //디렉토리 폴더가 없으면 생성함
+            if(!dir.exists()){
+                dir.mkdir();
+            }
+            //파일 output stream 생성
+            FileOutputStream fos = new FileOutputStream(foldername+"/"+filename, true);
+            //파일쓰기
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+            writer.write(contents);
+            writer.flush();
+
+            writer.close();
+            fos.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
     public void getCarData(){
+        loadingDialog = new LoadingDialog(MainActivity.this,1);
+        loadingDialog.show();
+        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        loadingDialog.setNotTouch();
+
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 // something..
-                getOdbData();
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                loadingDialog.hide();
+                                loadingDialog.setTouch();
+                                // 실제 차량 데이터 가저오는 메소드 필요
+//                                getOdbData();
                                 defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
                                         CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
                                         CarData.getInstance().getPerformance());
                             }
                         });
 
+
                     }
                 }).start();
             }
-        }, 0);
+        }, 1000);
+
+
     }
 
     private void setEditMode(){
@@ -456,11 +392,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
                 if(isDrivingSetting && isTransmissionSetting && isSoundSetting){
 
-                    if(Network.getInstance()!=null){
                         sendCarData();
-                    }else{
-                        Toast.makeText(getApplicationContext(),"차량과 연결되어 있지 않습니다",Toast.LENGTH_SHORT).show();
-                    }
                 }else{
                     Toast.makeText(getApplicationContext(), "모든 세팅을 완료 해주세요",Toast.LENGTH_SHORT).show();
 
@@ -503,14 +435,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.rcdation_submit :
 
-                if(Network.getInstance()!=null){
-                    if(selectedPreset.length()==0){
-                        return;
-                    }
+
                     sendCarData();
-                }else {
-                    Toast.makeText(getApplicationContext(),"차량과 연결되어 있지 않습니다",Toast.LENGTH_SHORT).show();
-                }
+
 
                 break;
             case R.id.tb_setting :
@@ -549,7 +476,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         String [] signal1Array = signal1.split(" ");
         String [] signal2Array = signal2.split(" ");
-
+        System.out.println(signal1Array[0]);
         if(signal1Array[1].equals("1")){
             Sound.getInstance().setIsOn("1");
         }else {
@@ -1036,7 +963,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
             mLayoutExpert.setVisibility(View.VISIBLE);
             mLayoutRcdation.setVisibility(View.GONE);
-
+            selectedPreset = "101";
         }else{
             ex.setTextColor(Color.GRAY);
             rc.setTextColor(Color.WHITE);
@@ -1045,6 +972,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             mLayoutExpert.setVisibility(View.GONE);
             mLayoutRcdation.setVisibility(View.VISIBLE);
             recommendChangeBackGround(-1);
+            selectedPreset = "";
         }
 
         defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getInstance().getDynamic(),
@@ -1057,25 +985,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     public void setOffSetting(){
 
-        Transmission.getInstance().setIsOn("0");
-        Transmission.getInstance().setType("00");
-        Transmission.getInstance().setGear("000");
-        Transmission.getInstance().setGearRate("00");
-        Transmission.getInstance().setTransmissionSpeed("00");
-        Transmission.getInstance().setTransmissionPower("00");
-        Transmission.getInstance().setTransmissionMap("00");
+        loadingDialog = new LoadingDialog(MainActivity.this,1);
+        setBtnAnimation();
+        loadingDialog.show();
+        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        loadingDialog.setNotTouch();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // something..
 
-        Sound.getInstance().setIsOn("0");
-        Sound.getInstance().setDriveType("0");
-        Sound.getInstance().setVolume("00");
-        Sound.getInstance().setBackVolume("00");
-        Sound.getInstance().setBackSensitive("0");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadingDialog.hide();
+                                loadingDialog.setTouch();
+                                setEditData(sampleSignal1,sampleSignal2);
+                                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+                                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+                                        CarData.getInstance().getPerformance());
+                            }
+                        });
 
-        Drive.getInstance().setStiffness("00");
-        Drive.getInstance().setIsOn("0");
-        Drive.getInstance().setReducer("00");
-        
 
+                    }
+                }).start();
+            }
+        }, 1000);
+
+    }
+
+    public void changeChart(){
+        CarData.getInstance().setTempComfortable();
+        CarData.getInstance().setTempDynamic();
+        CarData.getInstance().setTempPerformance();
+        CarData.getInstance().setTempEfficiency();
+        CarData.getInstance().setTempLeading();
+
+        modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
+                CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
     }
     // =============================================================================================
     /**
@@ -1108,28 +1059,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     getCarData();
                 }else{
                     mainConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
-                    carConnectionBtn.setText("차량 연결 OFF");
+                    carConnectionBtn.setText("가상모드 ON");
                     setOffSetting();
                 }
+
+
                 break;
 
 
             case Constants.REQUEST_FAVORITE:
 
                 if(data.getBooleanExtra("check",false)){
-                    modChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getDynamic(),
-                            CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance(),
-                            CarData.getInstance().getTempComfortable(),CarData.getInstance().getTempLeading(),
-                            CarData.getInstance().getTempDynamic(),CarData.getInstance().getTempEfficiency(),CarData.getInstance().getTempPerformance());
+
                     isEdit = 2;
                     setEditMode();
                     editTitle = data.getStringExtra("title");
                     editId = data.getIntExtra("id",-1);
+                    changeChart();
                 }else{
                     defaultChart(CarData.getInstance().getComfortable(),CarData.getInstance().getLeading(),CarData.getInstance().getInstance().getDynamic(),
                             CarData.getInstance().getEfficiency(),CarData.getInstance().getPerformance());
                     isEdit = 1;
                     setEditMode();
+                    setBtnAnimation();
+                    Transmission.getInstance().reset();
+                    Sound.getInstance().reset();
+                    Drive.getInstance().reset();
                 }
 
                 break;
@@ -1190,8 +1145,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 if(data.getBooleanExtra("change",false)){
                     if(isEdit==2){
                         Toast.makeText(getApplicationContext(),"편집이 완료되었습니다",Toast.LENGTH_SHORT).show();
+                        setBtnAnimation();
+                        Transmission.getInstance().reset();
+                        Sound.getInstance().reset();
+                        Drive.getInstance().reset();
                     }else{
                         Toast.makeText(getApplicationContext(),"새로운 커스텀 모드를 저장했습니다",Toast.LENGTH_SHORT).show();
+                        setBtnAnimation();
+                        Transmission.getInstance().reset();
+                        Sound.getInstance().reset();
+                        Drive.getInstance().reset();
+                        defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
+                                CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
+                                CarData.getInstance().getPerformance());
                     }
                     isEdit=1;
                     setEditMode();
@@ -1214,45 +1180,70 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         final String signal1 = setSignal1();
         final String signal2 = setSignal2();
 
+
         signal1.replace(" ","");
-        int decimalSignal1 = Integer.parseInt(signal1,2);
-        int decimalSignal2 = Integer.parseInt(signal2,2);
-        final String data = " { " +
-                "  \"TPCANMsg\" : {      " +
-                "\"DATA\" : ["+decimalSignal1+"," + decimalSignal2+ ", 0, 0, 0, 0, 0, 0 ]," +
+        String sgn1 = signal1.replace(" ","");
+        String sgn2 = signal2.replace(" ","");
+        int decimalSignal1 = Integer.parseInt(sgn1,2);
+        int decimalSignal2 = Integer.parseInt(sgn2,2);
 
-                "  \"ID\" : 1,     " +
-                " \"LEN\" : 2,      " +
-                "\"MSGTYPE\" : 1   },   " +
-                "\"TPCANTimestamp\" : {" +
-                "  \"micros\" : 1,      " +
-                "\"millis\" : 1,      " +
-                "\"millis_overflow\" : 1   " +
-                "}" +
-                "}";
+        if(Network.getInstance()==null){
+            SharedPreferences.Editor editor = preference.edit();
+
+            editor.putString("Signal1",signal1);
+            editor.putString("Signal2",signal2);
+
+            editor.commit();
+
+            String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            String contents = "Signal1 : " +signal1+"->"+decimalSignal1+"\n"
+                    +"Signal2 : "+signal2+"->"+decimalSignal2+"\n";
+            String filename = now+ "log.txt";
+//                        Toast.makeText(getApplicationContext(),"차량과 연결되어 있지 않습니다",Toast.LENGTH_SHORT).show();
+            WriteTextFile(foldername,filename,contents);
 
 
 
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    if(Network.getInstance().isConnected()){
+        }else{
+            final String data = " { " +
+                    "  \"TPCANMsg\" : {      " +
+                    "\"DATA\" : ["+decimalSignal1+"," + decimalSignal2+ ", 0, 0, 0, 0, 0, 0 ]," +
 
-                        sendWriter = Network.getInstance().sendWriter;
+                    "  \"ID\" : 1,     " +
+                    " \"LEN\" : 2,      " +
+                    "\"MSGTYPE\" : 1   },   " +
+                    "\"TPCANTimestamp\" : {" +
+                    "  \"micros\" : 1,      " +
+                    "\"millis\" : 1,      " +
+                    "\"millis_overflow\" : 1   " +
+                    "}" +
+                    "}";
 
-                        sendWriter.println(data);
-                        sendWriter.flush();
-                    }else{
-                        Toast.makeText(getApplicationContext(),"차량 연결 상태를 확인해주세요",Toast.LENGTH_SHORT).show();
+            System.out.println("-----Send JSON-----");
+            System.out.println(data);
+
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        if(Network.getInstance().isConnected()){
+
+                            sendWriter = Network.getInstance().sendWriter;
+
+                            sendWriter.println(data);
+                            sendWriter.flush();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"차량 연결 상태를 확인해주세요",Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-        }.start();
+            }.start();
+        }
+
 
         loadingDialog = new LoadingDialog(MainActivity.this,2);
         loadingDialog.show();
@@ -1299,61 +1290,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
     public String setSignal1(){
-        return selectedPreset+""+Sound.getInstance().getTempIsOn()+""+
-                Sound.getInstance().getTempDriveType()+""+
-                Sound.getInstance().getTempVolume()+""+
-                Sound.getInstance().getBackVolume()+""+
-                Sound.getInstance().getBackSensitive()+""+
-                Drive.getInstance().getTempIsOn()+""+
-                Drive.getInstance().getTempStiffness()+""+
+        return selectedPreset+" "+Sound.getInstance().getTempIsOn()+" "+
+                Sound.getInstance().getTempDriveType()+" "+
+                Sound.getInstance().getTempVolume()+" "+
+                Sound.getInstance().getTempBackVolume()+" "+
+                Sound.getInstance().getTempBackSensitive()+" "+
+                Drive.getInstance().getTempIsOn()+" "+
+                Drive.getInstance().getTempStiffness()+" "+
                 Drive.getInstance().getTempReducer();
 
     }
     public String setSignal2(){
-        return Transmission.getInstance().getTempIsOn()+""+
-                Transmission.getInstance().getTempType()+""+
-                Transmission.getInstance().getTempGear()+""+
-                Transmission.getInstance().getTempGearRate()+""+
-                Transmission.getInstance().getTempTransmissionSpeed()+""+
-                Transmission.getInstance().getTempTransmissionPower()+""+
+        return Transmission.getInstance().getTempIsOn()+" "+
+                Transmission.getInstance().getTempType()+" "+
+                Transmission.getInstance().getTempGear()+" "+
+                Transmission.getInstance().getTempGearRate()+" "+
+                Transmission.getInstance().getTempTransmissionSpeed()+" "+
+                Transmission.getInstance().getTempTransmissionPower()+" "+
                 Transmission.getInstance().getTempTransmissionMap();
 
     }
 
-    /**
-     * Sends a message to obd
-     *
-     * @param message  A string of text to send.
-     */
-    private void sendMessage(String message) {
-
-        Log.d(TAG, "=======================> sendMessage : " + message);
-
-        if(mObdsv == null) {
-            Utility.toast(getApplicationContext(), "App과 OBD가 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", 1000);
-            return;
-        }
-        // Check that we're actually connected before trying anything
-        if (mObdsv.getState() != Constants.STATE_CONNECTED) {
-            Utility.toast(getApplicationContext(), "App과 OBD가 올바르게 연결되지 않습니다. OBDLink MX와 다시 연결해주세요.", 1000);
-            return;
-        }
-
-        // Check that there's actually something to send
-        if (message.length() > 0) {
-            if(message.substring(0, 2).equals("00") && message.length() > 5){
-                Constants.SEND_MSG_00 = message.substring(2);
-            } else if (message.substring(0, 2).equals("01") && message.length() > 5){
-                Constants.SEND_MSG_01 = message.substring(2);
-            }
-            message = message + "\r";
-            // Get the message bytes and tell the BluetoothChatService to write
-            byte[] send = message.getBytes();
-            mObdsv.write(send);
-        }
-
-
-    }
 
     /**
      * OBD(device list) popup for the selection
@@ -1368,112 +1325,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
 
-    /**
-     * Show progress dialog
-     */
-    private void showProgressDialog() {
-
-        if(mProgressDialog == null) {
-            mProgressDialog = new Dialog(MainActivity.this, android.R.style.Theme_Translucent_NoTitleBar);
-        }
-        mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        mProgressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        mProgressDialog.getWindow().setDimAmount(0.9f);
-
-        mProgressDialog.setContentView(R.layout.custom_progress);
-        mProgressDialog.setCanceledOnTouchOutside(false); // not in touch with background activity
-
-        mProgress = (ProgressBar) mProgressDialog.findViewById(R.id.pb_progress);
-
-        mProgressValue = (TextView) mProgressDialog.findViewById(R.id.tv_progress_value);
-
-        ImageButton confirmBtn = (ImageButton) mProgressDialog.findViewById(R.id.ib_confirm_btn);
-        confirmBtn.setOnClickListener(this);
-
-        pStatus = 0;
-        cnt = 32;
-
-        mProgressValue.setText("0%");
-
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                Handler hd = new Handler(Looper.getMainLooper());
-
-                while (pStatus <= 100) {
-                    pStatus += 1;
-
-                    if(!Constants.SEND_MSG_01.equals("")){
-                        if(pStatus == 50){
-                            cnt = cnt + 32;
-                        } else if(pStatus == 70){
-                            cnt = cnt + 32;
-                        } else if(pStatus == 90){
-                            cnt = cnt + 32;
-                        }
-                    } else {
-                        cnt = 32;
-                    }
-
-
-                    if(pStatus == 100) {
-                        dismissProgressDialog();
-                        pStatus= 0;
-                        cnt=0;
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mPref.setSDResponse(mRespResponse);
-                                mPref.setSDDeceleration(mRespDeceleration);
-                                mPref.setSDAcceleration(mRespAcceration);
-                                mPref.setSDMaxPower(mRespMaxPower);
-                                mPref.setSDEcoLevel(mRespEcoLevel);
-                                modChart(mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel,
-                                        mRespMaxPower, mRespAcceration, mRespDeceleration, mRespResponse, mRespEcoLevel);
-                            }
-                        });
-                        return;
-                    }
-
-                    hd.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            // TODO Auto-generated method stub
-                            mProgress.setProgress(pStatus);
-                            mProgressValue.setText(pStatus + "%");
-
-                        }
-                    });
-                    try {
-                        // Sleep for 200 milliseconds.
-                        // Just to display the progress slowly
-                        Thread.sleep(cnt); //thread will take approx 3 seconds to finish
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-
-        mProgressDialog.show();
-
-        sendMessage("01" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-                mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-
-        Handler hd2 = new Handler(Looper.getMainLooper());
-        hd2.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                sendMessage("01" + Utility.convertParamIntToHex(mParamTorque, mParamAcceleration,
-                        mParamDeceleration, mParamBrake, mParamEnergy, mParamSpeed, mParamResponse, mParamDriving));
-            }
-        }, 1000);
-    }
 
 
     /**
@@ -1529,14 +1380,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mChart.getXAxis().setTextSize(13);
         mChart.getXAxis().setYOffset(0f);
         mChart.getXAxis().setXOffset(0f);
-//        mChart.getXAxis().setValueFormatter(new ValueFormatter() {
-//            @Override
-//            public String getFormattedValue(float value, AxisBase axis) {
-//                return labels.get((int) value % labels.size());
-//            }
-//        });
+
         mChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-        //chart.getYAxis().setTextColor(Color.RED);     // change number color
         mChart.getYAxis().setAxisMinimum(0f);
         mChart.getYAxis().setAxisMaximum(9f);
         mChart.getYAxis().setEnabled(false);              // disable number
@@ -1645,14 +1490,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
 
-    /**
-     * Move to favorite activity
-     */
-    private void goToDTEchartActivity() {
 
-        Intent DTEchart = new Intent(this, DTEchartActivity.class);
-        startActivity(DTEchart);
-    }
 
     /**
      * Move to favorite activity
@@ -1664,17 +1502,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void goToGearSettingActivity(){
-        Intent gear = new Intent(getApplicationContext(), GearSettingActivity.class);
+        Intent gear = new Intent(getApplicationContext(), TransmissionActivity.class);
         startActivityForResult(gear , Constants.REQUEST_GEAR_SETTING);
     }
 
     private void goToSpeakerSettingActivity(){
-        Intent speaker = new Intent(this,SpeakerSettingActivity.class);
+        Intent speaker = new Intent(this, SoundActivity.class);
         startActivityForResult(speaker,Constants.REQUEST_SPEAKER_SETTING);
     }
 
     private void goToDrivingSettingActivity(){
-        Intent driving = new Intent(getApplicationContext() , AxelSettingActivity.class);
+        Intent driving = new Intent(getApplicationContext() , DriveActivity.class);
         startActivityForResult(driving , Constants.REQUEST_DRIVING_SETTING);
     }
     /**
@@ -1754,26 +1592,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         return list;
     }
 
-    private void modeInit(FavoriteDataListItems listItems){
-
-        String[] params = listItems.getParam().split(":");
-
-//        modeTitle.setText(listItems.getTitle());
-//        modeTorque.setText(params[0] + "%");
-//        modeAcceleration.setText(params[1]);
-//        modeDeceleration.setText(params[2]);
-//        modeBrake.setText(params[3]);
-//        if (params[4].equals("0")) modeEnergy.setText("Off");
-//        else if (params[4].equals("1")) modeEnergy.setText("Eco");
-//        else if (params[4].equals("2")) modeEnergy.setText("Normal");
-//
-//        modeSpeed.setText(params[5] + "kph");
-//        modeResponse.setText(params[6]);
-//
-//        String[] resps = listItems.getResp().split(":");
-//
-//        defaultChart( Float.parseFloat(resps[0]), Float.parseFloat(resps[1]), Float.parseFloat(resps[2]), Float.parseFloat(resps[3]), Float.parseFloat(resps[4]));
-    }
 
     public void showDialog01(){
         dialog.show(); // 다이얼로그 띄우기
@@ -1799,7 +1617,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 CarData.getInstance().setTempEfficiency();
                 CarData.getInstance().setTempPerformance();
                 CarData.getInstance().setTempDynamic();
-
+                setBtnAnimation();
                 defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
                         CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
                         CarData.getInstance().getPerformance());

@@ -3,21 +3,19 @@ package com.obigo.hkmotors.view;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,7 +30,6 @@ import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.obigo.hkmotors.R;
@@ -42,22 +39,27 @@ import com.obigo.hkmotors.common.Constants;
 import com.obigo.hkmotors.common.OnItemClickListener;
 import com.obigo.hkmotors.common.Utility;
 import com.obigo.hkmotors.common.db.DBUtil;
-import com.obigo.hkmotors.common.db.data.Obd2Database;
+import com.obigo.hkmotors.common.db.data.Database;
 import com.obigo.hkmotors.common.db.helper.Obd2DBOpenHelper;
 import com.obigo.hkmotors.common.service.ObdService;
 import com.obigo.hkmotors.custom.LoadingDialog;
 import com.obigo.hkmotors.model.CarData;
 import com.obigo.hkmotors.model.Drive;
 import com.obigo.hkmotors.model.FavoriteData;
-import com.obigo.hkmotors.model.FavoriteDataListItems;
 import com.obigo.hkmotors.model.Sound;
 import com.obigo.hkmotors.model.Transmission;
 import com.obigo.hkmotors.module.BaseActivity;
 import com.obigo.hkmotors.module.Network;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -154,6 +156,10 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     PrintWriter sendWriter;
 
+    SharedPreferences preference;
+    final static String foldername = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Motors";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,7 +167,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_favorite);
-
+        preference = (SharedPreferences) getSharedPreferences("Motors",MODE_PRIVATE);
         // UI 초기화
         initUI();
 
@@ -237,7 +243,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
         }else{
             carConnectionLight.setBackgroundResource(R.drawable.ico_light_red);
-            carConnectionState.setText("차량 연결 OFF");
+            carConnectionState.setText("가상모드 ON");
 
         }
 
@@ -264,8 +270,16 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
 
     public void setDetailData(int index){
+        if(FavoriteList.size()==0){
+            onBackPressed();
+            Toast.makeText(getApplicationContext(),"삭제가 완료되었습니다",Toast.LENGTH_SHORT).show();
+            return;
+        }
         String signal1 = FavoriteList.get(index).getSignal1();
         String signal2 = FavoriteList.get(index).getSignal2();
+
+
+
 
         String [] signal1Array = signal1.split(" ");
         String [] signal2Array = signal2.split(" ");
@@ -449,11 +463,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                 showDialog02();
                 break;
             case R.id.favorite_info_send:
-                if(Network.getInstance()!=null){
-                    sendCarData();
-                }else {
-                    Toast.makeText(getApplicationContext(),"차량과 연결되어 있지 않습니다",Toast.LENGTH_SHORT).show();
-                }
+                sendCarData();
+
                 break;
 
             default:
@@ -592,11 +603,11 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
 
             FavoriteData data = new FavoriteData();
-            data.setTitle(cursor.getString(Obd2Database.CreateDB.TITLE_IDX));
-            data.setDate(cursor.getString(Obd2Database.CreateDB.DATE_IDX));
-            data.setSignal1(cursor.getString(Obd2Database.CreateDB.SIGNAL1_IDX));
-            data.setSignal2(cursor.getString(Obd2Database.CreateDB.SIGNAL2_IDX));
-            data.setId(cursor.getInt(Obd2Database.CreateDB.ID_IDX));
+            data.setTitle(cursor.getString(Database.CreateDB.TITLE_IDX));
+            data.setDate(cursor.getString(Database.CreateDB.DATE_IDX));
+            data.setSignal1(cursor.getString(Database.CreateDB.SIGNAL1_IDX));
+            data.setSignal2(cursor.getString(Database.CreateDB.SIGNAL2_IDX));
+            data.setId(cursor.getInt(Database.CreateDB.ID_IDX));
             FavoriteList.add(data);
 
         }
@@ -663,6 +674,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
         String [] signal1Array = signal1.split(" ");
         String [] signal2Array = signal2.split(" ");
+
 
         if(signal1Array[1].equals("1")){
             Sound.getInstance().setTempIsOn("1");
@@ -785,81 +797,123 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         }
 
 
-        if(Constants.OBD_INITIALIZED){
-            if(Transmission.getInstance().getTempIsOn().equals("0") &&
-                    Sound.getInstance().getTempIsOn().equals("0") &&
-                    Drive.getInstance().getTempIsOn().equals("0")){
-                CarData.getInstance().setTempEVMode();
-
-            }else{
-                CarData.getInstance().setTempComfortable();
-                CarData.getInstance().setTempDynamic();
-                CarData.getInstance().setTempEfficiency();
-                CarData.getInstance().setTempLeading();
-                CarData.getInstance().setTempPerformance();
-            }
-
-
-        }else{
-            // 이거 어떻게 해야할까? 만약 연결 되어 있지 않다면 ....
-            if(Transmission.getInstance().getTempIsOn().equals("0") &&
-                    Sound.getInstance().getTempIsOn().equals("0") &&
-                    Drive.getInstance().getTempIsOn().equals("0")){
-                CarData.getInstance().setTempEVMode();
-
-            }else{
-                CarData.getInstance().setTempComfortable();
-                CarData.getInstance().setTempDynamic();
-                CarData.getInstance().setTempEfficiency();
-                CarData.getInstance().setTempLeading();
-                CarData.getInstance().setTempPerformance();
-            }
-
-        }
+//        if(Constants.OBD_INITIALIZED){
+//            if(Transmission.getInstance().getTempIsOn().equals("0") &&
+//                    Sound.getInstance().getTempIsOn().equals("0") &&
+//                    Drive.getInstance().getTempIsOn().equals("0")){
+//                CarData.getInstance().setTempEVMode();
+//
+//            }else{
+//                CarData.getInstance().setTempComfortable();
+//                CarData.getInstance().setTempDynamic();
+//                CarData.getInstance().setTempEfficiency();
+//                CarData.getInstance().setTempLeading();
+//                CarData.getInstance().setTempPerformance();
+//            }
+//
+//
+//        }else{
+//            // 이거 어떻게 해야할까? 만약 연결 되어 있지 않다면 ....
+//            if(Transmission.getInstance().getTempIsOn().equals("0") &&
+//                    Sound.getInstance().getTempIsOn().equals("0") &&
+//                    Drive.getInstance().getTempIsOn().equals("0")){
+//                CarData.getInstance().setTempEVMode();
+//
+//            }else{
+//                CarData.getInstance().setTempComfortable();
+//                CarData.getInstance().setTempDynamic();
+//                CarData.getInstance().setTempEfficiency();
+//                CarData.getInstance().setTempLeading();
+//                CarData.getInstance().setTempPerformance();
+//            }
+//
+//        }
 
 
     }
+    public void WriteTextFile(String foldername, String filename, String contents){
+        try{
+            File dir = new File (foldername);
+            //디렉토리 폴더가 없으면 생성함
+            if(!dir.exists()){
+                dir.mkdir();
+            }
+            //파일 output stream 생성
+            FileOutputStream fos = new FileOutputStream(foldername+"/"+filename, true);
+            //파일쓰기
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+            writer.write(contents);
+            writer.flush();
 
+            writer.close();
+            fos.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
     public void sendCarData(){
 
-        final String signal1 = setSignal1();
-        final String signal2 = setSignal2();
-        final String data = " { " +
-                "  \"TPCANMsg\" : {      " +
-                "\"DATA\" : ["+signal1+"," + signal2+ ", 0, 0, 0, 0, 0, 0 ]," +
+         String tempSignal1 =  FavoriteList.get(adapter.clickIndex).getSignal1();
+         String tempSignal2 =  FavoriteList.get(adapter.clickIndex).getSignal2();
 
-                "  \"ID\" : 1,     " +
-                " \"LEN\" : 2,      " +
-                "\"MSGTYPE\" : 1   },   " +
-                "\"TPCANTimestamp\" : {" +
-                "  \"micros\" : 1,      " +
-                "\"millis\" : 1,      " +
-                "\"millis_overflow\" : 1   " +
-                "}" +
-                "}";
-
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    if(Network.getInstance().isConnected()){
-
-                        sendWriter = Network.getInstance().sendWriter;
-
-                        sendWriter.println(data);
-                        sendWriter.flush();
+        setEditData(tempSignal1,tempSignal2);
+        String signal1 =  tempSignal1.replace(" ","");
+       String signal2 = tempSignal2.replace(" ","");
+        int decimalSignal1 = Integer.parseInt(signal1,2);
+        int decimalSignal2 = Integer.parseInt(signal2,2);
 
 
-                    }else{
-                        Toast.makeText(getApplicationContext(),"차량 연결 상태를 확인해주세요",Toast.LENGTH_SHORT).show();
+        if(Network.getInstance()==null){
+            SharedPreferences.Editor editor = preference.edit();
+
+            editor.putString("Signal1",tempSignal1);
+            editor.putString("Signal2",tempSignal2);
+
+            editor.commit();
+            String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            String contents = "Signal1 : " +signal1+"->"+decimalSignal1+"\n"
+                    +"Signal2 : "+signal2+"->"+decimalSignal2+"\n";
+            String filename = now+ "log.txt";
+            WriteTextFile(foldername,filename,contents);
+        }else{
+            final String data = " { " +
+                    "  \"TPCANMsg\" : {      " +
+                    "\"DATA\" : ["+decimalSignal1+"," + decimalSignal2+ ", 0, 0, 0, 0, 0, 0 ]," +
+
+                    "  \"ID\" : 1,     " +
+                    " \"LEN\" : 2,      " +
+                    "\"MSGTYPE\" : 1   },   " +
+                    "\"TPCANTimestamp\" : {" +
+                    "  \"micros\" : 1,      " +
+                    "\"millis\" : 1,      " +
+                    "\"millis_overflow\" : 1   " +
+                    "}" +
+                    "}";
+
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        if(Network.getInstance().isConnected()){
+
+                            sendWriter = Network.getInstance().sendWriter;
+
+                            sendWriter.println(data);
+                            sendWriter.flush();
+
+
+                        }else{
+                            Toast.makeText(getApplicationContext(),"차량 연결 상태를 확인해주세요",Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-        }.start();
+            }.start();
+        }
+
 
         loadingDialog = new LoadingDialog(FavoriteActivity.this,2);
         loadingDialog.show();
@@ -894,9 +948,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                     CarData.getInstance().setTempEVMode();
                     CarData.getInstance().setEVMode();
                 }
-                defaultChart(CarData.getInstance().getComfortable(), CarData.getInstance().getLeading(),
-                        CarData.getInstance().getDynamic(), CarData.getInstance().getEfficiency(),
-                        CarData.getInstance().getPerformance());
+
 
 
                 Toast.makeText(getApplicationContext(),"차량 전송이 완료되었습니다",Toast.LENGTH_SHORT).show();

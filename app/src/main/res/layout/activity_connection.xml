@@ -62,9 +62,9 @@
                     android:id="@+id/connection_ip"
                     android:layout_width="match_parent"
                     android:layout_height="37dp"
-                    android:textSize="16dp"
+                    android:textSize="15dp"
                     android:gravity="center"
-                    android:letterSpacing="1"
+                    android:letterSpacing="0.5"
                     android:textColor="#bacbd9"
                     />
 
@@ -103,7 +103,7 @@
                 android:layout_marginTop="29dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/button_click"
-                android:text="연결 없이 사용하기"
+                android:text="가상모드 사용하기"
                 android:textColor="@color/white"
                 android:textSize="16dp"
                 android:id="@+id/not_connection_btn"/>

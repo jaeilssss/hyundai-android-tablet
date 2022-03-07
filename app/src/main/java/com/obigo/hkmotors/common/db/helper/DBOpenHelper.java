@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.obigo.hkmotors.common.db.data.Obd2Database;
+import com.obigo.hkmotors.common.db.data.Database;
 
 
 public class DBOpenHelper extends SQLiteOpenHelper {
@@ -27,8 +27,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
     	try {
-    		db.execSQL(Obd2Database.CreateDB._CREATE);
-            db.execSQL(Obd2Database.CreateDB._CREATE_MODE);
+    		db.execSQL(Database.CreateDB._CREATE);
+            db.execSQL(Database.CreateDB._CREATE_MODE);
     	} catch (Exception e) {
     		Log.e(DBOpenHelper.TAG, "Exception in CREATE_SQL");
     	}
@@ -40,8 +40,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     	try {
-    		db.execSQL("DROP TABLE IF EXISTS " + Obd2Database.CreateDB._TABLENAME);
-            db.execSQL("DROP TABLE IF EXISTS " + Obd2Database.CreateDB._TABLENAME_MODE);
+    		db.execSQL("DROP TABLE IF EXISTS " + Database.CreateDB._TABLENAME);
+            db.execSQL("DROP TABLE IF EXISTS " + Database.CreateDB._TABLENAME_MODE);
     	} catch (Exception e) {
     		Log.e(DBOpenHelper.TAG, "Exception in DROP_SQL");
     	}

@@ -595,7 +595,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
-                        android:text=" 강쇄"
+                        android:text=" 감쇄"
                         android:textColor="#fff"
                         android:textSize="13dp" />
 

@@ -7,7 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
-import com.obigo.hkmotors.common.db.data.Obd2Database;
+import com.obigo.hkmotors.common.db.data.Database;
 
 
 public class Obd2DBOpenHelper {
@@ -81,12 +81,12 @@ public class Obd2DBOpenHelper {
 		
 		ContentValues values = new ContentValues();
 
-		values.put(Obd2Database.CreateDB.TITLE, title);
-		values.put(Obd2Database.CreateDB.DATE, date);
-		values.put(Obd2Database.CreateDB.SIGNAL1, signal1);
-		values.put(Obd2Database.CreateDB.SIGNAL2, signal2);
+		values.put(Database.CreateDB.TITLE, title);
+		values.put(Database.CreateDB.DATE, date);
+		values.put(Database.CreateDB.SIGNAL1, signal1);
+		values.put(Database.CreateDB.SIGNAL2, signal2);
 
-		return mDB.insert(Obd2Database.CreateDB._TABLENAME, null, values);
+		return mDB.insert(Database.CreateDB._TABLENAME, null, values);
 	}
 
     /**
@@ -101,11 +101,11 @@ public class Obd2DBOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(Obd2Database.CreateDB.TITLE, title);
-        values.put(Obd2Database.CreateDB.SIGNAL1, param);
-        values.put(Obd2Database.CreateDB.SIGNAL2, resp);
+        values.put(Database.CreateDB.TITLE, title);
+        values.put(Database.CreateDB.SIGNAL1, param);
+        values.put(Database.CreateDB.SIGNAL2, resp);
 
-        return mDB.insert(Obd2Database.CreateDB._TABLENAME_MODE, null, values);
+        return mDB.insert(Database.CreateDB._TABLENAME_MODE, null, values);
     }
 
 	/**
@@ -119,10 +119,10 @@ public class Obd2DBOpenHelper {
 	public boolean update(int id, String title,String signal1, String signal2) {
 		
 		ContentValues values = new ContentValues();
-		values.put(Obd2Database.CreateDB.TITLE, title);
-		values.put(Obd2Database.CreateDB.SIGNAL1,signal1);
-		values.put(Obd2Database.CreateDB.SIGNAL2,signal2);
-		return mDB.update(Obd2Database.CreateDB._TABLENAME, values, "_id = " + id, null) > 0;
+		values.put(Database.CreateDB.TITLE, title);
+		values.put(Database.CreateDB.SIGNAL1,signal1);
+		values.put(Database.CreateDB.SIGNAL2,signal2);
+		return mDB.update(Database.CreateDB._TABLENAME, values, "_id = " + id, null) > 0;
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class Obd2DBOpenHelper {
 	 * @param id - unique id
 	 */
 	public boolean delete(int id){
-        return mDB.delete(Obd2Database.CreateDB._TABLENAME, "_id = " + id, null) > 0;
+        return mDB.delete(Database.CreateDB._TABLENAME, "_id = " + id, null) > 0;
 	}
 
     /**
@@ -140,7 +140,7 @@ public class Obd2DBOpenHelper {
      * @param ids - {1,2,3}
      */
     public boolean deleteM(String ids){
-        return mDB.delete(Obd2Database.CreateDB._TABLENAME, "_id IN (" + ids + ")", null) > 0;
+        return mDB.delete(Database.CreateDB._TABLENAME, "_id IN (" + ids + ")", null) > 0;
 
     }
 
@@ -150,7 +150,7 @@ public class Obd2DBOpenHelper {
 	 * @return
 	 */
 	public Cursor getAll(){
-		return mDB.query(Obd2Database.CreateDB._TABLENAME, null, null, null, null, null, Obd2Database.CreateDB._ID + " ASC"); // ASC : 내림차순, DESC : 오름차순
+		return mDB.query(Database.CreateDB._TABLENAME, null, null, null, null, null, Database.CreateDB._ID + " ASC"); // ASC : 내림차순, DESC : 오름차순
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class Obd2DBOpenHelper {
 	 * @return
 	 */
 	public Cursor getModeAll(){
-		return mDB.query(Obd2Database.CreateDB._TABLENAME_MODE, null, null, null, null, null, Obd2Database.CreateDB._ID + " ASC"); // ASC : 내림차순, DESC : 오름차순
+		return mDB.query(Database.CreateDB._TABLENAME_MODE, null, null, null, null, null, Database.CreateDB._ID + " ASC"); // ASC : 내림차순, DESC : 오름차순
 	}
 	/**
 	 * get the count of whole rows.
@@ -169,7 +169,7 @@ public class Obd2DBOpenHelper {
 		int count = 0;
 		Cursor cursor = null;
 		try {
-			cursor = mDB.query(Obd2Database.CreateDB._TABLENAME, null, null, null, null, null, null);
+			cursor = mDB.query(Database.CreateDB._TABLENAME, null, null, null, null, null, null);
 			count = cursor.getCount();
 			if (count < 0) {
 				count = 0;
@@ -189,7 +189,7 @@ public class Obd2DBOpenHelper {
 		int count = 0;
 		Cursor cursor = null;
 		try {
-			cursor = mDB.query(Obd2Database.CreateDB._TABLENAME_MODE, null, null, null, null, null, null);
+			cursor = mDB.query(Database.CreateDB._TABLENAME_MODE, null, null, null, null, null, null);
 			count = cursor.getCount();
 			if (count < 0) {
 				count = 0;
@@ -209,7 +209,7 @@ public class Obd2DBOpenHelper {
 		int count = 0;
 		Cursor cursor = null;
 		try {
-			cursor = mDB.query(Obd2Database.CreateDB._TABLENAME, null, null, null, null, null, null);
+			cursor = mDB.query(Database.CreateDB._TABLENAME, null, null, null, null, null, null);
 			count = cursor.getColumnCount();
 			if (count < 0) {
 				count = 0;

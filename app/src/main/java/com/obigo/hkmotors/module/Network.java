@@ -37,6 +37,13 @@ public class Network {
             int count = 0;
             sendWriter = new PrintWriter(socket.getOutputStream());
              input =   new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+             while(true){
+                 String str = input.readLine();
+                 if(str!=null){
+                     System.out.println(str);
+                 }
+             }
         } catch (SocketException e) {
             e.printStackTrace();
         }

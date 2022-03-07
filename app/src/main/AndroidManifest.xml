@@ -13,7 +13,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 전화걸기 관련 권한 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.DIAL_PHONE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 만약 BLE(Bluetooth Low Energy)를 지원하는 기기만을 지원하기 위해서는 아래와 같은 특성을 정의함 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- 만약 BLE(Bluetooth Low Energy)를 지원하는 기기만을 지원하기 위해서는 아래와 같은 특성을 정의함 -->
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
@@ -40,11 +44,11 @@
 
             ></activity>
 
-        <activity android:name=".view.SpeakerSettingActivity"
+        <activity android:name=".view.SoundActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".view.AxelSettingActivity"
+        <activity android:name=".view.DriveActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".view.GearSettingActivity"
+        <activity android:name=".view.TransmissionActivity"
             android:screenOrientation="landscape"/>
         <activity
             android:name=".view.LoginActivity"
